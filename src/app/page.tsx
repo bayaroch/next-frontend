@@ -1,44 +1,14 @@
-import Homepage from '@/components/Homepage';
+import MainLayout from '@/components/layouts/MainLayout';
 
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import DashboardPage from '@/app/(main)/page';
 
-import { NpmData, PageParams } from '@/types';
+export default function RootPage() {
+  // In a real app, you'd check for a valid token in cookies or local storage
 
-const loadDataFromApi = async (slug?: string) => {
-  if (slug === 'testError500') {
-    throw new Error('This is mock a SSR 500 test error');
-  }
-
-  // Fetch & cache data from 2 remote APIs test
-  const [reactNpmData, nextJsNpmData] = await Promise.all([
-    getApiResponse<NpmData>({
-      apiEndpoint: 'https://registry.npmjs.org/react/rc',
-      revalidate: 60 * 60 * 24, // 24 hours cache
-      timeout: 5000, // 5 seconds
-    }),
-    getApiResponse<NpmData>({
-      apiEndpoint: 'https://registry.npmjs.org/next/rc',
-      revalidate: 0, // no cache
-      timeout: 5000, // 5 seconds
-    }),
-  ]);
-
-  return {
-    reactNpmData,
-    nextJsNpmData,
-  };
-};
-
-const AppHome = async ({ searchParams }: PageParams) => {
-  const slug = searchParams?.slug;
-  const { reactNpmData, nextJsNpmData } = await loadDataFromApi(slug);
-
+  // If logged in, allow access to the root (which will render the dashboard)
   return (
-    <Homepage
-      reactVersion={reactNpmData?.version}
-      nextJsVersion={nextJsNpmData?.version}
-    />
+    <MainLayout>
+      <DashboardPage />
+    </MainLayout>
   );
-};
-
-export default AppHome;
+}
