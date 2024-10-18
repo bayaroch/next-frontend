@@ -2,7 +2,9 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const isLoggedIn = false;
+  // Check for the presence of the auth_token cookie
+  const authToken = request.cookies.get('auth_token');
+  const isLoggedIn = !!authToken;
 
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login');
 

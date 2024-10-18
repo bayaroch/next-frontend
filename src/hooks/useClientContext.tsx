@@ -1,81 +1,41 @@
 'use client';
 
-import React, {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 
-/**
- * This is a generic custom hook for updating the client context
- * It can be used in multiple places from any client-side component
- * Please change the per-defined type & default value in constants/context.ts
- */
-
-export const OUTSIDE_CLIENT_PROVIDER_ERROR =
-  'Cannot be used outside ClientProvider!';
-
-export interface UpdateClientCtxType<T> {
-  updateClientCtx: (props: Partial<T>) => void;
+interface AuthState {
+  isLoggedIn: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any | null;
 }
 
-export const ClientContext = createContext<unknown | undefined>(undefined);
+interface ClientContextType extends AuthState {
+  updateClientCtx: (newState: Partial<AuthState>) => void;
+}
 
-export const useClientContext = <T,>(): T & UpdateClientCtxType<T> => {
-  const context = useContext(ClientContext);
-  if (context === undefined) {
-    throw new Error(OUTSIDE_CLIENT_PROVIDER_ERROR);
-  }
+const ClientContext = createContext<ClientContextType>({
+  isLoggedIn: false,
+  user: null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  updateClientCtx: () => {},
+});
 
-  return context as T & UpdateClientCtxType<T>;
-};
-
-/**
- * You should pass the default value to the ClientProvider first
- * e.g. <ClientProvider defaultValue={FETCH_API_CTX_VALUE} value={dynamicValue}>
- * Client-side component usage example:
- * const clientContext = useClientContext<FetchApiContext>();
- * clientContext.updateClientCtx({ topError: 'Error message' });
- * clientContext.updateClientCtx({ fetchCount: 10 });
- * The total fetch count is: clientContext.fetchCount
- */
-export const ClientProvider = <T,>({
+export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
-  value,
-  defaultValue,
-}: {
-  children: ReactNode;
-  value?: Partial<T>;
-  defaultValue: T;
 }) => {
-  const [contextValue, setContextValue] = useState({
-    ...defaultValue,
-    ...value,
-    updateClientCtx: (_: Partial<T>): void => {
-      throw new Error(OUTSIDE_CLIENT_PROVIDER_ERROR);
-    },
+  const [state, setState] = useState<AuthState>({
+    isLoggedIn: false,
+    user: null,
   });
 
-  const updateContext = useCallback(
-    (newCtxValue: Partial<T>) => {
-      setContextValue((prevContextValue) => ({
-        ...prevContextValue,
-        ...newCtxValue,
-      }));
-    },
-    [setContextValue]
-  );
+  const updateClientCtx = useCallback((newState: Partial<AuthState>) => {
+    setState((prevState) => ({ ...prevState, ...newState }));
+  }, []);
 
   return (
-    <ClientContext.Provider
-      value={{
-        ...contextValue,
-        updateClientCtx: updateContext,
-      }}
-    >
+    <ClientContext.Provider value={{ ...state, updateClientCtx }}>
       {children}
     </ClientContext.Provider>
   );
 };
+
+export const useClientContext = () => useContext(ClientContext);

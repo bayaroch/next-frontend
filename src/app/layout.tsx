@@ -6,6 +6,8 @@ import * as React from 'react';
 import { SITE_CONFIG } from '@/constants';
 import { GLOBAL_STYLES } from '@/styles';
 
+import { Providers } from './providers';
+
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
@@ -54,7 +56,9 @@ export default function RootLayout({
     <html lang='en'>
       <GlobalStyles styles={GLOBAL_STYLES} />
       <body>
-        <Container sx={{ pl: 0, pr: 0 }}>{children}</Container>
+        <Providers>
+          <Container sx={{ pl: 0, pr: 0 }}>{children}</Container>
+        </Providers>
       </body>
     </html>
   );
