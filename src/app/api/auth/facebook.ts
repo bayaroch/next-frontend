@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -6,12 +7,14 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     const { accessToken } = req.body;
+    console.log('Client Secret:', process.env.FACEBOOK_CLIENT_SECRET);
 
     try {
+      // eslint-disable-next-line no-console
+
       // Exchange the short-lived token for a long-lived token
       const exchangeResponse = await fetch(
-        `https://graph.facebook.com/v12.0/oauth/access_token?grant_type=fb_exchange_token&client_id=1200876394326450&client_secret=11e96e1099c44851d115e8b22f452099
-b&fb_exchange_token=${accessToken}`
+        `${process.env.NEXT_PUBLIC_GRAPH_API_URL}/oauth/access_token?grant_type=fb_exchange_token&client_id=${process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID}&client_secret=${process.env.FACEBOOK_CLIENT_SECRET}&fb_exchange_token=${accessToken}`
       );
       const exchangeData = await exchangeResponse.json();
 
@@ -23,7 +26,7 @@ b&fb_exchange_token=${accessToken}`
 
       // Verify the token with Facebook
       const userResponse = await fetch(
-        `https://graph.facebook.com/me?access_token=${longLivedToken}&fields=id,name,email,picture`
+        `${process.env.NEXT_PUBLIC_GRAPH_API_URL}/me?access_token=${longLivedToken}&fields=id,name,email,picture`
       );
       const userData = await userResponse.json();
 
@@ -44,7 +47,7 @@ b&fb_exchange_token=${accessToken}`
           email: userData.email,
           picture: userData.picture.data.url,
         },
-        token: '83d1f729499eb498d878c37f2c2c1322',
+        token: process.env.NEXTAUTH_SECRET,
       });
     } catch (error) {
       res.status(400).json({ error: 'Invalid token' });
