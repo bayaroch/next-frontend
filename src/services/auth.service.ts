@@ -1,3 +1,6 @@
+import { URI } from '@/constants/uri.constants';
+
+import api from './api';
 interface FacebookLoginPayload {
   fb_access_token: string;
 }
@@ -14,17 +17,11 @@ export async function sendFacebookTokenToBackend(
 ): Promise<FacebookLoginResponse> {
   const payload: FacebookLoginPayload = { fb_access_token: token };
 
-  const response = await fetch('https://api.kommai.mn/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  const response = await api.post(URI.LOGIN, payload);
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error('Failed to authenticate with the backend');
   }
 
-  return response.json();
+  return response;
 }

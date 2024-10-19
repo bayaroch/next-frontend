@@ -1,22 +1,28 @@
+/* eslint-disable no-console */
 'use client';
 
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 interface AuthState {
   isLoggedIn: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any | null;
 }
 
 interface ClientContextType extends AuthState {
-  updateClientCtx: (newState: Partial<AuthState>) => void;
+  setToken: (token: string) => void;
+  logout: () => void;
 }
 
 const ClientContext = createContext<ClientContextType>({
   isLoggedIn: false,
-  user: null,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  updateClientCtx: () => {},
+  setToken: () => null,
+  logout: () => null,
 });
 
 export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -24,15 +30,28 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [state, setState] = useState<AuthState>({
     isLoggedIn: false,
-    user: null,
   });
+  const router = useRouter();
 
-  const updateClientCtx = useCallback((newState: Partial<AuthState>) => {
-    setState((prevState) => ({ ...prevState, ...newState }));
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      setState({ isLoggedIn: true });
+    }
   }, []);
 
+  const setToken = useCallback((token: string) => {
+    localStorage.setItem('auth_token', token);
+    setState({ isLoggedIn: true });
+  }, []);
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('auth_token');
+    router.push('/login');
+  }, [router]);
+
   return (
-    <ClientContext.Provider value={{ ...state, updateClientCtx }}>
+    <ClientContext.Provider value={{ ...state, setToken, logout }}>
       {children}
     </ClientContext.Provider>
   );
