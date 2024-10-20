@@ -1,31 +1,54 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "types": ["react/next", "react-dom/next"],
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": ".",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "sourceMap": false,
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./public/*"]
-    },
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+      "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"],
+      "@global/*": ["global/*"],
+      "@constants/*": ["constants/*"],
+      "@services/*": ["services/*"],
+      "@pages/*": ["pages/*"],
+      "@theme/*": ["theme/*"],
+      "@layouts/*": ["layouts/*"],
+      "@locales/*": ["locales/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
-  "moduleResolution": ["node_modules", ".next", "node"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "coverage"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "src/locales/translationChecker.ts",
+    "src/locales/en/common.ts",
+    "src/locales/mn/common.ts"
+  ]
 }

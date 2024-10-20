@@ -1,128 +1,220 @@
-# ReactJs 19.x + NextJs 15.x + MUI 6.x + TypeScript Starter and Boilerplate
-
+<br />
 <div align="center">
-  <h2>2024/2025: 🔋 ReactJs 19.x + NextJs 15.x + MUI 6.x + TypeScript Starter</h2>
-  <p>The scaffold for NextJs 15.x (App Router), React Hook Form, Material UI(MUI 6.x),Typescript and ESLint, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky.</p>
+ 
+<img src="https://cdn.dribbble.com/users/539032/screenshots/2582942/media/86d68c91b2c2b65a00e59aa0dae5c22b.jpg" alt="Logo" width="200" height="auto" />
 
-  <p>With simple example of ReactJs 19.x, NextJs 15.x API, React-hook-form with zod, fetch remote api, 404/500 error pages, MUI SSR usage, Styled component, MUI AlertBar, MUI confirmation dialog, Loading button, Client-side component & React Context update hook</p>
 
-🚘🚘🚘 [**Click here to see an online demo**](https://mui-nextjs-ts.vercel.app) 🚘🚘🚘
+<a href="https://github.com/unimediainc/HIM-frontend"><h3 align="center">React Boilerplate</h3></a>
 
-If you prefer Tailwind css, check this: [Tailwind-CSS-Version](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter)
-
+  <p align="center">
+    Please read following instructions before using boilerplate
+    <br />
+    <br />
+  </p>
 </div>
 
-## Demo
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#development-envoriment">Development Envoriment</a></li>
+        <li><a href="#coding-rules">Coding Rules</a></li>
+      </ul>
+    </li>
+    <li><a href="#folder-structure">Folder Structure</a></li>
+    <li><a href="#styling">Styling</a></li>
+     <li><a href="#testing">Testing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-[<img src="https://alexstack.github.io/reactStarter/asset/NextJs14-mui5.gif">](https://mui-nextjs-ts.vercel.app)
+<!-- ABOUT THE PROJECT -->
 
-🚘🚘🚘 [**Click here to see an online demo**](https://mui-nextjs-ts.vercel.app) 🚘🚘🚘
+## About The Project
 
-## Clone this repository for React 19.x with NextJs 15.x or React 18.x with NextJs 14.x
+React boilerplate with Material UI and redux
 
-- Clone & install React19-Next15-MUI6-TS-Starter:
-  - `git clone -b react19-nextjs15 https://github.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter.git react19-nextjs15-mui6-ts-starter && cd react19-nextjs15-mui6-ts-starter && yarn install && yarn dev -p 3005`
-  - Open <http://localhost:3005>
-  - Note: React 19 is not released yet, there are some warnings in the console, please ignore them.
-- Clone & install React18-Next14-MUI5-TS-Starter:
-  - `git clone -b nextjs14 https://github.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter.git react18-nextjs14-mui5-ts-starter && cd react18-nextjs14-mui5-ts-starter && yarn install && yarn dev -p 3005`
-  - Open <http://localhost:3005>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-## Features
+### Built With
 
-This repository is 🔋 battery packed with:
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-- ⚡️ Next.js 15.x with App Router
-- ⚛️ React 19.x
-- ✨ TypeScript
-- 💨 Material UI — Ready to use Material Design components [check here for the usage](https://mui.com/material-ui/getting-started/usage/)
-- 🎨 React Hook Form — Performant, flexible and extensible forms with easy-to-use validation
-- ⏰ Day.js — A modern day JavaScript Date Library
-- 🔥 Utils: getApiResponse - consoleLog
-- 🃏 Jest — Configured for unit testing
-- 📈 Absolute Import and Path Alias — Import components using `@/` prefix
-- 📏 ESLint — Find and fix problems in your code, also will **auto sort** your imports
-- 💖 Prettier — Format your code consistently
-- 🐶 Husky & Lint Staged — Run scripts on your staged files before they are committed
-- 🤖 Conventional Commit Lint — Make sure you & your teammates follow conventional commit
-- ⏰ Release Please — Generate your changelog by activating the `release-please` workflow
-- 👷 Github Actions — Lint your code on PR
-- 🚘 Automatic Branch and Issue Autolink — Branch will be automatically created on issue **assign**, and auto linked on PR
-- 🔥 Snippets — A collection of useful snippets
-- 👀 Open Graph Helper Function — Awesome open graph generated using [og](https://github.com/theodorusclarence/og), fork it and deploy!
-- 🗺 Site Map — Automatically generate sitemap.xml
-- 📦 Expansion Pack — Easily install common libraries, additional components, and configs.
+- [React.js](https://reactjs.org/)
+- [ReactRouterv6](https://reactrouter.com/)
+- [MaterialUiv5](https://mui.com/)
+- [Redux](https://redux.js.org/)
 
-## Tailwind CSS Version
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-This starter is original from theodorusclarence/ts-nextjs-tailwind-starter, thank you theodorusclarence! If you prefer Tailwind css, check this: [Tailwind-CSS-Version](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter)
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
-### 1. Clone this template using one of a few ways
+There is two way to use this project.
 
-1. Test locally: Using `create-next-app`
+- Using docker
+- Local environment with NodeJs installed.
 
-   ```bash
-   npx create-next-app -e https://github.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter new-project-name
+For active development environment please follow <a href="#development-envoriment">Development Installation</a> section.
+
+### Installation
+
+
+### Prerequisites
+
+NodeJS 14 or NodeJs 16 recommended
+
+```sh
+  npm install -g yarn
+```
+
+```sh
+  npm install -g typescript
+```
+
+<p align="center">
+  <img alt="VS Code in action" src="https://j.gifs.com/EqWjEm.gif">
+</p>
+VSCode Plugins
+- Eslint
+- Prettier
+- Javascript and Typescript
+
+```json
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
+```
+
+---
+
+1. Clone the repo
+
+```sh
+   git clone {REPO}
+```
+
+2. Install packages
+
+   ```sh
+   yarn install
    ```
 
-2. Test online: Deploy to Vercel by one click
+3. Start project
 
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2FAlexStack%2Fnextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter&showOptionalTeamCreation=false)
+   ```sh
+   yarn start
+   ```
 
-### 2. Install dependencies
+4. Linters & Husky
 
-It is encouraged to use **yarn** so the husky hooks can work properly.
+Project provides a couple of linters to help you keep an eye on code consistency and type safety. There are three linters: one for Coding Eslint, one for TypeScript and one for formatting. You can use each of them separately using the following commands:
 
-```bash
-yarn install
+```sh
+$ yarn type-check
+$ yarn lint
+$ yarn format
 ```
 
-### 3. Run the development server
+- [x] ([Husky](https://typicode.github.io/husky/#/) enabled on pre-commit and pre-push)
+- [x] ([Storybook](https://storybook.js.org/) enabled. Its open source tool for building UI components and pages in isolation. It streamlines UI development, testing, and documentation.)
 
-You can start the server using this command:
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-```bash
-yarn dev
+<!-- ROADMAP -->
+
+## Coding Rules
+
+1. Components
+
+   1. Keep components small and function-specific
+   2. Reusability is important, so keep creation of new components to the minimum required
+   3. Use capitals for component names
+   4. Keep components simple only works with props and include UI states only no redux no services
+   5. Only create functional components with type supported
+   6. Arrow functions allowed
+
+2. State management
+
+   1. Use metadata reducers for request and error events.
+   2. Give specific types for reducers states
+   3. use selectors when selecting states & make data manipulation inside selectors for clean code
+
+3. Custom hooks
+
+   1. Avoid writing multiple useEffect hooks on pages use custom Hooks instead
+
+4. Handling null and undefined in JavaScript
+
+   Example info:https://medium.com/javascript-scene/handling-null-and-undefined-in-javascript-1500c65d51ae
+
+   Use lodash:
+
+
+
+## Styling
+
+[Sx Props](https://mui.com/system/the-sx-prop/)
+
+```javascript
+<Box sx={{ color: 'text.secondary', display: 'inline', fontSize: 14 }}>
+  vs. last week
+</Box>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. You can start editing the page by modifying `src/pages/index.tsx`.
+[styled](https://mui.com/system/styled/)
+Utility for creating styled components.
 
-### 4. Change defaults
+```javascript
+import * as React from 'react'
+import { styled } from '@mui/system'
 
-There are some things you need to change including title, urls, favicons, etc.
+const MyComponent = styled('div')({
+  color: 'darkslategray',
+  backgroundColor: 'aliceblue',
+  padding: 8,
+  borderRadius: 4,
+})
 
-Find all comments with !STARTERCONF, then follow the guide.
+export default function BasicUsage() {
+  return <MyComponent>Styled div</MyComponent>
+}
+```
 
-Don't forget to change the package name in package.json
+## Testing
 
-### 5. Commit Message Convention
+Read Instructions: [cypress/README.md](cypress/README.md)
 
-This starter is using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), it is mandatory to use it to commit changes.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-## Projects using this starter
+## Contact
 
-<!--
-TEMPLATE
-- [sitename](https://sitelink.com) ([Source](https://github.com/githublink))
-- [sitename](https://sitelink.com)
--->
+Project Link: [https://github.com/unimediainc/HIM-frontend](https://github.com/unimediainc/HIM-frontend)
 
-- [HiHB](https://hihb.com/)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-Are you using this starter? Please add your page (and repo) to the end of the list via a [Pull Request](https://github.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter/edit/main/README.md). 😃
+## Acknowledgments
 
-## Folder structure
+List resources you find helpful and would like to give credit to.
 
-![image of folder structure](https://raw.githubusercontent.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter/main/public/images/next-mui-folders.png)
+- [Component Best Practices](https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43)
+- [Handling metadata in redux](https://www.bekk.christmas/post/2018/2/handling-metadata-in-redux)
+- [React for Beginners](https://www.youtube.com/watch?v=w7ejDZ8SWv8&t=5392s)
+- [Testing in React Project](https://www.youtube.com/watch?v=OVNjsIto9xM&t=2905s)
 
-## app/page.tsx code example
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-🚘🚘🚘 [**Click here to see an online demo of below code**](https://mui-nextjs-ts.vercel.app) 🚘🚘🚘
-
-![app/page.tsx code example](https://raw.githubusercontent.com/AlexStack/nextjs-materia-mui-typescript-hook-form-scaffold-boilerplate-starter/main/public/images/app-page-tsx.png)
-
-## License
-
-- MIT

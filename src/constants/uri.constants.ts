@@ -1,8 +1,8 @@
-export const URI = {
-  API: process.env.NEXT_PUBLIC_BACKEND_API,
-  LOGIN: '/auth/login',
-  FACEBOOK_LOGIN: '/auth/login',
-  // Add other endpoints as needed
-};
+const API = process.env.REACT_APP_AUTH_API
 
-export const excludeURI = [URI.LOGIN, URI.FACEBOOK_LOGIN];
+export const URI = {
+  API,
+  LOGIN: '/auth/login',
+}
+
+export const excludeURI = [URI.LOGIN]

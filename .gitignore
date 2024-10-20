@@ -7,36 +7,34 @@
 
 # testing
 /coverage
-
-# next.js
-/.next/
-/out/
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
+.nyc_output
 
 # production
 /build
 
 # misc
 .DS_Store
-*.pem
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
 
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+.yarn/install-state.gz
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
-# local env files
-.env
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# next-sitemap
-robots.txt
-sitemap.xml
-sitemap-*.xml
+# editor
+.devcontainer
+.vscode
+.vscode/

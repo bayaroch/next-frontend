@@ -1,0 +1,11 @@
+**/node_modules/*
+**/out/*
+**/.next/*
+**/public/*
+*.md 
+cypress
+cypress/videos
+cypress/screenshots
+cypress.config.ts
+coverage
+build
