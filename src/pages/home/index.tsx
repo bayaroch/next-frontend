@@ -1,24 +1,33 @@
-import HeaderHome, { headerHeight } from '@components/@landing-page/HeaderHome'
-import PublicFooter from '@layouts/Shared/Header/PublicFooter'
-import { Box } from '@mui/material'
-import React from 'react'
-import { use100vh } from 'react-div-100vh'
-import { useTranslation } from 'react-i18next'
+import * as React from 'react'
 
-const Home: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t } = useTranslation()
-  const height = use100vh()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const fullHeight = height ? height - headerHeight - 80 : 'auto'
+import Divider from '@mui/material/Divider'
+import AppAppBar from '@components/@public/AppBar'
+import Hero from '@components/@public/Hero'
+import Pricing from '@components/@public/Pricing'
+import Features from '@components/@public/Features'
+import Testimonials from '@components/@public/Testimonials'
+import FAQ from '@components/@public/FAQ'
+import Footer from '@components/@public/Footer'
+
+export default function HomePage() {
+  // This code only runs on the client side, to determine the system color preference
 
   return (
-    <Box sx={{ pt: `${headerHeight}px` }}>
-      <HeaderHome />
-      Home
-      <PublicFooter />
-    </Box>
+    <>
+      <AppAppBar />
+      <Hero />
+      <div>
+        <Features />
+        <Divider />
+        <Testimonials />
+        <Divider />
+        <Divider />
+        <Pricing />
+        <Divider />
+        <FAQ />
+        <Divider />
+        <Footer />
+      </div>
+    </>
   )
 }
-
-export default Home

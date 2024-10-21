@@ -1,8 +1,7 @@
 import { ConfirmProvider } from '@components/Confirm'
 import { defaultConfirmationOptions } from '@constants/common.constants'
 import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider } from '@mui/material/styles'
-import theme from '@theme/index'
+import { createTheme, PaletteMode, ThemeProvider } from '@mui/material/styles'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
@@ -11,9 +10,12 @@ import { LayoutProvider } from '@layouts/MainLayout/LayoutProvider'
 import '@locales/i18n'
 import { AuthProvider } from 'global/AuthContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import getMainTheme from '@theme/getMainTheme'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient()
+const mode: PaletteMode = 'light'
+const theme = createTheme(getMainTheme(mode))
 
 root.render(
   <ThemeProvider theme={theme}>
@@ -22,7 +24,7 @@ root.render(
         <LayoutProvider>
           <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             <App />
           </ConfirmProvider>
         </LayoutProvider>
