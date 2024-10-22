@@ -25,6 +25,7 @@ const TermsOfConditionPage = lazy(() => import('@pages/terms_of_condition'))
 const DashboardPage = lazy(() => import('@pages/dashboard'))
 import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
+import PublicLayout from '@layouts/PublicLayout'
 
 // Initialize React Ga with your tracking ID
 
@@ -46,7 +47,7 @@ function App() {
     // trackingID &&
     //   ReactGA4.initialize(trackingID, {
     //     gaOptions: {
-    //       cookieDomain: '.unimedia.mn', // Ensure cookies are accessible across subdomains
+    //       cookieDomain: '.kommai.mn', // Ensure cookies are accessible across subdomains
     //       cookieFlags: 'SameSite=None; Secure', // Set SameSite and Secure attributes
     //     },
     //   })
@@ -55,51 +56,64 @@ function App() {
   return (
     <CustomRouter history={customHistory}>
       <Routes>
-        {/* MAIN PUBLIC STACK START */}
         <Route path={'/'} element={<PublicOutlet />}>
-          <Route
-            path={'home'}
-            element={
-              <BlankLayout>
-                <Suspense fallback={<InitAppLoader />}>
-                  <Home />
-                </Suspense>
-              </BlankLayout>
-            }
-          />
-
-          <Route
-            path={'login'}
-            element={
-              <AuthLayout>
+          <Route element={<AuthLayout />}>
+            <Route
+              path="login"
+              element={
                 <Suspense fallback={<InitAppLoader />}>
                   <LoginPage />
                 </Suspense>
-              </AuthLayout>
-            }
-          />
-
+              }
+            />
+          </Route>
           <Route
-            path={'contact'}
+            path={'logout'}
             element={
-              <BlankLayout>
-                <Suspense fallback={<InitAppLoader />}>
-                  <ContactPage />
-                </Suspense>
-              </BlankLayout>
-            }
-          />
-          <Route
-            path={'terms'}
-            element={
-              <BlankLayout>
-                <Suspense fallback={<InitAppLoader />}>
-                  <TermsOfConditionPage />
-                </Suspense>
-              </BlankLayout>
+              <Suspense fallback={<InitAppLoader />}>
+                <LogOut />
+              </Suspense>
             }
           />
         </Route>
+
+        {/* MAIN PUBLIC STACK START */}
+        <Route path={'/'} element={<PublicOutlet />}>
+          <Route element={<PublicLayout />} path={'/'}>
+            <Route
+              path={'home'}
+              element={
+                <BlankLayout>
+                  <Suspense fallback={<InitAppLoader />}>
+                    <Home />
+                  </Suspense>
+                </BlankLayout>
+              }
+            />
+
+            <Route
+              path={'contact'}
+              element={
+                <BlankLayout>
+                  <Suspense fallback={<InitAppLoader />}>
+                    <ContactPage />
+                  </Suspense>
+                </BlankLayout>
+              }
+            />
+            <Route
+              path={'terms'}
+              element={
+                <BlankLayout>
+                  <Suspense fallback={<InitAppLoader />}>
+                    <TermsOfConditionPage />
+                  </Suspense>
+                </BlankLayout>
+              }
+            />
+          </Route>
+        </Route>
+
         {/* MAIN PUBLIC STACK END */}
         {/* MAIN PRIVATE STACK START*/}
         <Route element={<PrivateOutlet />} path={'/'}>
@@ -110,16 +124,6 @@ function App() {
                 <Suspense fallback={<PageLoader />}>
                   <DashboardPage />
                 </Suspense>
-              }
-            />
-            <Route
-              path={'logout'}
-              element={
-                <BlankLayout>
-                  <Suspense fallback={<PageLoader />}>
-                    <LogOut />
-                  </Suspense>
-                </BlankLayout>
               }
             />
             {/* Project Route Pack Start */}
@@ -172,7 +176,7 @@ const PrivateOutlet = () => {
 }
 
 const PublicOutlet = () => {
-  const { isLoggedIn = true } = useAuth()
+  const { isLoggedIn } = useAuth()
   const location = useLocation()
 
   useEffect(() => {

@@ -12,6 +12,11 @@ import Drawer from '@mui/material/Drawer'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import Sitemark from './SitemarkIcon'
+import { Link as MuiLink } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { homeMenuItems } from '@constants/homemenu'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '@global/AuthContext'
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -29,10 +34,12 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false)
+  const { isLoggedIn } = useAuth()
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
   }
+  const { t } = useTranslation()
 
   return (
     <AppBar
@@ -41,7 +48,7 @@ export default function AppAppBar() {
         boxShadow: 0,
         bgcolor: 'transparent',
         backgroundImage: 'none',
-        mt: 10,
+        mt: { md: 10, sm: 2.5, xs: 2.5 },
       }}
     >
       <Container maxWidth="lg">
@@ -50,35 +57,19 @@ export default function AppAppBar() {
             sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}
           >
             <Sitemark />
+
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
-                Features
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Testimonials
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Highlights
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Pricing
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                sx={{ minWidth: 0 }}
-              >
-                FAQ
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                sx={{ minWidth: 0 }}
-              >
-                Blog
-              </Button>
+              {homeMenuItems.map((item, index) => (
+                <Button
+                  key={index}
+                  LinkComponent={Link}
+                  variant="text"
+                  color="info"
+                  size="small"
+                >
+                  {t(item.label)}
+                </Button>
+              ))}
             </Box>
           </Box>
           <Box
@@ -88,12 +79,22 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
-              Sign in
-            </Button>
-            <Button color="primary" variant="contained" size="small">
-              Sign up
-            </Button>
+            <Box>
+              {!isLoggedIn ? (
+                <Button component={Link} to={'/login'} variant="contained">
+                  {t('HOME.sign_in')}
+                </Button>
+              ) : (
+                <Button
+                  component={Link}
+                  to={'/'}
+                  variant="contained"
+                  color="secondary"
+                >
+                  {t('HOME.go_to_app')}
+                </Button>
+              )}
+            </Box>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
@@ -113,21 +114,38 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
                 <Divider sx={{ my: 3 }} />
-                <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
+                {homeMenuItems.map((item, index) => (
+                  <MenuItem key={index}>
+                    <MuiLink
+                      sx={{ textDecoration: 'none' }}
+                      component={Link}
+                      to={item.link}
+                    >
+                      {t(item.label)}
+                    </MuiLink>
+                  </MenuItem>
+                ))}
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
-                  </Button>
+                  {!isLoggedIn ? (
+                    <Button
+                      component={Link}
+                      to={'/login'}
+                      fullWidth
+                      variant="contained"
+                    >
+                      {t('HOME.sign_in')}
+                    </Button>
+                  ) : (
+                    <Button
+                      component={Link}
+                      to={'/'}
+                      fullWidth
+                      variant="contained"
+                      color="secondary"
+                    >
+                      {t('HOME.go_to_app')}
+                    </Button>
+                  )}
                 </MenuItem>
               </Box>
             </Drawer>

@@ -2,12 +2,20 @@ import DataLoading from '@components/DataLoading'
 import { Box } from '@mui/material'
 import { useAuth } from 'global/AuthContext'
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const LogOut: React.FC = () => {
-  const { logout } = useAuth()
+  const { isLoggedIn, logout } = useAuth()
+  const navigate = useNavigate()
   useEffect(() => {
     logout()
   }, [])
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/')
+    }
+  }, [isLoggedIn])
 
   return (
     <Box

@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import React, {
   createContext,
   useContext,
   useState,
-  useEffect,
   useCallback,
   ReactNode,
 } from 'react'
@@ -16,6 +16,14 @@ interface AuthContextType extends AuthState {
   logout: () => void
 }
 
+const getInitialAuthState = (): AuthState => {
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null
+  return {
+    isLoggedIn: !!token,
+  }
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const useAuth = () => {
@@ -27,17 +35,9 @@ export const useAuth = () => {
 }
 
 const useProvideAuth = (): AuthContextType => {
-  const [state, setState] = useState<AuthState>({
-    isLoggedIn: false,
-  })
+  const [state, setState] = useState<AuthState>(getInitialAuthState)
 
-  useEffect(() => {
-    const token = localStorage.getItem('auth_token')
-    if (token) {
-      setState({ isLoggedIn: true })
-    }
-  }, [])
-
+  console.log('state', state)
   const setToken = useCallback((token: string) => {
     localStorage.setItem('auth_token', token)
     setState({ isLoggedIn: true })

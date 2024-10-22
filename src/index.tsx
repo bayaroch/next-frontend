@@ -11,6 +11,7 @@ import '@locales/i18n'
 import { AuthProvider } from 'global/AuthContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import getMainTheme from '@theme/getMainTheme'
+import { PublicLayoutProvider } from '@layouts/PublicLayout/PublicProvider'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient()
@@ -21,13 +22,15 @@ root.render(
   <ThemeProvider theme={theme}>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <LayoutProvider>
-          <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline enableColorScheme />
-            <App />
-          </ConfirmProvider>
-        </LayoutProvider>
+        <PublicLayoutProvider>
+          <LayoutProvider>
+            <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline enableColorScheme />
+              <App />
+            </ConfirmProvider>
+          </LayoutProvider>
+        </PublicLayoutProvider>
       </AuthProvider>
     </QueryClientProvider>
   </ThemeProvider>

@@ -1,3 +1,5 @@
+import { FacebookIcon } from '@components/@public/CustomIcons'
+import { Button } from '@mui/material'
 import React from 'react'
 import {
   ReactFacebookLoginInfo,
@@ -28,9 +30,14 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       scope="email,pages_show_list,pages_manage_posts,pages_read_user_content,pages_manage_engagement,pages_messaging,pages_manage_metadata"
       callback={onLogin}
       render={(renderProps) => (
-        <button onClick={renderProps.onClick}>
-          This is my custom FB button
-        </button>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={renderProps.onClick}
+          startIcon={<FacebookIcon />}
+        >
+          Sign in with Facebook
+        </Button>
       )}
     />
   )

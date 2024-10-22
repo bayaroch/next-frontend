@@ -1,25 +1,23 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import InputLabel from '@mui/material/InputLabel'
-import Link from '@mui/material/Link'
+import { Link as MuiLink } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import FacebookIcon from '@mui/icons-material/GitHub'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import TwitterIcon from '@mui/icons-material/X'
 import SitemarkIcon from './SitemarkIcon'
+import { Link } from 'react-router-dom'
+import { Facebook, Instagram } from '@mui/icons-material'
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
       {'Copyright © '}
-      <Link color="text.secondary" href="https://mui.com/">
-        Sitemark
-      </Link>
+      <MuiLink component={Link} to="/" color="text.secondary">
+        Kommai
+      </MuiLink>
       &nbsp;
       {new Date().getFullYear()}
     </Typography>
@@ -105,21 +103,30 @@ export default function Footer() {
           <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
             Product
           </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink
+            component={Link}
+            to="/features"
+            color="text.secondary"
+            variant="body2"
+          >
             Features
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Testimonials
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Highlights
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/pricing"
+            color="text.secondary"
+            variant="body2"
+          >
             Pricing
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/faq"
+            color="text.secondary"
+            variant="body2"
+          >
             FAQs
-          </Link>
+          </MuiLink>
         </Box>
         <Box
           sx={{
@@ -131,15 +138,22 @@ export default function Footer() {
           <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
             Company
           </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink
+            component={Link}
+            to="/about"
+            color="text.secondary"
+            variant="body2"
+          >
             About us
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Careers
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Press
-          </Link>
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/blog"
+            color="text.secondary"
+            variant="body2"
+          >
+            Blog
+          </MuiLink>
         </Box>
         <Box
           sx={{
@@ -151,15 +165,30 @@ export default function Footer() {
           <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
             Legal
           </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink
+            component={Link}
+            to="/terms"
+            color="text.secondary"
+            variant="body2"
+          >
             Terms
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/privacy"
+            color="text.secondary"
+            variant="body2"
+          >
             Privacy
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/contact"
+            color="text.secondary"
+            variant="body2"
+          >
             Contact
-          </Link>
+          </MuiLink>
         </Box>
       </Box>
       <Box
@@ -173,15 +202,25 @@ export default function Footer() {
         }}
       >
         <div>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink
+            component={Link}
+            to="/privacy"
+            color="text.secondary"
+            variant="body2"
+          >
             Privacy Policy
-          </Link>
+          </MuiLink>
           <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
             &nbsp;•&nbsp;
           </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink
+            component={Link}
+            to="/terms"
+            color="text.secondary"
+            variant="body2"
+          >
             Terms of Service
-          </Link>
+          </MuiLink>
           <Copyright />
         </div>
         <Stack
@@ -193,29 +232,20 @@ export default function Footer() {
           <IconButton
             color="inherit"
             size="small"
-            href="https://github.com/mui"
+            href="#"
             aria-label="GitHub"
             sx={{ alignSelf: 'center' }}
           >
-            <FacebookIcon />
+            <Facebook />
           </IconButton>
           <IconButton
             color="inherit"
             size="small"
-            href="https://x.com/MaterialUI"
+            href="#"
             aria-label="X"
             sx={{ alignSelf: 'center' }}
           >
-            <TwitterIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            size="small"
-            href="https://www.linkedin.com/company/mui/"
-            aria-label="LinkedIn"
-            sx={{ alignSelf: 'center' }}
-          >
-            <LinkedInIcon />
+            <Instagram />
           </IconButton>
         </Stack>
       </Box>
