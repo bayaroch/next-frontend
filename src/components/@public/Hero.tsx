@@ -1,20 +1,18 @@
-import * as React from 'react'
+import WpBox from '@components/WpBox'
+import { ContentPages, lang } from '@constants/content.constants'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import InputLabel from '@mui/material/InputLabel'
-import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
-import { visuallyHidden } from '@mui/utils'
 import { styled } from '@mui/material/styles'
+import i18next from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
   width: '100%',
-  height: 400,
+  height: 300,
   marginTop: theme.spacing(8),
   borderRadius: theme.shape.borderRadius,
   outline: '6px solid',
@@ -26,7 +24,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   backgroundSize: 'cover',
   [theme.breakpoints.up('sm')]: {
     marginTop: theme.spacing(10),
-    height: 700,
+    height: 400,
   },
   ...theme.applyStyles('dark', {
     boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
@@ -37,6 +35,7 @@ const StyledBox = styled('div')(({ theme }) => ({
 }))
 
 export default function Hero() {
+  const { t } = useTranslation()
   return (
     <Box
       id="hero"
@@ -56,7 +55,7 @@ export default function Hero() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: { xs: 14, sm: 20 },
+          pt: { xs: 14, sm: 24 },
           pb: { xs: 8, sm: 12 },
         }}
       >
@@ -74,7 +73,7 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Kommai AI&nbsp;first&nbsp;
+            {t('HOME.ai')} &nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -86,66 +85,44 @@ export default function Hero() {
                 }),
               })}
             >
-              company
+              {t('HOME.slogan_one')} &nbsp;
             </Typography>
           </Typography>
           <Typography
+            variant="h4"
             sx={{
               textAlign: 'center',
               color: 'text.secondary',
               width: { sm: '100%', md: '80%' },
             }}
           >
-            Explore our cutting-edge dashboard, delivering high-quality
-            solutions tailored to your needs. Elevate your experience with
-            top-tier features and services.
-          </Typography>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={1}
-            useFlexGap
-            sx={{ pt: 2, width: { xs: '100%', sm: '350px' } }}
-          >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
-              Email
-            </InputLabel>
-            <TextField
-              id="email-hero"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
-              fullWidth
-              slotProps={{
-                htmlInput: {
-                  autoComplete: 'off',
-                  'aria-label': 'Enter your email address',
-                },
-              }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              sx={{ minWidth: 'fit-content' }}
-            >
-              Start now
-            </Button>
-          </Stack>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center' }}
-          >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
+            {t('HOME.slogan_two')}
           </Typography>
         </Stack>
-        <StyledBox id="image" />
+        <Box>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ minWidth: 'fit-content', mt: 2 }}
+          >
+            {t('HOME.start_now')}
+          </Button>
+        </Box>
+        <Stack direction={'row'} spacing={4} width={'100%'}>
+          <Box sx={{ width: '50%' }}>
+            <StyledBox id="image" />
+          </Box>
+          <Box sx={{ width: '50%' }}>
+            <Box>
+              <Typography variant="body1" sx={{ marginTop: 15, fontSize: 16 }}>
+                <WpBox
+                  lineCount={8}
+                  id={ContentPages.description[`${i18next.language as lang}`]}
+                />
+              </Typography>
+            </Box>
+          </Box>
+        </Stack>
       </Container>
     </Box>
   )

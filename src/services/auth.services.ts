@@ -1,5 +1,5 @@
 import { URI } from '@constants/uri.constants'
-import api from './api'
+import { api } from './api'
 
 interface LoginPayload {
   fb_access_token: string

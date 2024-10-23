@@ -8,5 +8,12 @@ const api = axios.create({
   },
 })
 
+const publicApi = axios.create({
+  headers: { 'Content-Type': 'application/json' },
+  baseURL:
+    'https://public-api.wordpress.com/rest/v1.1/sites/kommai.wordpress.com/',
+})
+
 setupInterceptors(api)
-export default api
+
+export { api, publicApi }

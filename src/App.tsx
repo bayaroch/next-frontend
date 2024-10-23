@@ -15,9 +15,7 @@ const NotFound = lazy(() => import('@pages/404'))
 const NotAvailable = lazy(() => import('@pages/503'))
 const LoginPage = lazy(() => import('@pages/login'))
 const LogOut = lazy(() => import('@pages/logout'))
-import '@silevis/reactgrid/styles.css'
 import '@theme/global.css'
-import '@theme/home.css'
 const Home = lazy(() => import('@pages/home'))
 import InitAppLoader from '@components/InitApp/InitAppLoader'
 const ContactPage = lazy(() => import('@pages/contact'))
