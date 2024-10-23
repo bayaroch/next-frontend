@@ -1,12 +1,30 @@
-// Монгол
 export default {
   SYSCOMMON: {
     yes: 'Тийм',
     no: 'Үгүй',
-    confirm: 'OK',
+    confirm: 'Зөвшөөрөх',
     cancel: 'Цуцлах',
     save: 'Хадгалах',
-    dashboard: 'Хяналтын самбар',
+    dashboard: 'Хянах самбар',
     close: 'Хаах',
+    login: 'Нэвтрэх',
+    logout: 'Гарах',
+    go_to_app: 'Аппликэйшн руу очих',
+    sign_in_facebook: 'Facebook-ээр нэвтрэх',
+    accept_permission:
+      'Манай үйлчилгээг ашиглахын тулд бүх зөвшөөрлийг хүлээн зөвшөөрөх',
+  },
+  HOME: {
+    home: 'Нүүр хуудас',
+    about: 'Бидний тухай',
+    features: 'Онцлог шинж чанарууд',
+    testimonials: 'Сэтгэгдлүүд',
+    Pricing: 'Үнийн санал',
+    faq: 'Түгээмэл асуултууд',
+    product: 'Бүтээгдэхүүн',
+    company: 'Компани',
+    legal: 'Эрх зүй',
+    privacy: 'Нууцлалын бодлого',
+    terms: 'Үйлчилгээний нөхцөл',
   },
 }

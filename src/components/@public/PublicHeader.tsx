@@ -16,7 +16,8 @@ import { Link as MuiLink } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { homeMenuItems } from '@constants/homemenu'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@global/AuthContext'
+import LanguageSwitcher from '@layouts/Shared/Header/LanguageSwitcher'
+import { Languages } from '@constants/common.constants'
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -32,10 +33,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }))
 
-export default function AppAppBar() {
-  const [open, setOpen] = React.useState(false)
-  const { isLoggedIn } = useAuth()
-
+const PublicHeader: React.FC<{
+  open: boolean
+  setOpen: (v: boolean) => void
+  isLoggedIn: boolean
+  lang: string
+  changeLanguage: (v: string) => void
+}> = ({ open, setOpen, isLoggedIn, lang, changeLanguage }) => {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
   }
@@ -72,6 +76,13 @@ export default function AppAppBar() {
               ))}
             </Box>
           </Box>
+          <Box sx={{ mr: 1 }}>
+            <LanguageSwitcher
+              currentLang={lang}
+              data={Languages}
+              onSwitch={changeLanguage}
+            />
+          </Box>
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
@@ -82,17 +93,22 @@ export default function AppAppBar() {
             <Box>
               {!isLoggedIn ? (
                 <Button component={Link} to={'/login'} variant="contained">
-                  {t('HOME.sign_in')}
+                  {t('SYSCOMMON.login')}
                 </Button>
               ) : (
-                <Button
-                  component={Link}
-                  to={'/'}
-                  variant="contained"
-                  color="secondary"
-                >
-                  {t('HOME.go_to_app')}
-                </Button>
+                <>
+                  <Button
+                    component={Link}
+                    to={'/'}
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    {t('SYSCOMMON.go_to_app')}
+                  </Button>
+                  <Button component={Link} to={'/logout'} variant="contained">
+                    {t('SYSCOMMON.logout')}
+                  </Button>
+                </>
               )}
             </Box>
           </Box>
@@ -133,18 +149,28 @@ export default function AppAppBar() {
                       fullWidth
                       variant="contained"
                     >
-                      {t('HOME.sign_in')}
+                      {t('SYSCOMMON.login')}
                     </Button>
                   ) : (
-                    <Button
-                      component={Link}
-                      to={'/'}
-                      fullWidth
-                      variant="contained"
-                      color="secondary"
-                    >
-                      {t('HOME.go_to_app')}
-                    </Button>
+                    <>
+                      <Button
+                        component={Link}
+                        to={'/'}
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                      >
+                        {t('SYSCOMMON.go_to_app')}
+                      </Button>
+                      <Button
+                        component={Link}
+                        to={'/logout'}
+                        fullWidth
+                        variant="outlined"
+                      >
+                        {t('SYSCOMMON.logout')}
+                      </Button>
+                    </>
                   )}
                 </MenuItem>
               </Box>
@@ -155,3 +181,4 @@ export default function AppAppBar() {
     </AppBar>
   )
 }
+export default PublicHeader

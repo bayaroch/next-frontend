@@ -4,11 +4,12 @@ import theme from '@theme/index'
 import React, { useContext } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { PublicLayoutContext } from './PublicProvider'
-import AppAppBar from '@components/@public/AppBar'
+import PublicHeader from '@components/@public/PublicHeader'
 import Footer from '@components/@public/Footer'
 
 const PublicLayout: React.FC = () => {
-  const { menuOpen, setMenuOpen } = useContext(PublicLayoutContext)
+  const { menuOpen, setMenuOpen, isLoggedIn, changeLanguage, lang } =
+    useContext(PublicLayoutContext)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -16,7 +17,13 @@ const PublicLayout: React.FC = () => {
 
   return (
     <Box>
-      <AppAppBar />
+      <PublicHeader
+        changeLanguage={changeLanguage}
+        lang={lang}
+        isLoggedIn={isLoggedIn}
+        open={menuOpen}
+        setOpen={setMenuOpen}
+      />
       <Outlet />
       <Footer />
     </Box>

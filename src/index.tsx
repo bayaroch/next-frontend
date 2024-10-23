@@ -20,8 +20,8 @@ const theme = createTheme(getMainTheme(mode))
 
 root.render(
   <ThemeProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
         <PublicLayoutProvider>
           <LayoutProvider>
             <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
@@ -31,8 +31,8 @@ root.render(
             </ConfirmProvider>
           </LayoutProvider>
         </PublicLayoutProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </AuthProvider>
   </ThemeProvider>
 )
 

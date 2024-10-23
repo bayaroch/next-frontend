@@ -14,6 +14,8 @@ interface AuthState {
 interface AuthContextType extends AuthState {
   setToken: (token: string) => void
   logout: () => void
+  changeLanguage: (v: string) => void
+  lang: string
 }
 
 const getInitialAuthState = (): AuthState => {
@@ -22,6 +24,14 @@ const getInitialAuthState = (): AuthState => {
   return {
     isLoggedIn: !!token,
   }
+}
+
+const getInitialLangState = (): string => {
+  const value =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('language') || 'mn'
+      : 'mn'
+  return value
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -36,6 +46,7 @@ export const useAuth = () => {
 
 const useProvideAuth = (): AuthContextType => {
   const [state, setState] = useState<AuthState>(getInitialAuthState)
+  const [lang, setlanguage] = useState<string>(getInitialLangState)
 
   console.log('state', state)
   const setToken = useCallback((token: string) => {
@@ -48,9 +59,16 @@ const useProvideAuth = (): AuthContextType => {
     setState({ isLoggedIn: false })
   }, [])
 
+  const changeLanguage = useCallback((v: string) => {
+    localStorage.setItem('language', v)
+    setlanguage(v)
+  }, [])
+
   return {
     ...state,
     setToken,
+    changeLanguage,
+    lang,
     logout,
   }
 }

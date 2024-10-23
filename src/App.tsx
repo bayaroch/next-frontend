@@ -35,13 +35,14 @@ moment.locale('mn')
 
 function App() {
   const { i18n } = useTranslation()
+  const { lang } = useAuth()
 
   useEffect(() => {
     // eslint-disable-next-line no-console
     i18n
       .use(initReactI18next) // passes i18n down to react-i18next
       .init({
-        lng: 'mn',
+        lng: lang || 'mn',
       })
 
     // trackingID &&
@@ -52,6 +53,13 @@ function App() {
     //     },
     //   })
   }, [])
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    if (lang) {
+      i18n.changeLanguage(lang)
+      moment.locale(lang)
+    }
+  }, [lang])
 
   return (
     <CustomRouter history={customHistory}>

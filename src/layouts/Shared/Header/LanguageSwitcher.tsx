@@ -71,12 +71,6 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         anchorEl={anchorEl}
         onClose={handleClose}
         aria-controls={isOpen ? 'demo-positioned-menu' : undefined}
-        PaperProps={{
-          sx: {
-            borderRadius: 0,
-            background: (theme) => theme.palette.secondary.main,
-          },
-        }}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'left',
@@ -97,18 +91,12 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               return (
                 <ListItemButton
                   data-test-id="language-menu-item"
-                  sx={{
-                    color: '#eaeded',
-                    '&:hover': {
-                      background: (theme) => theme.palette.secondary.light,
-                    },
-                  }}
                   key={item.id}
                   onClick={() => {
                     handleSwitch(item.id)
                   }}
                 >
-                  <ListItemText primary={item.label} sx={{ my: 0 }} />
+                  <ListItemText primary={item.shortLabel} sx={{ my: 0 }} />
                 </ListItemButton>
               )
             })}
