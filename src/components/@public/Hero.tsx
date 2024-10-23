@@ -85,7 +85,7 @@ export default function Hero() {
                 }),
               })}
             >
-              {t('HOME.slogan_one')} &nbsp;
+              {t('HOME.slogan_one')}
             </Typography>
           </Typography>
           <Typography
