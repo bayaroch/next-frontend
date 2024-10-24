@@ -1,11 +1,4 @@
-import {
-  Button,
-  List,
-  ListItemButton,
-  ListItemText,
-  Menu,
-  Box,
-} from '@mui/material'
+import { Button, ListItemButton, ListItemText, Menu } from '@mui/material'
 import { useCallback, useState } from 'react'
 
 import { Language } from '@mui/icons-material'
@@ -85,23 +78,19 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           p: 0,
         }}
       >
-        <Box>
-          <List disablePadding>
-            {data.map((item) => {
-              return (
-                <ListItemButton
-                  data-test-id="language-menu-item"
-                  key={item.id}
-                  onClick={() => {
-                    handleSwitch(item.id)
-                  }}
-                >
-                  <ListItemText primary={item.shortLabel} sx={{ my: 0 }} />
-                </ListItemButton>
-              )
-            })}
-          </List>
-        </Box>
+        {data.map((item) => {
+          return (
+            <ListItemButton
+              data-test-id="language-menu-item"
+              key={item.id}
+              onClick={() => {
+                handleSwitch(item.id)
+              }}
+            >
+              <ListItemText primary={item.shortLabel} sx={{ my: 0 }} />
+            </ListItemButton>
+          )
+        })}
       </Menu>
     </>
   )

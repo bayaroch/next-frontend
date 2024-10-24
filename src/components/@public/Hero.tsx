@@ -12,25 +12,25 @@ import { useTranslation } from 'react-i18next'
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
   width: '100%',
-  height: 300,
-  marginTop: theme.spacing(8),
+  height: 600,
+  marginTop: theme.spacing(4),
   borderRadius: theme.shape.borderRadius,
-  outline: '6px solid',
-  outlineColor: 'hsla(220, 25%, 80%, 0.2)',
-  border: '1px solid',
+  // outline: '6px solid',
+  // outlineColor: 'hsla(220, 25%, 80%, 0.2)',
+  // border: '1px solid',
   borderColor: theme.palette.grey[200],
-  boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
-  backgroundImage: `url(${'/static/screenshots/material-ui/getting-started/templates/dashboard.jpg'})`,
+  // boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
+  backgroundImage: `url(${'/images/flow.png'})`,
   backgroundSize: 'cover',
   [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(10),
-    height: 400,
+    marginTop: theme.spacing(4),
+    height: 600,
   },
   ...theme.applyStyles('dark', {
-    boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
-    backgroundImage: `url(${'/static/screenshots/material-ui/getting-started/templates/dashboard-dark.jpg'})`,
+    // boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
+    backgroundImage: `url(${'/images/flow.png'})`,
     outlineColor: 'hsla(220, 20%, 42%, 0.1)',
-    borderColor: theme.palette.grey[700],
+    // borderColor: theme.palette.grey[700],
   }),
 }))
 
@@ -48,6 +48,16 @@ export default function Hero() {
           backgroundImage:
             'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(301, 8%, 75%), transparent)',
         }),
+        '&:after': {
+          background: "url('images/hero-illustration.svg') top right no-repeat",
+          content: "''",
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          zIndex: -1,
+        },
       })}
     >
       <Container
@@ -109,10 +119,10 @@ export default function Hero() {
           </Button>
         </Box>
         <Stack direction={'row'} spacing={4} width={'100%'}>
-          <Box sx={{ width: '50%' }}>
+          <Box sx={{ width: '60%' }}>
             <StyledBox id="image" />
           </Box>
-          <Box sx={{ width: '50%' }}>
+          <Box sx={{ width: '40%' }}>
             <Box>
               <Typography variant="body1" sx={{ marginTop: 15, fontSize: 16 }}>
                 <WpBox
