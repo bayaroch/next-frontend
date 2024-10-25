@@ -8,8 +8,12 @@ export const ContentPages = {
     [`${lang.en}`]: '17',
     [`${lang.mn}`]: '14',
   },
-  faq: {
+  terms: {
     [`${lang.en}`]: '29',
     [`${lang.mn}`]: '25',
+  },
+  privacy: {
+    [`${lang.en}`]: '37',
+    [`${lang.mn}`]: '39',
   },
 }

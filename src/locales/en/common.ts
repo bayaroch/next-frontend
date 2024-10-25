@@ -13,6 +13,7 @@ export default {
     go_to_app: 'Go to app',
     sign_in_facebook: 'Sign with Facebook',
     accept_permission: 'Accept all permission to use our feature',
+    home: 'Home',
   },
   HOME: {
     home: 'Home',

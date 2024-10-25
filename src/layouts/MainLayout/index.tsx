@@ -64,10 +64,6 @@ const MainLayout: React.FC<LayoutProps> = ({
     <Box
       sx={{
         display: 'flex',
-        flex: 1,
-        minWidth: 0,
-        minHeight: '100%',
-        flexDirection: 'column',
       }}
     >
       <CssBaseline />

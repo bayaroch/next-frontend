@@ -52,7 +52,7 @@ const PublicHeader: React.FC<{
         boxShadow: 0,
         bgcolor: 'transparent',
         backgroundImage: 'none',
-        mt: { md: 10, sm: 2.5, xs: 2.5 },
+        mt: { md: 4, sm: 2.5, xs: 2.5 },
       }}
     >
       <Container maxWidth="lg">
@@ -60,7 +60,9 @@ const PublicHeader: React.FC<{
           <Box
             sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}
           >
-            <Sitemark />
+            <Link to="/" style={{ padding: 0, margin: 0, lineHeight: 0 }}>
+              <Sitemark />
+            </Link>
 
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {homeMenuItems.map((item, index) => (

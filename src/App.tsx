@@ -24,6 +24,7 @@ const DashboardPage = lazy(() => import('@pages/dashboard'))
 import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
 import PublicLayout from '@layouts/PublicLayout'
+const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 
 // Initialize React Ga with your tracking ID
 
@@ -113,6 +114,17 @@ function App() {
                 <BlankLayout>
                   <Suspense fallback={<InitAppLoader />}>
                     <TermsOfConditionPage />
+                  </Suspense>
+                </BlankLayout>
+              }
+            />
+
+            <Route
+              path={'privacy'}
+              element={
+                <BlankLayout>
+                  <Suspense fallback={<InitAppLoader />}>
+                    <PrivacyPolicyPage />
                   </Suspense>
                 </BlankLayout>
               }

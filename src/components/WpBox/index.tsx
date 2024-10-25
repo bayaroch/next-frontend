@@ -24,8 +24,9 @@ const WpBox: React.FC<WpContentProps> = ({ id, lineCount = 6, ...rest }) => {
         <Skeleton
           key={index}
           animation="wave"
+          width={index === lineCount - 1 ? '60%' : '100%'}
           height={20}
-          style={{ marginBottom: 6 }}
+          style={{ marginBottom: 6, opacity: 0.5 }}
         />
       ))
   }

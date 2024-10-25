@@ -356,7 +356,7 @@ export const typography = {
   },
   h2: {
     fontSize: defaultTheme.typography.pxToRem(36),
-    fontWeight: 600,
+    fontWeight: 500,
     lineHeight: 1.2,
   },
   h3: {
@@ -365,16 +365,16 @@ export const typography = {
   },
   h4: {
     fontSize: defaultTheme.typography.pxToRem(24),
-    fontWeight: 600,
+    fontWeight: 500,
     lineHeight: 1.5,
   },
   h5: {
     fontSize: defaultTheme.typography.pxToRem(20),
-    fontWeight: 600,
+    fontWeight: 500,
   },
   h6: {
     fontSize: defaultTheme.typography.pxToRem(18),
-    fontWeight: 600,
+    fontWeight: 500,
   },
   subtitle1: {
     fontSize: defaultTheme.typography.pxToRem(18),

@@ -13,6 +13,7 @@ export default {
     sign_in_facebook: 'Facebook-ээр нэвтрэх',
     accept_permission:
       'Манай үйлчилгээг ашиглахын тулд бүх зөвшөөрлийг хүлээн зөвшөөрөх',
+    home: 'Эхлэл',
   },
   HOME: {
     home: 'Нүүр хуудас',
