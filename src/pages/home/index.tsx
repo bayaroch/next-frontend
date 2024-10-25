@@ -6,6 +6,8 @@ import Pricing from '@components/@public/Pricing'
 import Features from '@components/@public/Features'
 import Testimonials from '@components/@public/Testimonials'
 import FAQ from '@components/@public/FAQ'
+import { lang } from '@constants/content.constants'
+import i18next from 'i18next'
 
 export default function HomePage() {
   // This code only runs on the client side, to determine the system color preference
@@ -21,7 +23,7 @@ export default function HomePage() {
         <Divider />
         <Pricing />
         <Divider />
-        <FAQ />
+        <FAQ lang={`${i18next.language as lang}`} />
         <Divider />
       </div>
     </>

@@ -10,7 +10,7 @@ interface WpContentProps extends BoxProps {
 }
 
 const WpBox: React.FC<WpContentProps> = ({ id, lineCount = 6, ...rest }) => {
-  const { data, fetchPage, clear, isLoading } = useWp()
+  const { data, fetchPage, clear, isLoading } = useWp(id)
 
   useEffect(() => {
     fetchPage(id)
