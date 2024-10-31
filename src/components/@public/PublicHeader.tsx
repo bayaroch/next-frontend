@@ -12,7 +12,7 @@ import Drawer from '@mui/material/Drawer'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import Sitemark from './SitemarkIcon'
-import { Link as MuiLink } from '@mui/material'
+import { Link as MuiLink, Stack } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { homeMenuItems } from '@constants/homemenu'
 import { useTranslation } from 'react-i18next'
@@ -66,15 +66,11 @@ const PublicHeader: React.FC<{
 
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {homeMenuItems.map((item, index) => (
-                <Button
-                  key={index}
-                  LinkComponent={Link}
-                  variant="text"
-                  color="info"
-                  size="small"
-                >
-                  {t(item.label)}
-                </Button>
+                <Link key={index} to={item.link}>
+                  <Button variant="text" color="info" size="small">
+                    {t(item.label)}
+                  </Button>
+                </Link>
               ))}
             </Box>
           </Box>
@@ -98,7 +94,7 @@ const PublicHeader: React.FC<{
                   {t('SYSCOMMON.login')}
                 </Button>
               ) : (
-                <>
+                <Stack spacing={1} direction={'row'} display={'flex'}>
                   <Button
                     component={Link}
                     to={'/'}
@@ -110,7 +106,7 @@ const PublicHeader: React.FC<{
                   <Button component={Link} to={'/logout'} variant="contained">
                     {t('SYSCOMMON.logout')}
                   </Button>
-                </>
+                </Stack>
               )}
             </Box>
           </Box>

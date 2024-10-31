@@ -25,7 +25,7 @@ import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
 import PublicLayout from '@layouts/PublicLayout'
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
-
+const AboutPage = lazy(() => import('@pages/about'))
 // Initialize React Ga with your tracking ID
 
 // eslint-disable-next-line no-console
@@ -97,7 +97,16 @@ function App() {
                 </BlankLayout>
               }
             />
-
+            <Route
+              path={'about'}
+              element={
+                <BlankLayout>
+                  <Suspense fallback={<InitAppLoader />}>
+                    <AboutPage />
+                  </Suspense>
+                </BlankLayout>
+              }
+            />
             <Route
               path={'contact'}
               element={

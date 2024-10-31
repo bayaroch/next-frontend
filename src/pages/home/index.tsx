@@ -4,7 +4,6 @@ import Divider from '@mui/material/Divider'
 import Hero from '@components/@public/Hero'
 import Pricing from '@components/@public/Pricing'
 import Features from '@components/@public/Features'
-import Testimonials from '@components/@public/Testimonials'
 import FAQ from '@components/@public/FAQ'
 import { lang } from '@constants/content.constants'
 import i18next from 'i18next'
@@ -18,9 +17,7 @@ export default function HomePage() {
       <div>
         <Features />
         <Divider />
-        <Testimonials />
-        <Divider />
-        <Divider />
+        {/* <Testimonials /> */}
         <Pricing />
         <Divider />
         <FAQ lang={`${i18next.language as lang}`} />

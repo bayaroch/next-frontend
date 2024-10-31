@@ -14,7 +14,13 @@ import { Link } from 'react-router-dom'
 const PrivacyPolicyPage = () => {
   const { t } = useTranslation()
   const breadcrumbs = [
-    <Muilink component={Link} underline="hover" key="1" color="inherit" to="/">
+    <Muilink
+      component={Link}
+      underline="hover"
+      key="1"
+      color="inherit"
+      to="/home"
+    >
       {t('SYSCOMMON.home')}
     </Muilink>,
     <Typography key="3" sx={{ color: 'text.primary' }}>

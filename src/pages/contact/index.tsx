@@ -1,3 +1,4 @@
+import ContactForm from '@components/ContactForm'
 import {
   Breadcrumbs,
   Container,
@@ -5,19 +6,44 @@ import {
   Link as Muilink,
 } from '@mui/material'
 import { Box } from '@mui/system'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 const ContactPage = () => {
   const { t } = useTranslation()
+
   const breadcrumbs = [
-    <Muilink component={Link} underline="hover" key="1" color="inherit" to="/">
+    <Muilink
+      component={Link}
+      underline="hover"
+      key="1"
+      color="inherit"
+      to="/home"
+    >
       {t('SYSCOMMON.home')}
     </Muilink>,
     <Typography key="3" sx={{ color: 'text.primary' }}>
-      {t('HOME.terms')}
+      {t('HOME.contact')}
     </Typography>,
   ]
+
+  const [formData, setFormData] = useState<any | null>(null)
+
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        // const form = await googleFormsToJson(
+        //   '1FAIpQLSdKfKtjUoJW9kq3yXQ2Fj3Wq2ZJ2p1Z8Q4Z7E3Q6Q'
+        // )
+        setFormData(null)
+      } catch (error) {
+        console.error('Error fetching form data:', error)
+      }
+    }
+    fetchForm()
+  }, [])
+
   return (
     <Box>
       <Container maxWidth={'lg'}>
@@ -26,9 +52,15 @@ const ContactPage = () => {
             {breadcrumbs}
           </Breadcrumbs>
           <Typography mt={4} mb={2} variant="h2">
-            {t('HOME.terms')}
+            {t('HOME.contact')}
           </Typography>
-          <Box className="content">Coming soon</Box>
+          <Box className="content">
+            {!formData ? (
+              <div>Loading...</div>
+            ) : (
+              <ContactForm form={formData} />
+            )}
+          </Box>
         </Box>
       </Container>
     </Box>

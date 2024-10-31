@@ -1,5 +1,6 @@
 import WpBox from '@components/WpBox'
 import { ContentPages, lang } from '@constants/content.constants'
+import Grid from '@mui/material/Grid2'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -118,11 +119,11 @@ export default function Hero() {
             {t('HOME.start_now')}
           </Button>
         </Box>
-        <Stack direction={'row'} spacing={4} width={'100%'}>
-          <Box sx={{ width: '60%' }}>
+        <Grid spacing={{ md: 2, lg: 4 }} container>
+          <Grid size={{ md: 7, sm: 12 }}>
             <StyledBox id="image" />
-          </Box>
-          <Box sx={{ width: '40%' }}>
+          </Grid>
+          <Grid size={{ md: 5, sm: 12 }}>
             <Box>
               <Typography variant="body1" sx={{ marginTop: 15, fontSize: 16 }}>
                 <WpBox
@@ -131,8 +132,8 @@ export default function Hero() {
                 />
               </Typography>
             </Box>
-          </Box>
-        </Stack>
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   )

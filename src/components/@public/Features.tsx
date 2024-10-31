@@ -5,44 +5,68 @@ import Card from '@mui/material/Card'
 import MuiChip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
-
 import { styled } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
+import SendIcon from '@mui/icons-material/Send'
+import ShieldIcon from '@mui/icons-material/Shield'
+import { Comment } from '@mui/icons-material'
 
-import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
-import EdgesensorHighRoundedIcon from '@mui/icons-material/EdgesensorHighRounded'
-import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded'
+interface FeatureItem {
+  id: number
+  title: string
+  desc: string
+  icon: React.ReactNode
+  image: string
+}
 
-const items = [
-  {
-    icon: <ViewQuiltRoundedIcon />,
-    title: 'Dashboard',
-    description:
-      'This item could provide a snapshot of the most important metrics or data points related to the product.',
-    imageLight:
-      'url("/static/images/templates/templates-images/dash-light.png")',
-    imageDark: 'url("/static/images/templates/templates-images/dash-dark.png")',
-  },
-  {
-    icon: <EdgesensorHighRoundedIcon />,
-    title: 'Mobile integration',
-    description:
-      'This item could provide information about the mobile app version of the product.',
-    imageLight:
-      'url("/static/images/templates/templates-images/mobile-light.png")',
-    imageDark:
-      'url("/static/images/templates/templates-images/mobile-dark.png")',
-  },
-  {
-    icon: <DevicesRoundedIcon />,
-    title: 'Available on all platforms',
-    description:
-      'This item could let users know the product is available on all platforms, such as web, mobile, and desktop.',
-    imageLight:
-      'url("/static/images/templates/templates-images/devices-light.png")',
-    imageDark:
-      'url("/static/images/templates/templates-images/devices-dark.png")',
-  },
-]
+const featuresContent: Record<string, FeatureItem[]> = {
+  en: [
+    {
+      id: 1,
+      title: 'Smart Comment Replies',
+      desc: "<p>Our AI understands comments and picks the best pre-made response. It's like having a clever assistant who always knows what to say!</p>",
+      icon: <Comment />,
+      image: 'url("/path/to/smart-reply-image.png")',
+    },
+    {
+      id: 2,
+      title: 'Messenger Integration',
+      desc: "<p>We reply to comments and send the same helpful responses directly to the user's Facebook Messenger.</p>",
+      icon: <SendIcon />,
+      image: 'url("/path/to/messenger-integration-image.png")',
+    },
+    {
+      id: 3,
+      title: 'Comment Guardian',
+      desc: '<p>Keep your page positive! Our smart filter quickly detects and handles negative comments after they\'re posted. You decide what counts as "bad" - from simple swear words to false claims about your business.</p>',
+      icon: <ShieldIcon />,
+      image: 'url("/path/to/comment-guardian-image.png")',
+    },
+  ],
+  mn: [
+    {
+      id: 1,
+      title: 'Ухаалаг хариулт',
+      desc: '<p>Манай хиймэл оюун ухаан сэтгэгдлийг ойлгоод, хамгийн тохиромжтой хариултыг сонгоно. Яг л юу хэлэхээ мэддэг ухаалаг туслах шиг!</p>',
+      icon: <Comment />,
+      image: 'url("/path/to/smart-reply-image.png")',
+    },
+    {
+      id: 2,
+      title: 'Мессенжер холболт',
+      desc: '<p>Бид сэтгэгдэлд хариулаад зогсохгүй, мөн адил хариуг шууд хэрэглэгчийн Фэйсбүүк мессенжер рүү илгээнэ.</p>',
+      icon: <SendIcon />,
+      image: 'url("/path/to/messenger-integration-image.png")',
+    },
+    {
+      id: 3,
+      title: 'Сэтгэгдэл хамгаалагч',
+      desc: '<p>Таны хуудсыг эерэг байлгана! Манай ухаалаг шүүлтүүр сөрөг сэтгэгдлийг нийтэлсний дараа шууд илрүүлж, арга хэмжээ авна. Та "муу" гэдгийг юу гэж үзэхээ өөрөө тогтооно - энгийн хараалын үгнээс эхлээд таны бизнесийн талаарх худал мэдээлэл хүртэл.</p>',
+      icon: <ShieldIcon />,
+      image: 'url("/path/to/comment-guardian-image.png")',
+    },
+  ],
+}
 
 interface ChipProps {
   selected?: boolean
@@ -71,18 +95,16 @@ const Chip = styled(MuiChip)<ChipProps>(({ theme }) => ({
 interface MobileLayoutProps {
   selectedItemIndex: number
   handleItemClick: (index: number) => void
-  selectedFeature: (typeof items)[0]
+  selectedFeature: FeatureItem
+  items: FeatureItem[]
 }
 
-export function MobileLayout({
+function MobileLayout({
   selectedItemIndex,
   handleItemClick,
   selectedFeature,
+  items,
 }: MobileLayoutProps) {
-  if (!items[selectedItemIndex]) {
-    return null
-  }
-
   return (
     <Box
       sx={{
@@ -104,24 +126,13 @@ export function MobileLayout({
       </Box>
       <Card variant="outlined">
         <Box
-          sx={(theme) => ({
+          sx={{
             mb: 2,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             minHeight: 280,
-            backgroundImage: 'var(--items-imageLight)',
-            ...theme.applyStyles('dark', {
-              backgroundImage: 'var(--items-imageDark)',
-            }),
-          })}
-          style={
-            items[selectedItemIndex]
-              ? ({
-                  '--items-imageLight': items[selectedItemIndex].imageLight,
-                  '--items-imageDark': items[selectedItemIndex].imageDark,
-                } as any)
-              : {}
-          }
+            backgroundImage: `url(${selectedFeature.image})`,
+          }}
         />
         <Box sx={{ px: 2, pb: 2 }}>
           <Typography
@@ -130,9 +141,11 @@ export function MobileLayout({
           >
             {selectedFeature.title}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1.5 }}>
-            {selectedFeature.description}
-          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: 'text.secondary', mb: 1.5 }}
+            dangerouslySetInnerHTML={{ __html: selectedFeature.desc }}
+          />
         </Box>
       </Card>
     </Box>
@@ -141,11 +154,13 @@ export function MobileLayout({
 
 export default function Features() {
   const [selectedItemIndex, setSelectedItemIndex] = React.useState(0)
+  const { t, i18n } = useTranslation()
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index)
   }
 
+  const items = featuresContent[i18n.language] || featuresContent['en']
   const selectedFeature = items[selectedItemIndex]
 
   return (
@@ -157,15 +172,13 @@ export default function Features() {
           gutterBottom
           sx={{ color: 'text.primary' }}
         >
-          Product features
+          {t('HOME.features')}
         </Typography>
         <Typography
           variant="body1"
           sx={{ color: 'text.secondary', mb: { xs: 2, sm: 4 } }}
         >
-          Provide a brief overview of the key features of the product. For
-          example, you could list the number of features, their types or
-          benefits, and add-ons.
+          {t('HOME.features_desc')}
         </Typography>
       </Box>
       <Box
@@ -184,7 +197,7 @@ export default function Features() {
               height: '100%',
             }}
           >
-            {items.map(({ icon, title, description }, index) => (
+            {items.map(({ icon, title, desc }, index) => (
               <Box
                 key={index}
                 component={Button}
@@ -221,9 +234,11 @@ export default function Features() {
                   ]}
                 >
                   {icon}
-
                   <Typography variant="h6">{title}</Typography>
-                  <Typography variant="body2">{description}</Typography>
+                  <Typography
+                    variant="body2"
+                    dangerouslySetInnerHTML={{ __html: desc }}
+                  />
                 </Box>
               </Box>
             ))}
@@ -232,6 +247,7 @@ export default function Features() {
             selectedItemIndex={selectedItemIndex}
             handleItemClick={handleItemClick}
             selectedFeature={selectedFeature}
+            items={items}
           />
         </div>
         <Box
@@ -251,24 +267,13 @@ export default function Features() {
             }}
           >
             <Box
-              sx={(theme) => ({
+              sx={{
                 m: 'auto',
                 width: 420,
                 height: 500,
                 backgroundSize: 'contain',
-                backgroundImage: 'var(--items-imageLight)',
-                ...theme.applyStyles('dark', {
-                  backgroundImage: 'var(--items-imageDark)',
-                }),
-              })}
-              style={
-                items[selectedItemIndex]
-                  ? ({
-                      '--items-imageLight': items[selectedItemIndex].imageLight,
-                      '--items-imageDark': items[selectedItemIndex].imageDark,
-                    } as any)
-                  : {}
-              }
+                backgroundImage: `url(${selectedFeature.image})`,
+              }}
             />
           </Card>
         </Box>
