@@ -24,8 +24,13 @@ const DashboardPage = lazy(() => import('@pages/dashboard'))
 import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
 import PublicLayout from '@layouts/PublicLayout'
+import { useQuery } from 'react-query'
+import _ from 'lodash'
+import { AppInitResponse, initializeAppService } from '@services/auth.services'
+import SetupPage from '@pages/setup'
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
+
 // Initialize React Ga with your tracking ID
 
 // eslint-disable-next-line no-console
@@ -34,7 +39,18 @@ moment.locale('mn')
 
 function App() {
   const { i18n } = useTranslation()
-  const { lang } = useAuth()
+  const { lang, isLoggedIn } = useAuth()
+
+  const { data: initData, isLoading: isInitializing } = useQuery({
+    queryKey: ['appInit'],
+    queryFn: initializeAppService,
+    enabled: isLoggedIn, // Only run when user is logged in
+    retry: 3, // Retry 3 times on failure
+    staleTime: Infinity, // Consider the data fresh forever since it's initialization data
+  })
+
+  // eslint-disable-next-line no-console
+  console.log(initData)
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -52,6 +68,7 @@ function App() {
     //     },
     //   })
   }, [])
+
   useEffect(() => {
     // eslint-disable-next-line no-console
     if (lang) {
@@ -59,6 +76,10 @@ function App() {
       moment.locale(lang)
     }
   }, [lang])
+
+  if (isLoggedIn && isInitializing) {
+    return <InitAppLoader />
+  }
 
   return (
     <CustomRouter history={customHistory}>
@@ -144,16 +165,23 @@ function App() {
         {/* MAIN PUBLIC STACK END */}
         {/* MAIN PRIVATE STACK START*/}
         <Route element={<PrivateOutlet />} path={'/'}>
-          <Route element={<MainLayout />} path={'/'}>
-            <Route
-              index
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <DashboardPage />
-                </Suspense>
-              }
-            />
-            {/* Project Route Pack Start */}
+          <Route
+            element={
+              <SetupOutlet initData={initData} isLoading={isInitializing} />
+            }
+            path={'/'}
+          >
+            <Route element={<MainLayout />} path={'/'}>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <DashboardPage />
+                  </Suspense>
+                }
+              />
+              {/* Project Route Pack Start */}
+            </Route>
           </Route>
         </Route>
 
@@ -200,6 +228,28 @@ const PrivateOutlet = () => {
   }, [location])
 
   return isLoggedIn ? <Outlet /> : <Navigate to={'/home'} />
+}
+
+const SetupOutlet = ({
+  initData,
+  isLoading,
+}: {
+  initData?: AppInitResponse
+  isLoading: boolean
+}) => {
+  if (isLoading) {
+    return <PageLoader />
+  }
+
+  if (_.isEmpty(initData?.connected_pages)) {
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <SetupPage initData={initData} />
+      </Suspense>
+    )
+  }
+
+  return <Outlet />
 }
 
 const PublicOutlet = () => {

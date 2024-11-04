@@ -113,7 +113,7 @@ export default function Footer() {
             </Typography>
             <MuiLink
               component={Link}
-              to="/features"
+              to="/#features"
               color="text.secondary"
               variant="body2"
             >
@@ -121,7 +121,7 @@ export default function Footer() {
             </MuiLink>
             <MuiLink
               component={Link}
-              to="/pricing"
+              to="/#pricing"
               color="text.secondary"
               variant="body2"
             >
@@ -129,7 +129,7 @@ export default function Footer() {
             </MuiLink>
             <MuiLink
               component={Link}
-              to="/faq"
+              to="/#faq"
               color="text.secondary"
               variant="body2"
             >

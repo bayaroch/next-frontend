@@ -3,6 +3,8 @@ const API = process.env.REACT_APP_AUTH_API
 export const URI = {
   API,
   LOGIN: '/auth/login',
+  INIT: '/page/app-init',
+  ADMIN_PAGES: '/page/admin',
 }
 
 export const excludeURI = [URI.LOGIN]
