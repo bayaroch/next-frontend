@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid2'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import i18next from 'i18next'
@@ -13,25 +12,21 @@ import { useTranslation } from 'react-i18next'
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
   width: '100%',
-  height: 600,
-  marginTop: theme.spacing(4),
+  height: 400, // Reduced height for mobile
+  marginTop: theme.spacing(2), // Reduced margin for mobile
   borderRadius: theme.shape.borderRadius,
-  // outline: '6px solid',
-  // outlineColor: 'hsla(220, 25%, 80%, 0.2)',
-  // border: '1px solid',
   borderColor: theme.palette.grey[200],
-  // boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
   backgroundImage: `url(${'/images/flow.png'})`,
-  backgroundSize: 'cover',
+  backgroundSize: 'contain', // Changed to contain to prevent cropping
+  backgroundPosition: 'center', // Center the background
+  backgroundRepeat: 'no-repeat',
   [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(4),
     height: 600,
+    marginTop: theme.spacing(4),
   },
   ...theme.applyStyles('dark', {
-    // boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
     backgroundImage: `url(${'/images/flow.png'})`,
     outlineColor: 'hsla(220, 20%, 42%, 0.1)',
-    // borderColor: theme.palette.grey[700],
   }),
 }))
 
@@ -65,67 +60,80 @@ export default function Hero() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
-          pt: { xs: 14, sm: 24 },
-          pb: { xs: 8, sm: 12 },
+          pt: { xs: 12, sm: 12, md: 24 },
+          pb: { xs: 4, sm: 8, md: 12 },
         }}
       >
-        <Stack
-          spacing={2}
-          useFlexGap
-          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' } }}
+        <Typography
+          component="h1"
+          sx={{
+            fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
+            textAlign: 'center',
+            fontWeight: 500,
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: { xs: 1, sm: 2 },
+            mb: { xs: 1, sm: 1 },
+            mt: { sm: 4, md: 2 },
+          }}
         >
+          <span>{t('HOME.ai')}</span>
           <Typography
-            variant="h1"
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: 'center',
-              fontSize: 'clamp(3rem, 10vw, 3.5rem)',
-            }}
+            component="span"
+            sx={(theme) => ({
+              fontSize: 'inherit',
+              color: 'primary.main',
+              fontWeight: 500,
+              ...theme.applyStyles('dark', {
+                color: 'primary.light',
+              }),
+            })}
           >
-            {t('HOME.ai')} &nbsp;
-            <Typography
-              component="span"
-              variant="h1"
-              sx={(theme) => ({
-                fontSize: 'inherit',
-                color: 'primary.main',
-                ...theme.applyStyles('dark', {
-                  color: 'primary.light',
-                }),
-              })}
-            >
-              {t('HOME.slogan_one')}
-            </Typography>
+            {t('HOME.slogan_one')}
           </Typography>
-          <Typography
-            variant="h4"
-            sx={{
-              textAlign: 'center',
-              color: 'text.secondary',
-              width: { sm: '100%', md: '80%' },
-            }}
-          >
-            {t('HOME.slogan_two')}
-          </Typography>
-        </Stack>
-        <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ minWidth: 'fit-content', mt: 2 }}
-          >
-            {t('HOME.start_now')}
-          </Button>
-        </Box>
-        <Grid spacing={{ md: 2, lg: 4 }} container>
-          <Grid size={{ md: 7, sm: 12 }}>
+        </Typography>
+
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: 'center',
+            color: 'text.secondary',
+            width: '100%',
+            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
+            maxWidth: { sm: '100%', md: '80%' },
+            mb: { xs: 3, sm: 4 },
+          }}
+        >
+          {t('HOME.slogan_two')}
+        </Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            minWidth: 'fit-content',
+            mb: { xs: 4, sm: 6 },
+          }}
+        >
+          {t('HOME.start_now')}
+        </Button>
+
+        <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
+          <Grid size={{ xs: 12, sm: 12, md: 7 }}>
             <StyledBox id="image" />
           </Grid>
-          <Grid size={{ md: 5, sm: 12 }}>
+          <Grid size={{ xs: 12, sm: 12, md: 5 }}>
             <Box>
-              <Typography variant="body1" sx={{ marginTop: 15, fontSize: 16 }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: 16,
+                  mt: { xs: 2, md: 15 },
+                }}
+              >
                 <WpBox
                   lineCount={8}
                   id={ContentPages.description[`${i18next.language as lang}`]}
