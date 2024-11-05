@@ -43,6 +43,7 @@ export interface AppInitResponse {
     fb_page_id: string
     fb_name: string
   }[]
+  has_active_subscription: boolean
 }
 
 export const loginService = async (

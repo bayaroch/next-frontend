@@ -1,46 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { AppInitResponse } from '@services/auth.services'
-import {
-  AdminPagesService,
-  FacebookPage,
-  PageConnectService,
-} from '@services/page.services'
-import PageLoader from '@components/InitApp/PageLoader'
-import _ from 'lodash'
 import Grid from '@mui/material/Grid2'
 import SitemarkIcon from '@components/@public/SitemarkIcon'
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Radio,
-  Avatar,
-  Button,
-  Typography,
-  ListItemAvatar,
-  Stack,
-} from '@mui/material'
+import { Box, Typography, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import ConnectPages from '@containers/ConnectPages'
-import SurveyPages from '@containers/SurveyPages'
 
-const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
-  const isEmptyConnect = !!initData && _.isEmpty(initData.connected_pages)
-  const isSurveyOpen = !!initData && !initData?.user_info.has_filled_poll
-
-  const renderInitContent = () => {
-    if (isEmptyConnect && !isSurveyOpen) {
-      return <ConnectPages />
-    }
-    if (isEmptyConnect && isSurveyOpen) {
-      return <SurveyPages />
-    }
-    return null
-  }
-
+const Connect = () => {
   const { t } = useTranslation()
 
   return (
@@ -117,7 +81,7 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
               gap: 4,
             }}
           >
-            {renderInitContent()}
+            <ConnectPages />
           </Box>
         </Grid>
       </Grid>
@@ -125,4 +89,4 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
   )
 }
 
-export default SetupPage
+export default Connect

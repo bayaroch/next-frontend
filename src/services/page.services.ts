@@ -5,7 +5,6 @@ export interface FacebookPage {
   id: string
   name: string
   category: string
-  access_token: string
   picture: {
     data: {
       height: number
@@ -39,7 +38,6 @@ export const AdminPagesService = async (): Promise<PagesListResponse> => {
 
 export interface PageConnetPayload {
   fb_page_id: number
-  b_long_lived_page_access_token: string
 }
 
 export const PageConnectService = async (

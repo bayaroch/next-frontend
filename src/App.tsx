@@ -25,12 +25,12 @@ import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
 import PublicLayout from '@layouts/PublicLayout'
 import { useQuery } from 'react-query'
-import _ from 'lodash'
 import { AppInitResponse, initializeAppService } from '@services/auth.services'
 import SetupPage from '@pages/setup'
+import _ from 'lodash'
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
-
+const Connect = lazy(() => import('@pages/connect'))
 // Initialize React Ga with your tracking ID
 
 // eslint-disable-next-line no-console
@@ -167,7 +167,7 @@ function App() {
         <Route element={<PrivateOutlet />} path={'/'}>
           <Route
             element={
-              <SetupOutlet initData={initData} isLoading={isInitializing} />
+              <PaymentOutlet initData={initData} isLoading={isInitializing} />
             }
             path={'/'}
           >
@@ -177,6 +177,14 @@ function App() {
                 element={
                   <Suspense fallback={<PageLoader />}>
                     <DashboardPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="connect"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <Connect />
                   </Suspense>
                 }
               />
@@ -230,7 +238,7 @@ const PrivateOutlet = () => {
   return isLoggedIn ? <Outlet /> : <Navigate to={'/home'} />
 }
 
-const SetupOutlet = ({
+const PaymentOutlet = ({
   initData,
   isLoading,
 }: {
@@ -238,17 +246,23 @@ const SetupOutlet = ({
   isLoading: boolean
 }) => {
   if (isLoading) {
-    return <PageLoader />
+    return <InitAppLoader />
   }
 
-  if (_.isEmpty(initData?.connected_pages)) {
+  if (initData && !initData.has_active_subscription) {
+    return <Suspense fallback={<PageLoader />}>Payment page</Suspense>
+  }
+
+  if (
+    (initData && initData.user_info.has_filled_poll) ||
+    (initData && _.isEmpty(initData.connected_pages))
+  ) {
     return (
       <Suspense fallback={<PageLoader />}>
         <SetupPage initData={initData} />
       </Suspense>
     )
   }
-
   return <Outlet />
 }
 

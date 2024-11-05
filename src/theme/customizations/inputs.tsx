@@ -59,7 +59,7 @@ export const inputsCustomizations: Components<Theme> = {
               color: 'white',
               backgroundColor: gray[900],
               // backgroundImage: `linear-gradient(to bottom, ${gray[700]}, ${gray[800]})`,
-              boxShadow: `inset 0 1px 0 ${gray[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
+              // boxShadow: `inset 0 1px 0 ${gray[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
               // border: `1px solid ${gray[700]}`,
               '&:hover': {
                 backgroundImage: 'none',

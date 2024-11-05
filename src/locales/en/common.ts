@@ -14,6 +14,17 @@ export default {
     sign_in_facebook: 'Sign with Facebook',
     accept_permission: 'Accept all permission to use our feature',
     home: 'Home',
+    welcome: 'Welcome to Kommai',
+    description1:
+      "We're excited to have you here! To get started with Kommai, please configure your initial settings.",
+    description2:
+      "First, select the Facebook Page you'd like to connect with Kommai. This will allow us to manage your page's messaging and customer interactions effectively.",
+    note: "Don't worry, you can always modify these settings later in your account preferences.",
+    selectPage: 'Select an Facebook Page',
+    continue: 'Continue',
+    noPages: 'No facebook pages available.',
+    followers: 'followers',
+    page: 'Page',
   },
   HOME: {
     home: 'Home',
