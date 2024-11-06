@@ -20,6 +20,12 @@ export interface UserInput {
   iat: number
 }
 
+export interface ConnectedPage {
+  fb_page_id: string
+  fb_name: string
+  is_default?: boolean
+}
+
 export interface AppInitResponse {
   page_info: {
     name: string
@@ -35,10 +41,7 @@ export interface AppInitResponse {
     page_rate_limit: number
   } | null
   user_info: UserInput
-  connected_pages: {
-    fb_page_id: string
-    fb_name: string
-  }[]
+  connected_pages: ConnectedPage[]
   has_active_subscription: boolean
 }
 

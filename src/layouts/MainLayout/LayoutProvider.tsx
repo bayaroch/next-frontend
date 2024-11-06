@@ -1,50 +1,40 @@
-import { useMediaQuery } from '@mui/material'
-import theme from '@theme/index'
-import React, {
-  PropsWithChildren,
-  createContext,
-  useEffect,
-  useState,
-} from 'react'
+import { useAuth } from '@global/AuthContext'
+import React, { PropsWithChildren, createContext, useState } from 'react'
 
 interface LayoutContextProps {
   isSidebarOpen: boolean
   toggleSidebar: (state: boolean) => void
+  logout: () => void
+  lang: string
+  changeLanguage: (v: string) => void
 }
 
 const defaultValue: LayoutContextProps = {
   isSidebarOpen: false,
   toggleSidebar: () => null,
+  logout: () => null,
+  lang: 'mn',
+  changeLanguage: () => null,
 }
 
 const LayoutContext = createContext<LayoutContextProps>(defaultValue)
 
 const LayoutProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState<boolean>(false)
-
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const { logout, lang, changeLanguage } = useAuth()
 
   const toggleSidebar = (state: boolean) => {
     setSidebarOpen(state)
   }
-
-  useEffect(() => {
-    if (isMobile) {
-      setSidebarOpen(false)
-    }
-  }, [isMobile])
-
-  useEffect(() => {
-    if (!isMobile) {
-      setSidebarOpen(true)
-    }
-  }, [])
 
   return (
     <LayoutContext.Provider
       value={{
         isSidebarOpen,
         toggleSidebar,
+        logout,
+        lang,
+        changeLanguage,
       }}
     >
       {children}
