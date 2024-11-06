@@ -13,15 +13,11 @@ export interface UserInput {
   user_id: string
   email: string
   first_name: string
-  last_name: string
   fb_name: string
   exp: number
   fb_id: string
-  has_used_free_trail: boolean
-  has_filled_poll: boolean
-  poll_responses: any
-  updated_at: string
-  created_at: string
+  has_survey_filled: boolean
+  iat: number
 }
 
 export interface AppInitResponse {

@@ -8,6 +8,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@marko19907/string-to-color": "^1.0.0",
     "@mui/icons-material": "^6.1.4",
+    "@mui/lab": "6.0.0-beta.14",
     "@mui/material": "^6.1.4",
     "@mui/styled-engine": "^6.1.4",
     "@reach/rect": "^0.18.0",

@@ -25,6 +25,9 @@ export default {
     noPages: 'No facebook pages available.',
     followers: 'followers',
     page: 'Page',
+    connect: 'Connect',
+    survey: 'Survey',
+    skip: 'Skip',
   },
   HOME: {
     home: 'Home',

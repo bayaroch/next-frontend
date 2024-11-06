@@ -28,15 +28,16 @@ import ConnectPages from '@containers/ConnectPages'
 import SurveyPages from '@containers/SurveyPages'
 
 const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
+  const isSurveyOpen = !!initData && !initData?.user_info.has_survey_filled
+  const [survey, setSurvey] = useState<boolean>(isSurveyOpen)
   const isEmptyConnect = !!initData && _.isEmpty(initData.connected_pages)
-  const isSurveyOpen = !!initData && !initData?.user_info.has_filled_poll
 
   const renderInitContent = () => {
-    if (isEmptyConnect && !isSurveyOpen) {
+    if (isEmptyConnect && !survey) {
       return <ConnectPages />
     }
-    if (isEmptyConnect && isSurveyOpen) {
-      return <SurveyPages />
+    if (isEmptyConnect && survey) {
+      return <SurveyPages onSkip={() => setSurvey(false)} />
     }
     return null
   }

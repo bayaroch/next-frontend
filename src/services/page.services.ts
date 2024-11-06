@@ -1,6 +1,12 @@
 import { URI } from '@constants/uri.constants'
 import { api } from './api'
 
+export enum PageStatus {
+  connected = 'connected',
+  not_connected = 'not_connected',
+  owned = 'owned',
+}
+
 export interface FacebookPage {
   id: string
   name: string
@@ -22,13 +28,28 @@ export interface FacebookPage {
   }
   fan_count: number
   followers_count: number
+  status: PageStatus
 }
 
 export type PagesListResponse = {
   data: FacebookPage[]
-  paging: {
-    cursors: { before: string; after: string }
-  }
+  has_more: boolean
+  pages_fetched: number
+  total_count: number
+}
+
+export type PageConnectResponse = {
+  created_at: number
+  fb_cover_image: string
+  fb_fan_count: number
+  fb_followers_count: number
+  fb_name: string
+  fb_page_id: string
+  fb_profile_image: string
+  is_default_page: boolean
+  sort_key: string
+  updated_at: number
+  user_id: string
 }
 
 export const AdminPagesService = async (): Promise<PagesListResponse> => {
@@ -37,12 +58,12 @@ export const AdminPagesService = async (): Promise<PagesListResponse> => {
 }
 
 export interface PageConnetPayload {
-  fb_page_id: number
+  fb_page_id: string
 }
 
 export const PageConnectService = async (
   payload: PageConnetPayload
 ): Promise<any> => {
-  const { data } = await api.post<any>(URI.ADMIN_PAGES, payload)
+  const { data } = await api.post<any>(URI.CONNECT, payload)
   return data
 }

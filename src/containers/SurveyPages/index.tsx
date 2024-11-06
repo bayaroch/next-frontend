@@ -25,10 +25,23 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-const SurveyPages = () => {
+interface SurveyPagesProps {
+  onSkip?: () => void
+}
+
+const SurveyPages: React.FC<SurveyPagesProps> = ({ onSkip }) => {
   const { t } = useTranslation()
 
-  return <>Survey</>
+  return (
+    <>
+      <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
+        {t('SYSCOMMON.survey')}
+      </Typography>
+      <Button variant="text" onClick={() => onSkip && onSkip()}>
+        Skip
+      </Button>
+    </>
+  )
 }
 
 export default SurveyPages

@@ -25,6 +25,9 @@ export default {
     noPages: 'Фэйсбүүк хуудас байхгүй байна.',
     followers: 'дагагч',
     page: 'Хуудас',
+    connect: 'Холбох',
+    survey: 'Судалгаа',
+    skip: 'Алгасах',
   },
   HOME: {
     home: 'Нүүр хуудас',

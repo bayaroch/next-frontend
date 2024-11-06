@@ -5,6 +5,8 @@ export const URI = {
   LOGIN: '/auth/login',
   INIT: '/page/app-init',
   ADMIN_PAGES: '/page/admin',
+  CONNECT: '/page/connect',
+  SWITCH: 'page/switch',
 }
 
 export const excludeURI = [URI.LOGIN]

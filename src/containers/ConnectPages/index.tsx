@@ -1,33 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { AppInitResponse } from '@services/auth.services'
 import {
   AdminPagesService,
   FacebookPage,
   PageConnectService,
 } from '@services/page.services'
 import PageLoader from '@components/InitApp/PageLoader'
-import _ from 'lodash'
-import Grid from '@mui/material/Grid2'
-import SitemarkIcon from '@components/@public/SitemarkIcon'
 import {
-  Box,
   List,
   ListItem,
   ListItemText,
-  Radio,
   Avatar,
-  Button,
   Typography,
   ListItemAvatar,
   Stack,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { LoadingButton } from '@mui/lab'
+import { useState } from 'react'
 
 const ConnectPages = () => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
+  const [connectingPageId, setConnectingPageId] = useState<string | null>(null)
 
   const { data, isLoading: isLoadingAdminPages } = useQuery({
     queryKey: ['adminPages'],
@@ -39,6 +33,10 @@ const ConnectPages = () => {
   const selectPageMutation = useMutation(PageConnectService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')
+      setConnectingPageId(null)
+    },
+    onError: () => {
+      setConnectingPageId(null)
     },
   })
 
@@ -48,7 +46,8 @@ const ConnectPages = () => {
 
   const handleContinue = (id: string) => {
     if (id) {
-      //   selectPageMutation.mutate(selectedPage)
+      setConnectingPageId(id)
+      selectPageMutation.mutate({ fb_page_id: id })
     }
   }
 
@@ -81,13 +80,21 @@ const ConnectPages = () => {
                   },
                 }}
                 secondaryAction={
-                  <Button
+                  <LoadingButton
                     onClick={() => handleContinue(page.id)}
                     variant="contained"
                     color="primary"
+                    loading={
+                      selectPageMutation.isLoading &&
+                      connectingPageId === page.id
+                    }
+                    disabled={
+                      selectPageMutation.isLoading &&
+                      connectingPageId !== page.id
+                    }
                   >
-                    Connect
-                  </Button>
+                    {t('SYSCOMMON.connect')}
+                  </LoadingButton>
                 }
               >
                 <ListItemAvatar>
