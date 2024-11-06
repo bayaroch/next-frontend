@@ -63,7 +63,14 @@ export interface PageConnetPayload {
 
 export const PageConnectService = async (
   payload: PageConnetPayload
+): Promise<PageConnectResponse> => {
+  const { data } = await api.post<PageConnectResponse>(URI.CONNECT, payload)
+  return data
+}
+
+export const PageSwitchService = async (
+  payload: PageConnetPayload
 ): Promise<any> => {
-  const { data } = await api.post<any>(URI.CONNECT, payload)
+  const { data } = await api.post<any>(URI.SWITCH, payload)
   return data
 }
