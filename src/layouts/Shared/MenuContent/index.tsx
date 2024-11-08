@@ -11,19 +11,25 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded'
 import { Quickreply } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const mainListItems = [
-  { text: 'Dashboard', icon: <HomeRoundedIcon />, to: '/' },
-  { text: 'Automations', icon: <Quickreply />, to: '/automations' },
+  { text: 'SYSCOMMON.dashboard', icon: <HomeRoundedIcon />, to: '/' },
+  { text: 'SYSCOMMON.automations', icon: <Quickreply />, to: '/automations' },
 ]
 
 const secondaryListItems = [
-  { text: 'Settings', icon: <SettingsRoundedIcon />, to: '/settings' },
-  { text: 'Home', icon: <InfoRoundedIcon />, to: '/home ' },
-  { text: 'Feedback', icon: <HelpRoundedIcon />, to: '/feedback ' },
+  {
+    text: 'SYSCOMMON.settings',
+    icon: <SettingsRoundedIcon />,
+    to: '/settings',
+  },
+  { text: 'SYSCOMMON.home_page', icon: <InfoRoundedIcon />, to: '/home ' },
+  { text: 'SYSCOMMON.feedback', icon: <HelpRoundedIcon />, to: '/feedback ' },
 ]
 
 const MenuContent: React.FC = () => {
+  const { t } = useTranslation()
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
@@ -37,7 +43,7 @@ const MenuContent: React.FC = () => {
           >
             <ListItemButton selected={index === 0}>
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText primary={t(item.text)} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -54,7 +60,7 @@ const MenuContent: React.FC = () => {
           >
             <ListItemButton>
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText primary={t(item.text)} />
             </ListItemButton>
           </ListItem>
         ))}

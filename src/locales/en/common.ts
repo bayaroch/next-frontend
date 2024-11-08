@@ -33,6 +33,20 @@ export default {
     disconnect_page: 'Are you sure u want to disconnect page?',
     disconnect_page_desc:
       'After disconnecting page all your automation will stop working',
+    automations: 'Automations',
+    settings: 'Settings',
+    home_page: 'Homepage',
+    feedback: 'Feedback',
+    profile: 'Profile',
+    account: 'Account',
+    not_found_code: '404',
+    permission_denied_code: '403',
+    denied_title: 'Permission Denied',
+    denied_desc: "You don't have permission to access this page.",
+    not_found_title: 'Page Not Found',
+    not_found_desc:
+      ' The page you are looking for does not exist or has been moved.',
+    go_to_home: 'Go to Home',
   },
   HOME: {
     home: 'Home',

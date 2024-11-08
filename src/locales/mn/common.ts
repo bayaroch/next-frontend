@@ -33,6 +33,20 @@ export default {
     disconnect_page: 'Are you sure u want to disconnect page?',
     disconnect_page_desc:
       'After disconnecting page all your automation will stop working',
+    automations: 'Автоматжуулалт',
+    settings: 'Тохиргоо',
+    home_page: 'Нүүр хуудас',
+    feedback: 'Санал гомдол',
+    profile: 'Профайл',
+    account: 'Хэрэглэгч',
+    not_found_code: '404',
+    permission_denied_code: '403',
+    denied_title: 'Эрхгүй байна',
+    denied_desc: 'Та энэ хуудсанд хандах эрхгүй байна',
+    not_found_title: 'Хуудас олдсонгүй',
+    not_found_desc: ' Таны хайж буй хуудас байхгүй эсвэл зөөсөн байна.',
+
+    go_to_home: 'Эхлэл рүү буцах',
   },
   HOME: {
     home: 'Нүүр хуудас',

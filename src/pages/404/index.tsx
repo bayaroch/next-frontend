@@ -22,12 +22,12 @@ const NotFound: React.FC = () => {
           display: 'flex',
         }}
       >
-        <Box
+        {/* <Box
           data-test-id="img"
           width={200}
           component={'img'}
           src={'/images/car_tree.1.gif'}
-        />
+        /> */}
       </Box>
       <Typography variant="h1" gutterBottom>
         {t('SYSCOMMON.not_found_code')}

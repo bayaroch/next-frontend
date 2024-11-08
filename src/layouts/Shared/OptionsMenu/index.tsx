@@ -66,8 +66,8 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ onLogout }) => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>{t('SYSCOMMON.profile')}</MenuItem>
+        <MenuItem onClick={handleClose}>{t('SYSCOMMON.account')}</MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLogout}
