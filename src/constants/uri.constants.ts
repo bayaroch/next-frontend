@@ -6,6 +6,7 @@ export const URI = {
   INIT: '/page/app-init',
   ADMIN_PAGES: '/page/admin',
   CONNECT: '/page/connect',
+  DISCONNECT: '/page/disconnect',
   SWITCH: 'page/switch',
 }
 

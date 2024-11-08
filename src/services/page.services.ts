@@ -4,7 +4,7 @@ import { api } from './api'
 export enum PageStatus {
   connected = 'connected',
   not_connected = 'not_connected',
-  owned = 'owned',
+  used = 'used',
 }
 
 export interface FacebookPage {
@@ -29,6 +29,7 @@ export interface FacebookPage {
   fan_count: number
   followers_count: number
   status: PageStatus
+  is_deleted?: boolean
 }
 
 export type PagesListResponse = {
@@ -65,6 +66,13 @@ export const PageConnectService = async (
   payload: PageConnetPayload
 ): Promise<PageConnectResponse> => {
   const { data } = await api.post<PageConnectResponse>(URI.CONNECT, payload)
+  return data
+}
+
+export const PageDisconnectService = async (
+  payload: PageConnetPayload
+): Promise<PageConnectResponse> => {
+  const { data } = await api.post<PageConnectResponse>(URI.DISCONNECT, payload)
   return data
 }
 

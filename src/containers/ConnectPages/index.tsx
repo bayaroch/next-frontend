@@ -3,6 +3,7 @@ import {
   AdminPagesService,
   FacebookPage,
   PageConnectService,
+  PageDisconnectService,
 } from '@services/page.services'
 import PageLoader from '@components/InitApp/PageLoader'
 import {
@@ -16,12 +17,15 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
-import { useState } from 'react'
+import { useConfirm } from '@components/Confirm'
 
 const ConnectPages = () => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
-  const [connectingPageId, setConnectingPageId] = useState<string | null>(null)
+
+  const confirm = useConfirm()
+
+  //useConfirm hook for confirm dialog
 
   const { data, isLoading: isLoadingAdminPages } = useQuery({
     queryKey: ['adminPages'],
@@ -30,24 +34,82 @@ const ConnectPages = () => {
     retry: 2,
   })
 
-  const selectPageMutation = useMutation(PageConnectService, {
+  const connectPageMutation = useMutation(PageConnectService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')
-      setConnectingPageId(null)
     },
-    onError: () => {
-      setConnectingPageId(null)
+    onError: () => {},
+  })
+
+  const disconnectPageMutation = useMutation(PageDisconnectService, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('appInit')
     },
+    onError: () => {},
   })
 
   if (isLoadingAdminPages) {
     return <PageLoader />
   }
 
-  const handleContinue = (id: string) => {
+  const handleConnect = (id: string) => {
     if (id) {
-      setConnectingPageId(id)
-      selectPageMutation.mutate({ fb_page_id: id })
+      connectPageMutation.mutate({ fb_page_id: id })
+    }
+  }
+
+  const handleDisconnect = (id: string) => {
+    if (id) {
+      confirm({
+        title: t('SYSCOMMON.disconnectPage'),
+        description: t('SYSCOMMON.disconnectPageDesc'),
+        confirmationText: t('SYSCOMMON.disconnect'),
+        cancellationText: t('SYSCOMMON.cancel'),
+      })
+        .then(() => {
+          disconnectPageMutation.mutate({ fb_page_id: id })
+        })
+        .catch(() => {
+          // eslint-disable-next-line no-console
+          console.log('Cancel')
+        })
+    }
+  }
+
+  // i wanna make renderButton function that renders loading button differently based on enum status text also disable logic
+  const renderButton = (page: FacebookPage) => {
+    if (page.status === 'connected') {
+      return (
+        <LoadingButton
+          variant="contained"
+          onClick={() => handleDisconnect(page.id)}
+          color="primary"
+        >
+          {t('SYSCOMMON.disconnect')}
+        </LoadingButton>
+        // make disconnect button
+      )
+    } else if (page.status === 'used') {
+      return (
+        <LoadingButton variant="contained" color="primary" disabled>
+          {t('SYSCOMMON.used')}
+        </LoadingButton>
+      )
+    } else {
+      return (
+        <LoadingButton
+          onClick={() => handleConnect(page.id)}
+          variant="contained"
+          color="primary"
+          loading={
+            connectPageMutation.isLoading &&
+            connectPageMutation.variables?.fb_page_id === page.id
+          } // how to get payload of connectPageMutation
+          disabled={connectPageMutation.isLoading}
+        >
+          {t('SYSCOMMON.connect')}
+        </LoadingButton>
+      )
     }
   }
 
@@ -79,23 +141,7 @@ const ConnectPages = () => {
                     bgcolor: 'action.hover',
                   },
                 }}
-                secondaryAction={
-                  <LoadingButton
-                    onClick={() => handleContinue(page.id)}
-                    variant="contained"
-                    color="primary"
-                    loading={
-                      selectPageMutation.isLoading &&
-                      connectingPageId === page.id
-                    }
-                    disabled={
-                      selectPageMutation.isLoading &&
-                      connectingPageId !== page.id
-                    }
-                  >
-                    {t('SYSCOMMON.connect')}
-                  </LoadingButton>
-                }
+                secondaryAction={renderButton(page)}
               >
                 <ListItemAvatar>
                   <Avatar src={page.cover.source || undefined} alt={page.name}>

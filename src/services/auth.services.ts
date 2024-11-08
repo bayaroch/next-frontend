@@ -23,7 +23,7 @@ export interface UserInput {
 export interface ConnectedPage {
   fb_page_id: string
   fb_name: string
-  is_default?: boolean
+  is_default_page: boolean
 }
 
 export interface AppInitResponse {
