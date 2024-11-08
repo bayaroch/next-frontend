@@ -7,10 +7,17 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { LayoutContext } from './LayoutProvider'
 import SideMenu from '@layouts/Shared/SideMenu'
 import AppNavbar from '@layouts/Shared/AppNavbar'
+import { useQueryClient } from 'react-query'
+import { AppInitResponse } from '@services/auth.services'
 
 const MainLayout: React.FC<PropsWithChildren> = () => {
   const { isSidebarOpen, toggleSidebar, changeLanguage, lang, logout } =
     useContext(LayoutContext)
+
+  const queryClient = useQueryClient()
+  const initData: AppInitResponse | undefined = queryClient.getQueryData([
+    'appInit',
+  ])
 
   return (
     <>
@@ -22,8 +29,13 @@ const MainLayout: React.FC<PropsWithChildren> = () => {
         }}
       >
         <Box sx={{ display: 'flex', height: '100%' }}>
-          <SideMenu />
-          <AppNavbar />
+          <SideMenu initData={initData} onLogout={logout} />
+          <AppNavbar
+            initData={initData}
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={toggleSidebar}
+            onLogout={logout}
+          />
           {/* Main content */}
           <Box
             component="main"

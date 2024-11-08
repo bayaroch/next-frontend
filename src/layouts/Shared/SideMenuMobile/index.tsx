@@ -8,21 +8,28 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import MenuButton from '../MenuButton'
 import MenuContent from '../MenuContent'
+import { AppInitResponse } from '@services/auth.services'
+import { useTranslation } from 'react-i18next'
 
 interface SideMenuMobileProps {
-  open: boolean | undefined
-  toggleDrawer: (newOpen: boolean) => () => void
+  open: boolean
+  toggleDrawer: (newOpen: boolean) => void
+  initData: AppInitResponse
+  onLogout: () => void
 }
 
 export default function SideMenuMobile({
   open,
   toggleDrawer,
+  onLogout,
+  initData,
 }: SideMenuMobileProps) {
+  const { t } = useTranslation()
   return (
     <Drawer
       anchor="right"
       open={open}
-      onClose={toggleDrawer(false)}
+      onClose={() => toggleDrawer(false)}
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
         [`& .${drawerClasses.paper}`]: {
@@ -49,7 +56,7 @@ export default function SideMenuMobile({
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              {initData.user_info.first_name}
             </Typography>
           </Stack>
           <MenuButton showBadge>
@@ -64,10 +71,11 @@ export default function SideMenuMobile({
         <Stack sx={{ p: 2 }}>
           <Button
             variant="outlined"
+            onClick={() => onLogout()}
             fullWidth
             startIcon={<LogoutRoundedIcon />}
           >
-            Logout
+            {t('SYSCOMMON.logout')}
           </Button>
         </Stack>
       </Stack>

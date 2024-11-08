@@ -61,8 +61,8 @@ const ConnectPages = () => {
   const handleDisconnect = (id: string) => {
     if (id) {
       confirm({
-        title: t('SYSCOMMON.disconnectPage'),
-        description: t('SYSCOMMON.disconnectPageDesc'),
+        title: t('SYSCOMMON.disconnect_page'),
+        description: t('SYSCOMMON.disconnect_page_desc'),
         confirmationText: t('SYSCOMMON.disconnect'),
         cancellationText: t('SYSCOMMON.cancel'),
       })

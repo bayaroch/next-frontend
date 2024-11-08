@@ -30,6 +30,9 @@ export default {
     skip: 'Алгасах',
     used: 'Ашиглагдсан',
     disconnect: 'Салгах',
+    disconnect_page: 'Are you sure u want to disconnect page?',
+    disconnect_page_desc:
+      'After disconnecting page all your automation will stop working',
   },
   HOME: {
     home: 'Нүүр хуудас',

@@ -10,24 +10,31 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded'
 import { Quickreply } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 const mainListItems = [
-  { text: 'Home', icon: <HomeRoundedIcon /> },
-  { text: 'Automations', icon: <Quickreply /> },
+  { text: 'Dashboard', icon: <HomeRoundedIcon />, to: '/' },
+  { text: 'Automations', icon: <Quickreply />, to: '/automations' },
 ]
 
 const secondaryListItems = [
-  { text: 'Settings', icon: <SettingsRoundedIcon /> },
-  { text: 'Home', icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', icon: <HelpRoundedIcon /> },
+  { text: 'Settings', icon: <SettingsRoundedIcon />, to: '/settings' },
+  { text: 'Home', icon: <InfoRoundedIcon />, to: '/home ' },
+  { text: 'Feedback', icon: <HelpRoundedIcon />, to: '/feedback ' },
 ]
 
-export default function MenuContent() {
+const MenuContent: React.FC = () => {
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+          <ListItem
+            component={Link}
+            to={item.to}
+            key={index}
+            disablePadding
+            sx={{ display: 'block', color: 'inherit' }}
+          >
             <ListItemButton selected={index === 0}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
@@ -38,7 +45,13 @@ export default function MenuContent() {
 
       <List dense>
         {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+          <ListItem
+            component={Link}
+            to={item.to}
+            key={index}
+            disablePadding
+            sx={{ display: 'block', color: 'inherit' }}
+          >
             <ListItemButton>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
@@ -49,3 +62,4 @@ export default function MenuContent() {
     </Stack>
   )
 }
+export default MenuContent

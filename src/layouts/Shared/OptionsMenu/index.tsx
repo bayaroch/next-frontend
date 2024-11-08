@@ -10,20 +10,33 @@ import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded'
 import MenuButton from '../MenuButton'
+import { useTranslation } from 'react-i18next'
 
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
 })
 
-export default function OptionsMenu() {
+interface OptionsMenuProps {
+  onLogout: () => void
+}
+
+const OptionsMenu: React.FC<OptionsMenuProps> = ({ onLogout }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const { t } = useTranslation()
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const handleLogout = () => {
+    handleClose()
+    onLogout()
+  }
+
   return (
     <React.Fragment>
       <MenuButton
@@ -56,11 +69,8 @@ export default function OptionsMenu() {
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
-        <Divider />
         <MenuItem
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: 'auto',
@@ -68,7 +78,7 @@ export default function OptionsMenu() {
             },
           }}
         >
-          <ListItemText>Logout</ListItemText>
+          <ListItemText>{t('SYSCOMMON.logout')}</ListItemText>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>
@@ -77,3 +87,4 @@ export default function OptionsMenu() {
     </React.Fragment>
   )
 }
+export default OptionsMenu
