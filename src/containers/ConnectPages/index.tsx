@@ -37,15 +37,15 @@ const ConnectPages = () => {
   const connectPageMutation = useMutation(PageConnectService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')
+      queryClient.invalidateQueries('adminPages')
     },
-    onError: () => {},
   })
 
   const disconnectPageMutation = useMutation(PageDisconnectService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')
+      queryClient.invalidateQueries('adminPages')
     },
-    onError: () => {},
   })
 
   if (isLoadingAdminPages) {

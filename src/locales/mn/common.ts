@@ -28,6 +28,8 @@ export default {
     connect: 'Холбох',
     survey: 'Судалгаа',
     skip: 'Алгасах',
+    used: 'Ашиглагдсан',
+    disconnect: 'Салгах',
   },
   HOME: {
     home: 'Нүүр хуудас',

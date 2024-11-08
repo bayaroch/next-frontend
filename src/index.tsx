@@ -9,29 +9,32 @@ import reportWebVitals from './reportWebVitals'
 import { LayoutProvider } from '@layouts/MainLayout/LayoutProvider'
 import '@locales/i18n'
 import { AuthProvider } from 'global/AuthContext'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import getMainTheme from '@theme/getMainTheme'
 import { PublicLayoutProvider } from '@layouts/PublicLayout/PublicProvider'
+import { ToastProvider } from '@components/ToastProvider'
+import QueryWrapper from '@components/QueryClientWrapper'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-const queryClient = new QueryClient()
+
 const mode: PaletteMode = 'light'
 const theme = createTheme(getMainTheme(mode))
 
 root.render(
   <ThemeProvider theme={theme}>
     <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <PublicLayoutProvider>
-          <LayoutProvider>
-            <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline enableColorScheme />
-              <App />
-            </ConfirmProvider>
-          </LayoutProvider>
-        </PublicLayoutProvider>
-      </QueryClientProvider>
+      <ToastProvider>
+        <QueryWrapper>
+          <PublicLayoutProvider>
+            <LayoutProvider>
+              <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline enableColorScheme />
+                <App />
+              </ConfirmProvider>
+            </LayoutProvider>
+          </PublicLayoutProvider>
+        </QueryWrapper>
+      </ToastProvider>
     </AuthProvider>
   </ThemeProvider>
 )

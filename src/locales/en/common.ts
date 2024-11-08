@@ -28,6 +28,8 @@ export default {
     connect: 'Connect',
     survey: 'Survey',
     skip: 'Skip',
+    used: 'Used',
+    disconnect: 'Disconnect',
   },
   HOME: {
     home: 'Home',
