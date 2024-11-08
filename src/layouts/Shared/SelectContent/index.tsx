@@ -7,22 +7,33 @@ import Select, { SelectChangeEvent, selectClasses } from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
 import _ from 'lodash'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
-import { useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { ConnectedPage } from '@services/auth.services'
 import { Link } from 'react-router-dom'
+import { PageSwitchService } from '@services/page.services'
+import { useTranslation } from 'react-i18next'
+import { Check } from '@mui/icons-material'
 
 export default function SelectContent() {
   const queryClient = useQueryClient()
   const initData = queryClient.getQueryData(['appInit'])
   const connectedPages = _.get(initData, 'connected_pages', [])
-  // eslint-disable-next-line no-console
-  console.log('im hhere in child', initData)
+  const { t } = useTranslation()
+
+  const current = _.get(initData, 'page_info.fb_page_id', '')
+
+  const switchPageMutation = useMutation(PageSwitchService, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('appInit')
+    },
+  })
 
   const handleChange = (event: SelectChangeEvent) => {
-    // eslint-disable-next-line no-console
-    console.log(event.target.value)
+    const value = event.target.value
+    if (value !== current) {
+      switchPageMutation.mutate({ fb_page_id: value })
+    }
   }
-  const current = _.get(initData, 'page_info.fb_page_id', '')
 
   return (
     <Select
@@ -47,11 +58,14 @@ export default function SelectContent() {
         },
       }}
     >
-      <ListSubheader sx={{ pt: 0 }}>Connected pages</ListSubheader>
+      <ListSubheader sx={{ pt: 0 }}>
+        {t('SYSCOMMON.connected_pages')}
+      </ListSubheader>
       {connectedPages &&
         connectedPages.map((p: ConnectedPage) => {
           return (
             <MenuItem key={p.fb_page_id} value={p.fb_page_id}>
+              {p.is_default_page && <Check sx={{ fontSize: 10, mr: 1 }} />}
               <ListItemText primary={p.fb_name} />
             </MenuItem>
           )
@@ -64,7 +78,7 @@ export default function SelectContent() {
             <AddRoundedIcon />
           </ListItemIcon>
 
-          <ListItemText primary="Add new page" />
+          <ListItemText primary={t('SYSCOMMON.add_new_page')} />
         </MenuItem>
       </Link>
     </Select>

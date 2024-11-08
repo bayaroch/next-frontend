@@ -47,6 +47,8 @@ export default {
     not_found_desc:
       ' The page you are looking for does not exist or has been moved.',
     go_to_home: 'Go to Home',
+    connected_pages: 'Connected pages',
+    add_new_page: 'Add new page',
   },
   HOME: {
     home: 'Home',

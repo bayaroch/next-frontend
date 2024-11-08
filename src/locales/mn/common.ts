@@ -45,8 +45,9 @@ export default {
     denied_desc: 'Та энэ хуудсанд хандах эрхгүй байна',
     not_found_title: 'Хуудас олдсонгүй',
     not_found_desc: ' Таны хайж буй хуудас байхгүй эсвэл зөөсөн байна.',
-
     go_to_home: 'Эхлэл рүү буцах',
+    connected_pages: 'Холбогдсон хуудсууд',
+    add_new_page: 'Шинээр нэмэх',
   },
   HOME: {
     home: 'Нүүр хуудас',
