@@ -98,6 +98,10 @@ const AutomationListPage: React.FC = () => {
     },
     {
       retry: 1,
+      onError: (error) => {
+        console.error('Error fetching posts:', error)
+        // Handle the error appropriately
+      },
     }
   )
 

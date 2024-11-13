@@ -1,4 +1,3 @@
-import { useToast } from '@components/ToastProvider'
 import axios from 'axios'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
@@ -28,33 +27,19 @@ export const handleErrorMessage = (error: unknown) => {
 }
 
 const QueryWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { showToast } = useToast()
-
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         retry: 1,
         onError: (error) => {
-          showToast(
-            handleErrorMessage(error) || 'An unexpected error occurred',
-            {
-              severity: 'error',
-              autoHideDuration: 3000,
-            }
-          )
+          // eslint-disable-next-line no-console
+          console.log(handleErrorMessage(error), error)
         },
       },
       mutations: {
         onError: (error) => {
           // eslint-disable-next-line no-console
           console.log(handleErrorMessage(error), error)
-          showToast(
-            handleErrorMessage(error) || 'An unexpected error occurred',
-            {
-              severity: 'error',
-              autoHideDuration: 3000,
-            }
-          )
         },
       },
     },
