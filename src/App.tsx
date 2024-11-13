@@ -28,6 +28,7 @@ import { useQuery } from 'react-query'
 import { AppInitResponse, initializeAppService } from '@services/auth.services'
 import SetupPage from '@pages/setup'
 import _ from 'lodash'
+const AutomationListPage = lazy(() => import('@pages/automations'))
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
 const Connect = lazy(() => import('@pages/connect'))
@@ -177,6 +178,14 @@ function App() {
                 element={
                   <Suspense fallback={<PageLoader />}>
                     <DashboardPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="automations"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <AutomationListPage />
                   </Suspense>
                 }
               />

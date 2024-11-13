@@ -7,7 +7,9 @@ export const URI = {
   ADMIN_PAGES: '/page/admin',
   CONNECT: '/page/connect',
   DISCONNECT: '/page/disconnect',
-  SWITCH: 'page/switch',
+  SWITCH: '/page/switch',
+  AUTOMATIONS: 'automation',
+  PAGE: '/page',
 }
 
 export const excludeURI = [URI.LOGIN]

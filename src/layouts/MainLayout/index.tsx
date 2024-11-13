@@ -57,7 +57,7 @@ const MainLayout: React.FC<PropsWithChildren> = () => {
               }}
             >
               <Header lang={lang} changeLanguage={changeLanguage} />
-              <Box>
+              <Box sx={{ width: '100%' }}>
                 <Outlet />
               </Box>
             </Stack>

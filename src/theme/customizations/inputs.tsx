@@ -377,6 +377,31 @@ export const inputsCustomizations: Components<Theme> = {
       },
     },
   },
+  MuiAutocomplete: {
+    styleOverrides: {
+      endAdornment: {
+        '& .MuiButtonBase-root.MuiAutocomplete-popupIndicator.MuiIconButton-root':
+          {
+            padding: '0px',
+            height: '30px',
+            width: '30px',
+          },
+        '& .MuiSvgIcon-root': {
+          fontSize: '1.2rem', // Adjust this value to change the icon size
+        },
+      },
+      popupIndicator: {
+        '&.MuiAutocomplete-popupIndicator': {
+          padding: '2px', // Adjust this value to change the clickable area size
+        },
+      },
+      clearIndicator: {
+        '&.MuiAutocomplete-clearIndicator': {
+          padding: '2px', // Adjust this value to change the clickable area size
+        },
+      },
+    },
+  },
   MuiOutlinedInput: {
     styleOverrides: {
       input: {

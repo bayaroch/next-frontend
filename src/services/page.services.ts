@@ -58,6 +58,36 @@ export const AdminPagesService = async (): Promise<PagesListResponse> => {
   return data
 }
 
+export interface Post {
+  id: string
+  full_picture: string
+  message?: string
+  story?: string
+  created_time: string
+}
+
+export interface GetPostsResponse {
+  data: Post[]
+}
+
+export interface GetPostsParams {
+  pageId: string
+  perPage?: string
+}
+
+export const GetPostsService = async (
+  params: GetPostsParams
+): Promise<GetPostsResponse> => {
+  const { pageId, perPage = '50' } = params
+  const { data } = await api.get<GetPostsResponse>(
+    `${URI.PAGE}/${pageId}/post`,
+    {
+      params: { perPage },
+    }
+  )
+  return data
+}
+
 export interface PageConnetPayload {
   fb_page_id: string
 }
