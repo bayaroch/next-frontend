@@ -28,6 +28,7 @@ import {
   ListItemAvatar,
   ListItemText,
   OutlinedInput,
+  Paper,
   styled,
   Typography,
 } from '@mui/material'
@@ -38,6 +39,7 @@ import useAutomationCreateForm from './useAutomationCreateForm'
 import Grid from '@mui/material/Grid2'
 import { FieldValues } from 'react-hook-form'
 import moment from 'moment'
+import AutomationListItem from '@components/Automation/AutomationListItem'
 
 const ITEMS_PER_PAGE = 10
 
@@ -84,6 +86,7 @@ const AutomationListPage: React.FC = () => {
     {
       retry: 1,
       enabled: !!pageId,
+      refetchOnWindowFocus: false,
     }
   )
 
@@ -98,6 +101,8 @@ const AutomationListPage: React.FC = () => {
     },
     {
       retry: 1,
+      refetchOnWindowFocus: false,
+      enabled: open,
       onError: (error) => {
         console.error('Error fetching posts:', error)
         // Handle the error appropriately
@@ -180,17 +185,18 @@ const AutomationListPage: React.FC = () => {
           Create Automation
         </Button>
       </Box>
-
-      <List>
-        {automationsData?.data.map((automation) => (
-          <ListItem
-            key={automation.automation_id}
-            onClick={() => navigate(`/automation/${automation.automation_id}`)}
-          >
-            <ListItemText primary={automation.name} />
-          </ListItem>
-        ))}
-      </List>
+      <Paper elevation={2} sx={{ overflow: 'hidden' }}>
+        <List sx={{ p: 0 }}>
+          {automationsData?.data.map((automation) => (
+            <AutomationListItem
+              key={automation.automation_id}
+              data={automation}
+              onEdit={() => null}
+              onDelete={() => null}
+            />
+          ))}
+        </List>
+      </Paper>
 
       {/* <Box display="flex" justifyContent="center" mt={2}>
         <Pagination
@@ -202,7 +208,13 @@ const AutomationListPage: React.FC = () => {
         />
       </Box> */}
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Create Automation</DialogTitle>
           <DialogContent>

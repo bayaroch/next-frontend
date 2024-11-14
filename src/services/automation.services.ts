@@ -14,6 +14,8 @@ export interface Automation {
   fb_page_post_id: string
   name: string
   comment_responses: CommentResponse[]
+  updated_at: string
+  created_at: string
 }
 
 export interface CreateAutomationInput {
