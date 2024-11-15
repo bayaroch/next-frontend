@@ -64,6 +64,17 @@ export interface Post {
   message?: string
   story?: string
   created_time: string
+  permalink: string
+  likes?: {
+    summary: { total_count: number; can_like: boolean; has_liked: boolean }
+  }
+  comments?: {
+    summary: { total_count: number; can_comment: boolean }
+  }
+  shares?: { count: number }
+  is_published: boolean
+  icon?: string
+  //add other graph api fields icon comments likes
 }
 
 export interface GetPostsResponse {

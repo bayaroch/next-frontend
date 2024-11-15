@@ -13,33 +13,13 @@ import {
   AutomationService,
   CreateAutomationInput,
 } from '@services/automation.services'
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  FormLabel,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  OutlinedInput,
-  Paper,
-  styled,
-  Typography,
-} from '@mui/material'
+import { Box, Button, List, Paper, styled, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
 import _ from 'lodash'
-import useAutomationCreateForm from './useAutomationCreateForm'
 import Grid from '@mui/material/Grid2'
-import { FieldValues } from 'react-hook-form'
-import moment from 'moment'
 import AutomationListItem from '@components/Automation/AutomationListItem'
+import CreateAutomationDialog from './CreateAutomationDialog'
 
 const ITEMS_PER_PAGE = 10
 
@@ -60,14 +40,6 @@ const AutomationListPage: React.FC = () => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
-
-  const { Controller, methods } = useAutomationCreateForm()
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid, isDirty },
-  } = methods
 
   // Assume you have pageId from somewhere (e.g., from URL params or context)
   const pageId = connectedPages.find(
@@ -97,7 +69,7 @@ const AutomationListPage: React.FC = () => {
     ['posts', pageId],
     () => {
       if (!pageId) throw new Error('Page ID is required')
-      return GetPostsService({ pageId, perPage: '10' })
+      return GetPostsService({ pageId, perPage: '50' })
     },
     {
       retry: 1,
@@ -120,25 +92,6 @@ const AutomationListPage: React.FC = () => {
     },
   })
 
-  const handleCreate = () => {
-    if (automationName && selectedPostId && pageId) {
-      createAutomationMutation.mutate(
-        {
-          pageId,
-          input: {
-            name: automationName,
-            fb_page_post_id: selectedPostId,
-          },
-        },
-        {
-          onSuccess: (data) => {
-            navigate(`/automation/${data.data.automation_id}`)
-          },
-        }
-      )
-    }
-  }
-
   const handleClose = () => setOpen(false)
 
   const handleOpen = () => setOpen(true)
@@ -150,7 +103,7 @@ const AutomationListPage: React.FC = () => {
     setPage(value)
   }
 
-  const onSubmit = (data: any) => {
+  const handleSubmit = (data: any) => {
     // eslint-disable-next-line no-console
     console.log(data, pageId, data.fb_page_post_id)
     alert('aa')
@@ -208,118 +161,12 @@ const AutomationListPage: React.FC = () => {
         />
       </Box> */}
 
-      <Dialog
-        fullScreen
+      <CreateAutomationDialog
         open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth="sm"
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Create Automation</DialogTitle>
-          <DialogContent>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field: { ref, ...rest } }: FieldValues) => (
-                <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
-                  <FormLabel htmlFor="first-name" required>
-                    Automation Name:
-                  </FormLabel>
-                  <OutlinedInput
-                    {...rest}
-                    error={!!errors?.name}
-                    inputRef={ref}
-                    placeholder="Give name"
-                    autoComplete="Automation name"
-                    required
-                  />
-                </FormGrid>
-              )}
-            />
-
-            <Controller
-              name="fb_page_post_id"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Autocomplete
-                  options={posts?.data || []}
-                  getOptionLabel={(option: Post) =>
-                    option.message || 'No message'
-                  }
-                  renderInput={(params) => (
-                    <FormControl fullWidth variant="outlined">
-                      <FormLabel htmlFor="fb_page_post_id" required>
-                        Choose Post:
-                      </FormLabel>
-                      <OutlinedInput
-                        {...params.InputProps}
-                        error={!!errors?.fb_page_post_id}
-                        id="fb_page_post_id"
-                        size="medium"
-                        inputProps={{
-                          ...params.inputProps,
-                          placeholder: 'Select a post',
-                        }}
-                      />
-                    </FormControl>
-                  )}
-                  onChange={(_, newValue) => {
-                    onChange(newValue)
-                  }}
-                  value={value as any}
-                  renderOption={(props, option) => (
-                    <ListItem {...props} key={option.id}>
-                      <ListItemAvatar sx={{ mr: 1 }}>
-                        <Box
-                          sx={{ width: 100, height: 40, background: '#eee' }}
-                        >
-                          {option.full_picture && (
-                            <Box
-                              component="img"
-                              sx={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                              }}
-                              loading="lazy"
-                              src={option.full_picture}
-                            />
-                          )}
-                        </Box>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={option.message || 'No message'}
-                        primaryTypographyProps={{ noWrap: true }}
-                        secondary={moment(option.created_time).format(
-                          'YYYY-MM-DD'
-                        )}
-                      />
-                    </ListItem>
-                  )}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value?.id
-                  }
-                  loading={isLoadingPosts}
-                  loadingText="Loading posts..."
-                />
-              )}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button
-              onClick={handleCreate}
-              variant="contained"
-              color="secondary"
-              type="submit"
-              disabled={!isValid}
-            >
-              Create
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+        onClose={() => setOpen(false)}
+        posts={posts}
+        onSubmit={handleSubmit}
+      />
     </Box>
   )
 }
