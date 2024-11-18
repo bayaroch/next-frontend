@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { t } from 'i18next'
 import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as Yup from 'yup'
 
 const initialValues = {
@@ -10,33 +10,34 @@ const initialValues = {
 }
 
 const useAutomationCreateForm = () => {
+  const { t } = useTranslation()
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
         name: Yup.string()
           .required(
             t('ERROR.E000001', {
-              field: t('POSITION.position_name'),
+              field: t('AUTOMATION.name'),
             })
           )
           .min(
             2,
             t('ERROR.E000047', {
-              field: t('POSITION.position_name'),
+              field: t('AUTOMATION.name'),
               number: 2,
             })
           )
           .max(
             100,
             t('ERROR.E000046', {
-              field: t('POSITION.position_name'),
+              field: t('AUTOMATION.name'),
               number: 100,
             })
           ),
         fb_page_post_id: Yup.object()
           .required(
             t('ERROR.E000001', {
-              field: t('POSITION.short_name'),
+              field: t('AUTOMATION.post'),
             })
           )
           .nullable(),

@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 const mainListItems = [
   { text: 'SYSCOMMON.dashboard', icon: <HomeRoundedIcon />, to: '/' },
-  { text: 'SYSCOMMON.automations', icon: <Quickreply />, to: '/automations' },
+  { text: 'SYSCOMMON.automations', icon: <Quickreply />, to: '/automation' },
 ]
 
 const secondaryListItems = [

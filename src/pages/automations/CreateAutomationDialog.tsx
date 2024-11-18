@@ -21,6 +21,7 @@ import { FieldValues } from 'react-hook-form'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import useAutomationCreateForm from './useAutomationCreateForm'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -44,13 +45,33 @@ const StyledDialogContent = styled(DialogContent)({
   overflow: 'hidden',
 })
 
-const ScrollableBox = styled(Paper)({
+const ScrollableBox = styled(Paper)(() => ({
   flex: 1,
   overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   marginTop: '9px',
-})
+  position: 'relative',
+
+  '&::-webkit-scrollbar': {
+    height: '8px',
+    width: '8px',
+    cursor: 'pointer',
+  },
+
+  '&::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    background: '#999',
+    borderRadius: '10px',
+  },
+
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: '#777',
+  },
+}))
 
 const StyledDialogTitle = styled(DialogTitle)({
   display: 'flex',
@@ -73,6 +94,8 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
     handleSubmit,
     formState: { errors, isValid },
   } = methods
+
+  const { t } = useTranslation()
 
   // Debounced search handler
   const debouncedSetSearch = useCallback(
@@ -125,7 +148,7 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
     <Dialog fullScreen open={open} onClose={onClose} fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <StyledDialogTitle>
-          Create Automation
+          {t('AUTOMATION.create_automation')}
           <IconButton
             aria-label="close"
             onClick={onClose}
@@ -145,19 +168,20 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
             render={({ field: { ref, ...rest } }: FieldValues) => (
               <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
                 <FormLabel htmlFor="first-name" required>
-                  Automation Name:
+                  {t('AUTOMATION.name')}
                 </FormLabel>
                 <OutlinedInput
                   {...rest}
                   error={!!errors?.name}
                   inputRef={ref}
-                  placeholder="Give name"
-                  autoComplete="Automation name"
+                  placeholder={t('AUTOMATION.name')}
+                  autoComplete={t('AUTOMATION.name')}
                   required
                 />
-                {errors?.name && (
-                  <FormLabel error>{errors.name.message}</FormLabel>
-                )}
+
+                <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
+                  {errors?.name && errors.name.message}
+                </FormLabel>
               </FormGrid>
             )}
           />
@@ -168,10 +192,12 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
               justifyContent={'space-between'}
               alignItems={'center'}
             >
-              <FormLabel sx={{ minWidth: 150 }}>Select Post:</FormLabel>
+              <FormLabel sx={{ minWidth: 150 }}>
+                {t('AUTOMATION.select_post')}
+              </FormLabel>
               <TextField
                 size="small"
-                placeholder="Search posts..."
+                placeholder={t('AUTOMATION.search_posts')}
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
@@ -205,14 +231,14 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
             justifyContent: 'space-between',
           }}
         >
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}> {t('SYSCOMMON.cancel')}</Button>
           <Button
             variant="contained"
             color="primary"
             type="submit"
             disabled={!isValid}
           >
-            Create
+            {t('SYSCOMMON.create')}
           </Button>
         </DialogActions>
       </form>

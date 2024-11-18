@@ -9,7 +9,7 @@ const initialValues = {
   reason: '',
 }
 
-const usePositionEditForm = () => {
+const useConfirmDialogForm = () => {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
@@ -39,4 +39,4 @@ const usePositionEditForm = () => {
   return { Controller, methods }
 }
 
-export default usePositionEditForm
+export default useConfirmDialogForm

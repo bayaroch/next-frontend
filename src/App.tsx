@@ -32,6 +32,7 @@ const AutomationListPage = lazy(() => import('@pages/automations'))
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
 const Connect = lazy(() => import('@pages/connect'))
+const AutomationEditPage = lazy(() => import('@pages/automations/edit'))
 // Initialize React Ga with your tracking ID
 
 // eslint-disable-next-line no-console
@@ -181,14 +182,17 @@ function App() {
                   </Suspense>
                 }
               />
-              <Route
-                path="automations"
-                element={
-                  <Suspense fallback={<PageLoader />}>
-                    <AutomationListPage />
-                  </Suspense>
-                }
-              />
+              <Route path="automation">
+                <Route
+                  index
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <AutomationListPage />
+                    </Suspense>
+                  }
+                />
+                <Route path=":id" element={<AutomationEditPage />} />
+              </Route>
               <Route
                 path="connect"
                 element={

@@ -50,7 +50,10 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
             data-test-id="delete-button"
             edge="end"
             aria-label="delete"
-            onClick={() => onDelete(data)}
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete(data)
+            }}
             size="small"
             color="primary"
           >

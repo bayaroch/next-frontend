@@ -8,6 +8,7 @@ import {
   Post,
 } from '@services/page.services'
 import {
+  Automation,
   AutomationDetailResponse,
   AutomationListResponse,
   AutomationService,
@@ -20,6 +21,7 @@ import _ from 'lodash'
 import Grid from '@mui/material/Grid2'
 import AutomationListItem from '@components/Automation/AutomationListItem'
 import CreateAutomationDialog from './CreateAutomationDialog'
+import { useConfirm } from '@components/Confirm'
 
 const ITEMS_PER_PAGE = 10
 
@@ -38,6 +40,8 @@ const AutomationListPage: React.FC = () => {
   const connectedPages: ConnectedPage[] = _.get(initData, 'connected_pages', [])
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation()
+
+  const confirm = useConfirm()
 
   const navigate = useNavigate()
 
@@ -103,17 +107,36 @@ const AutomationListPage: React.FC = () => {
     setPage(value)
   }
 
+  const handleDelete = (automation: Automation) => {
+    if (pageId) {
+      confirm({
+        title: t('AUTOMATION.delete_title'),
+        description: t('AAUTOMATION.delete_desc'),
+        additional_confirmation: 'delete',
+      })
+        .then(() => {
+          AutomationService.deleteAutomation(
+            pageId,
+            automation.automation_id
+          ).then(() => {
+            queryClient.invalidateQueries(['automations', pageId])
+          })
+        })
+        .catch(() => {
+          // eslint-disable-next-line no-console
+          console.log('Cancel')
+        })
+    }
+  }
+
   const handleSubmit = (data: any) => {
-    // eslint-disable-next-line no-console
-    console.log(data, pageId, data.fb_page_post_id)
-    alert('aa')
     if (pageId && data.fb_page_post_id) {
       createAutomationMutation.mutate(
         {
           pageId,
           input: {
             name: data.name,
-            fb_page_post_id: data.fb_page_post_id?.id,
+            fb_page_post_id: data.fb_page_post_id,
           },
         },
         {
@@ -144,8 +167,8 @@ const AutomationListPage: React.FC = () => {
             <AutomationListItem
               key={automation.automation_id}
               data={automation}
-              onEdit={() => null}
-              onDelete={() => null}
+              onEdit={() => navigate(`/automation/${automation.automation_id}`)}
+              onDelete={() => handleDelete(automation)}
             />
           ))}
         </List>
