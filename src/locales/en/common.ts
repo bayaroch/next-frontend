@@ -51,6 +51,17 @@ export default {
     add_new_page: 'Add new page',
     create: 'Create',
   },
+  LOGIN: {
+    welcomeTitle: 'Welcome to Kommai',
+    welcomeSubtitle: 'Automate your Facebook interactions with AI',
+    welcomeDescription:
+      'Our app uses advanced AI to automatically reply to comments on your Facebook pages, saving you time and improving engagement.',
+    signIn: 'Sign in',
+    permissionInfo:
+      'Please accept all required Facebook permissions and select the pages you want to manage to use our service.',
+    loggingIn: 'Logging in...',
+    loginError: 'Error: {{error}}',
+  },
   HOME: {
     home: 'Home',
     about: 'About',
@@ -80,6 +91,9 @@ export default {
     select_post: 'Select Post',
     search_posts: 'Search posts',
     post: 'Post',
+    comment_responses: 'Comment responses',
+    keyword: 'Keyword',
+    content: 'Comment content',
   },
   ERROR: {
     E000001: '{{field}} is required',
@@ -114,5 +128,6 @@ export default {
     E000066: 'Failed to upload',
     E000067: 'End time must be greater',
     E000068: 'Start time must be in future',
+    E000069: '{{field}} Must be unique',
   },
 }

@@ -74,7 +74,7 @@ export const AutomationService = {
     input: UpdateAutomationInput
   ): Promise<AutomationDetailResponse> => {
     const { data } = await api.put<AutomationDetailResponse>(
-      `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}`,
+      `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}/${automationId}`,
       input
     )
     return data

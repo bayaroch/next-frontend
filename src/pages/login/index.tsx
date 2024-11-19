@@ -1,11 +1,12 @@
-import LoginContent from '@components/@public/LoginContent'
 import SitemarkIcon from '@components/@public/SitemarkIcon'
 import FacebookLoginButton from '@components/FacebookLoginButton'
+import { InfoOutlined } from '@mui/icons-material'
 import { Box, Stack, styled, Typography } from '@mui/material'
 import MuiCard from '@mui/material/Card'
 import { loginService } from '@services/auth.services'
 import { useAuth } from 'global/AuthContext'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -29,6 +30,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const LoginPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+  const { t } = useTranslation()
+
   const { setToken } = useAuth()
   const mutation = useMutation(loginService, {
     onSuccess: (data) => {
@@ -49,86 +52,89 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Stack
-        direction="column"
-        component="main"
-        sx={[
-          {
-            justifyContent: 'center',
-            height: 'calc((1 - var(--template-frame-height, 0)) * 100%)',
-            marginTop: 'max(40px - var(--template-frame-height, 0px), 0px)',
-            minHeight: '100%',
-          },
-          (theme) => ({
-            '&::before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              zIndex: -1,
-              inset: 0,
-              backgroundImage:
-                'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-              backgroundRepeat: 'no-repeat',
-              ...theme.applyStyles('dark', {
-                backgroundImage:
-                  'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-              }),
-            },
-          }),
-        ]}
+    <Box sx={{ height: '100vh', display: 'flex' }}>
+      {/* Left Column */}
+      <Box
+        sx={{
+          flex: '0 0 60%',
+          display: { xs: 'none', md: 'flex' },
+          flexDirection: 'column',
+          justifyContent: 'center',
+          p: 4,
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+        }}
       >
         <Stack
-          direction={{ xs: 'column-reverse', md: 'row' }}
+          direction="column"
           sx={{
             justifyContent: 'center',
-            gap: { xs: 6, sm: 12 },
-            p: 2,
-            mx: 'auto',
+            gap: 3,
+            maxWidth: '600px',
+            margin: 'auto',
           }}
         >
-          <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box component="img" width="240px" src="images/logo-full.png" />
+          </Box>
+          <Typography variant="h2" sx={{ mb: 0, p: 0 }}>
+            {t('LOGIN.welcomeTitle')}
+          </Typography>
+          <Typography variant="h5">{t('HOME.slogan_two')}</Typography>
+          <Typography>{t('LOGIN.welcomeDescription')}</Typography>
+        </Stack>
+      </Box>
+
+      {/* Right Column */}
+      <Box
+        sx={{
+          flex: { xs: '1', md: '0 0 40%' },
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: { xs: 2, sm: 4 },
+          background: "url('images/hero-illustration.svg') top right no-repeat",
+        }}
+      >
+        <Card variant="outlined">
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <SitemarkIcon />
+          </Box>
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(1.5rem, 10vw, 1.85rem)' }}
+          >
+            {t('LOGIN.signIn')}
+          </Typography>
+          <Typography>
+            <Box component={'span'} sx={{ pr: 0.5 }}>
+              <InfoOutlined
+                sx={{ fontSize: 16, position: 'relative', top: 4 }}
+              />
+            </Box>
+            {t('LOGIN.permissionInfo')}
+          </Typography>
+          <Box
             sx={{
-              justifyContent: 'center',
-              gap: { xs: 6, sm: 12 },
-              p: { xs: 2, sm: 4 },
-              m: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              gap: 2,
             }}
           >
-            <LoginContent />
-            <Card variant="outlined">
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                <SitemarkIcon />
-              </Box>
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-              >
-                Sign in
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                  gap: 2,
-                }}
-              >
-                <Box>Accept all permission to use our feature</Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <FacebookLoginButton onLogin={handleFacebookLogin} />
-                  {mutation.isLoading && <p>Logging in...</p>}
-                  {mutation.isError && (
-                    <p>Error: {(mutation.error as Error).message}</p>
-                  )}
-                </Box>
-              </Box>
-            </Card>
-          </Stack>
-        </Stack>
-      </Stack>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <FacebookLoginButton onLogin={handleFacebookLogin} />
+              {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
+              {mutation.isError &&
+                t('LOGIN.loggingIn', {
+                  error: (mutation.error as Error).message,
+                })}
+            </Box>
+          </Box>
+        </Card>
+      </Box>
     </Box>
   )
 }

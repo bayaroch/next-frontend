@@ -50,6 +50,17 @@ export default {
     add_new_page: 'Шинээр нэмэх',
     create: 'Үүсгэх',
   },
+  LOGIN: {
+    welcomeTitle: 'Тавтай морил',
+    welcomeSubtitle: 'Facebook харилцаагаа AI-тай автоматжуулаарай',
+    welcomeDescription:
+      'Манай апп дэвшилтэт AI ашиглан таны Facebook хуудсан дахь сэтгэгдлүүдэд автоматаар хариу өгч, цаг хэмнэж, харилцаагаа сайжруулна.',
+    signIn: 'Нэвтрэх',
+    permissionInfo:
+      'Манай үйлчилгээг ашиглахын тулд Facebook-ийн шаардлагатай бүх зөвшөөрлийг хүлээн зөвшөөрч, удирдах хуудсуудаа сонгоно уу',
+    loggingIn: 'Нэвтэрч байна...',
+    loginError: 'Алдаа: {{error}}',
+  },
   HOME: {
     home: 'Нүүр хуудас',
     about: 'Бидний тухай',
@@ -78,6 +89,9 @@ export default {
     select_post: 'Пост сонгох',
     search_posts: 'Пост хайх',
     post: 'Пост',
+    comment_responses: 'Comment responses',
+    keyword: 'Keyword',
+    content: 'Comment content',
   },
   ERROR: {
     E000001: '{{field}} оруулах',
@@ -113,5 +127,6 @@ export default {
     E000066: 'Байршуулж чадсангүй',
     E000067: 'Дуусах цаг хойно байх ёстой',
     E000068: 'Эхлэх цаг ирээдүйд байх ёстой',
+    E000069: '{{field}} Давтагдахгүй байх',
   },
 }

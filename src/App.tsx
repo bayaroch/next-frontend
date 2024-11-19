@@ -41,18 +41,17 @@ moment.locale('mn')
 
 function App() {
   const { i18n } = useTranslation()
-  const { lang, isLoggedIn } = useAuth()
+  const { lang, isLoggedIn, logout } = useAuth()
 
   const { data: initData, isLoading: isInitializing } = useQuery({
     queryKey: ['appInit'],
     queryFn: initializeAppService,
     enabled: isLoggedIn, // Only run when user is logged in
-    retry: 3, // Retry 3 times on failure
     staleTime: Infinity, // Consider the data fresh forever since it's initialization data
+    onError: () => {
+      logout()
+    },
   })
-
-  // eslint-disable-next-line no-console
-  console.log(initData)
 
   useEffect(() => {
     // eslint-disable-next-line no-console
