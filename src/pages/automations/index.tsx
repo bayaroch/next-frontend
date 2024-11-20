@@ -9,6 +9,7 @@ import {
 } from '@services/page.services'
 import {
   Automation,
+  AutomationCreateResponse,
   AutomationDetailResponse,
   AutomationListResponse,
   AutomationService,
@@ -87,7 +88,7 @@ const AutomationListPage: React.FC = () => {
   )
 
   const createAutomationMutation = useMutation<
-    AutomationDetailResponse,
+    AutomationCreateResponse,
     Error,
     { pageId: string; input: CreateAutomationInput }
   >(({ pageId, input }) => AutomationService.createAutomation(pageId, input), {

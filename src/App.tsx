@@ -190,7 +190,14 @@ function App() {
                     </Suspense>
                   }
                 />
-                <Route path=":id" element={<AutomationEditPage />} />
+                <Route
+                  path=":id"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <AutomationEditPage />
+                    </Suspense>
+                  }
+                />
               </Route>
               <Route
                 path="connect"

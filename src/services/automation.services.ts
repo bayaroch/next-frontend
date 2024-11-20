@@ -1,9 +1,11 @@
 import { URI } from '@constants/uri.constants'
 import { api } from './api'
+import { Post } from './page.services'
 
 export interface CommentResponse {
   keyword: string
   content: string
+  attachment?: string | null
 }
 
 export interface Automation {
@@ -39,6 +41,10 @@ export interface AutomationListResponse {
 }
 
 export interface AutomationDetailResponse {
+  data: { automation: Automation; fb_detail: Post }
+}
+
+export interface AutomationCreateResponse {
   data: Automation
 }
 
@@ -60,8 +66,8 @@ export const AutomationService = {
   createAutomation: async (
     pageId: string,
     input: CreateAutomationInput
-  ): Promise<AutomationDetailResponse> => {
-    const { data } = await api.post<AutomationDetailResponse>(
+  ): Promise<AutomationCreateResponse> => {
+    const { data } = await api.post<AutomationCreateResponse>(
       `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}`,
       input
     )
@@ -72,8 +78,8 @@ export const AutomationService = {
     pageId: string,
     automationId: string,
     input: UpdateAutomationInput
-  ): Promise<AutomationDetailResponse> => {
-    const { data } = await api.put<AutomationDetailResponse>(
+  ): Promise<AutomationCreateResponse> => {
+    const { data } = await api.put<AutomationCreateResponse>(
       `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}/${automationId}`,
       input
     )

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import {
@@ -16,6 +16,7 @@ import {
   OutlinedInput,
   styled,
   Typography,
+  Stack,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
@@ -26,6 +27,8 @@ import { FieldValues } from 'react-hook-form'
 import { Delete } from '@mui/icons-material'
 import useResponseCreateForm from './useResponseCreateForm'
 import ResponseCreateForm from './ResponseCreateForm'
+import FormField from '@components/@material-extend/FormField'
+import ResponseItem from '@components/Automation/ResponseItem'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -43,6 +46,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const AutomationEditPage: React.FC = () => {
   const { t } = useTranslation()
+  const [focused, setFocused] = useState<string | null>(null)
   // can automation detail service using react query
   //   const queryClient = useQueryClient()
   // find id from url params using react router
@@ -86,12 +90,15 @@ const AutomationEditPage: React.FC = () => {
     }
   )
 
+  const automation = automationsData?.data.automation
+  const fbDetail = automationsData?.data.fb_detail
+
   useEffect(() => {
     if (automationsData) {
       reset({
-        name: automationsData.data.name,
-        fb_page_post_id: automationsData.data.fb_page_post_id,
-        comment_responses: automationsData.data.comment_responses,
+        name: automation?.name,
+        fb_page_post_id: automation?.fb_page_post_id,
+        comment_responses: automation?.comment_responses,
       })
     }
   }, [automationsData, reset])
@@ -117,10 +124,20 @@ const AutomationEditPage: React.FC = () => {
   const onSubmit = (data: any) => {
     updateAutomationMutation.mutate(data)
   }
-  const onSubmitCreate = (data: any) => {}
+  const onSubmitCreate = (data: any) => {
+    append(data)
+    handleSubmit(onSubmit)()
+  }
   const handleRemove = (index: number) => {
     remove(index)
   }
+
+  const handleEdit = (data: any) => {
+    handleSubmit(onSubmit)()
+  }
+
+  // eslint-disable-next-line no-console
+  console.log('FOCUSED', focused)
 
   return (
     <Box sx={{ padding: 3, width: '100%' }}>
@@ -131,20 +148,22 @@ const AutomationEditPage: React.FC = () => {
             control={control}
             render={({ field: { ref, ...rest } }: FieldValues) => (
               <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
-                <FormLabel htmlFor="name" required>
-                  {t('AUTOMATION.name')}
-                </FormLabel>
-                <OutlinedInput
-                  {...rest}
-                  error={!!errors?.name}
-                  inputRef={ref}
-                  placeholder={t('AUTOMATION.name')}
-                  autoComplete={t('AUTOMATION.name')}
+                <FormField
+                  errors={errors?.name && errors.name.message}
+                  label={t('AUTOMATION.name')}
+                  desc="asdadasds sadasda"
+                  helpContent="asdasdasd asdasd asda sadsadasdasdas"
                   required
-                />
-                <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                  {errors?.name && errors.name.message}
-                </FormLabel>
+                >
+                  <OutlinedInput
+                    {...rest}
+                    error={!!errors?.name}
+                    inputRef={ref}
+                    placeholder={t('AUTOMATION.name')}
+                    autoComplete={t('AUTOMATION.name')}
+                    required
+                  />
+                </FormField>
               </FormGrid>
             )}
           />
@@ -175,91 +194,92 @@ const AutomationEditPage: React.FC = () => {
           <Typography variant="h6">
             {t('AUTOMATION.comment_responses')}
           </Typography>
-          {fields.map((field, index) => (
-            <Card
-              key={field.id}
-              sx={{ position: 'relative', overflow: 'inherit', mr: '36px' }}
-            >
-              <Grid sx={{ width: '100%' }} spacing={2} container>
-                <Controller
-                  name={`comment_responses.${index}.keyword`}
-                  control={control}
-                  render={({ field: { ref, ...rest } }: FieldValues) => (
-                    <FormGrid size={{ md: 3, xs: 12 }}>
-                      <FormLabel htmlFor={`keyword-${index}`} required>
-                        {t('AUTOMATION.keyword')}
-                      </FormLabel>
-                      <OutlinedInput
-                        {...rest}
-                        fullWidth
-                        error={!!errors?.comment_responses?.[index]?.keyword}
-                        inputRef={ref}
-                        placeholder={t('AUTOMATION.keyword')}
-                        required
-                      />
-                      <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                        {errors?.comment_responses?.[index]?.keyword?.message}
-                      </FormLabel>
-                    </FormGrid>
-                  )}
-                />
-
-                <Controller
-                  name={`comment_responses.${index}.content`}
-                  control={control}
-                  render={({ field: { ref, ...rest } }: FieldValues) => (
-                    <FormGrid size={{ md: 9, xs: 12 }}>
-                      <Box sx={{ pr: '30px' }}>
-                        <FormLabel htmlFor={`content-${index}`} required>
-                          {t('AUTOMATION.content')}
+          {fields.map((field, index) => {
+            const isActive = focused === field.id
+            return isActive ? (
+              <Card key={field.id} sx={{ position: 'relative' }}>
+                <Grid sx={{ width: '100%' }} spacing={2} container>
+                  <Controller
+                    name={`comment_responses.${index}.keyword`}
+                    control={control}
+                    render={({ field: { ref, ...rest } }: FieldValues) => (
+                      <FormGrid size={{ md: 3, xs: 12 }}>
+                        <FormLabel htmlFor={`keyword-${index}`} required>
+                          {t('AUTOMATION.keyword')}
                         </FormLabel>
                         <OutlinedInput
                           {...rest}
-                          multiline
-                          minRows={2}
                           fullWidth
-                          error={!!errors?.comment_responses?.[index]?.content}
+                          error={!!errors?.comment_responses?.[index]?.keyword}
                           inputRef={ref}
-                          placeholder={t('AUTOMATION.content')}
+                          placeholder={t('AUTOMATION.keyword')}
                           required
                         />
                         <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                          {errors?.comment_responses?.[index]?.content?.message}
+                          {errors?.comment_responses?.[index]?.keyword?.message}
                         </FormLabel>
-                      </Box>
-                    </FormGrid>
-                  )}
-                />
-                <Box sx={{ position: 'absolute', right: -36, top: 5 }}>
-                  <IconButton
-                    size="small"
-                    sx={{
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                      borderLeft: '0 none',
+                      </FormGrid>
+                    )}
+                  />
+
+                  <Controller
+                    name={`comment_responses.${index}.content`}
+                    control={control}
+                    render={({ field: { ref, ...rest } }: FieldValues) => (
+                      <FormGrid size={{ md: 9, xs: 12 }}>
+                        <Box sx={{ pr: '30px' }}>
+                          <FormLabel htmlFor={`content-${index}`} required>
+                            {t('AUTOMATION.content')}
+                          </FormLabel>
+                          <OutlinedInput
+                            {...rest}
+                            multiline
+                            minRows={2}
+                            fullWidth
+                            error={
+                              !!errors?.comment_responses?.[index]?.content
+                            }
+                            inputRef={ref}
+                            placeholder={t('AUTOMATION.content')}
+                            required
+                          />
+                          <FormLabel
+                            sx={{ fontSize: 11, mb: 0, pt: 0.5 }}
+                            error
+                          >
+                            {
+                              errors?.comment_responses?.[index]?.content
+                                ?.message
+                            }
+                          </FormLabel>
+                        </Box>
+                      </FormGrid>
+                    )}
+                  />
+                </Grid>
+                <Stack>
+                  <Button
+                    onClick={() => {
+                      setFocused(null)
                     }}
-                    onClick={() => handleRemove(index)}
                   >
-                    <Delete />
-                  </IconButton>
-                </Box>
-              </Grid>
-            </Card>
-          ))}
-
-          <ResponseCreateForm responses={fields} onSubmit={onSubmitCreate} />
-
-          {/* <Button onClick={() => append({ keyword: '', content: '' })}>
-              {t('AUTOMATION.add_response')}
-            </Button> */}
-
-          <FormGrid size={{ xs: 12, md: 12 }}>
-            <Button type="submit" variant="contained" color="primary">
-              {t('SYSCOMMON.save')}
-            </Button>
-          </FormGrid>
+                    Cancel
+                  </Button>
+                  <Button onClick={() => handleEdit(field)}>Save</Button>
+                </Stack>
+              </Card>
+            ) : (
+              <ResponseItem
+                key={field.id}
+                onDelete={() => handleRemove(index)}
+                onEdit={(v) => setFocused(v.id)}
+                response={field}
+              />
+            )
+          })}
         </Grid>
       </form>
+      <ResponseCreateForm responses={fields} onSubmit={onSubmitCreate} />
     </Box>
   )
 }
