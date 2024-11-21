@@ -22,8 +22,8 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 
 interface AutomationPostItemProps {
   data: Post
-  onSelect: (v: Post) => void
-  active: boolean
+  onSelect?: (v: Post) => void
+  active?: boolean
 }
 
 const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
@@ -59,7 +59,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
   return (
     <ListItem
       data-test-id="automation-list-item"
-      onClick={() => onSelect(data)}
+      onClick={() => onSelect && onSelect(data)}
       sx={{
         pl: 1,
         alignItems: 'flex-start',
@@ -78,16 +78,18 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
         },
       }}
       secondaryAction={
-        <IconButton
-          data-test-id="delete-button"
-          edge="end"
-          aria-label="delete"
-          onClick={() => onSelect(data)}
-          size="small"
-          color="primary"
-        >
-          <ArrowRight />
-        </IconButton>
+        onSelect && (
+          <IconButton
+            data-test-id="delete-button"
+            edge="end"
+            aria-label="delete"
+            onClick={() => onSelect && onSelect(data)}
+            size="small"
+            color="primary"
+          >
+            <ArrowRight />
+          </IconButton>
+        )
       }
     >
       {data.full_picture && !imageError ? (

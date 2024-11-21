@@ -1,5 +1,4 @@
-// blank component ResponseItem
-import { Delete, Edit } from '@mui/icons-material'
+import { Edit } from '@mui/icons-material'
 import {
   Checkbox,
   Chip,
@@ -19,21 +18,19 @@ export interface ResponseField extends CommentResponse {
 
 export type ResponseItemProps = {
   response: ResponseField
-  isChecked?: boolean
-  onDelete?: (field: ResponseField) => void
+  isChecked: boolean
+  onCheck: (field: ResponseField) => void
   onEdit?: (field: ResponseField) => void
 }
 
 const ResponseItem: React.FC<ResponseItemProps> = ({
   response,
   isChecked,
-  onDelete,
+  onCheck,
   onEdit,
 }) => {
-  // eslint-disable-next-line no-console
-  console.log(response, 'what is this')
   return (
-    <Paper elevation={2} sx={{ width: '100%', background: '#fff' }}>
+    <Paper elevation={2} sx={{ width: '100%', background: '#fff', mb: 1 }}>
       <ListItem
         secondaryAction={
           <Stack spacing={1} direction={'row'}>
@@ -43,13 +40,6 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
               aria-label="comments"
             >
               <Edit />
-            </IconButton>
-            <IconButton
-              onClick={() => onDelete && onDelete(response)}
-              edge="end"
-              aria-label="comments"
-            >
-              <Delete />
             </IconButton>
           </Stack>
         }
@@ -65,6 +55,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
             tabIndex={-1}
             disableRipple
             inputProps={{ 'aria-labelledby': response.keyword }}
+            onChange={() => onCheck(response)}
           />
         </ListItemIcon>
         <ListItemText

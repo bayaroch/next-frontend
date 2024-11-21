@@ -72,8 +72,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ initData, onLogout }) => {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
+          alt={user?.first_name}
+          src={undefined}
           sx={{ width: 36, height: 36 }}
         />
         {user && (

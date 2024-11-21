@@ -16,6 +16,20 @@ const useResponseCreateForm = (existingResponses: CommentResponse[]) => {
       Yup.object().shape({
         keyword: Yup.string()
           .required(t('ERROR.E000001', { field: t('AUTOMATION.keyword') }))
+          .min(
+            2,
+            t('ERROR.E000047', {
+              field: t('AUTOMATION.keyword'),
+              number: 2,
+            })
+          )
+          .max(
+            20,
+            t('ERROR.E000046', {
+              field: t('AUTOMATION.keyword'),
+              number: 20,
+            })
+          )
           .test(
             'unique-keyword',
             t('ERROR.E000069', { field: t('AUTOMATION.keyword') }),
@@ -25,9 +39,22 @@ const useResponseCreateForm = (existingResponses: CommentResponse[]) => {
               )
             }
           ),
-        content: Yup.string().required(
-          t('ERROR.E000001', { field: t('AUTOMATION.content') })
-        ),
+        content: Yup.string()
+          .required(t('ERROR.E000001', { field: t('AUTOMATION.content') }))
+          .min(
+            2,
+            t('ERROR.E000047', {
+              field: t('AUTOMATION.content'),
+              number: 2,
+            })
+          )
+          .max(
+            500,
+            t('ERROR.E000046', {
+              field: t('AUTOMATION.content'),
+              number: 500,
+            })
+          ),
       }),
     [existingResponses]
   )

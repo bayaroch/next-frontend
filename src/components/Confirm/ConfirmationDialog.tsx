@@ -118,9 +118,9 @@ const ConfirmationDialog = ({
           <DialogTitle sx={{ textAlign: 'center' }}>{title}</DialogTitle>
         )}
         {content ? (
-          <DialogContent>{content}</DialogContent>
+          <DialogContent sx={{ py: 2, px: 1 }}>{content}</DialogContent>
         ) : (
-          <DialogContent>
+          <DialogContent sx={{ p: 2, px: 1 }}>
             {sweet_alert && (
               <Box>
                 {sweet_alert === 'success' ? (
@@ -189,7 +189,7 @@ const ConfirmationDialog = ({
             )}
           </DialogContent>
         )}
-        <DialogActions>
+        <DialogActions sx={{ py: 2, px: 1 }}>
           {!sweet_alert && (
             <Button
               data-test-id="cancellation-button"

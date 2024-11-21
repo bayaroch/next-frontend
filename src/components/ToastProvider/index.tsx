@@ -123,8 +123,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                 border: '0 none',
               },
             }}
+            variant="filled"
             onClose={() => removeToast(toast.uuid)}
             severity={toast.severity}
+            color={toast.severity}
           >
             {toast.message}
           </MuiAlert>

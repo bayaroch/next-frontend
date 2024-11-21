@@ -2,30 +2,35 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
-  Card,
-  FormLabel,
   OutlinedInput,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Box,
-  styled,
+  TextField,
 } from '@mui/material'
-import Grid from '@mui/material/Grid2'
+
 import { FieldValues } from 'react-hook-form'
 import useResponseCreateForm from './useResponseCreateForm'
 import { CommentResponse } from '@services/automation.services'
-
-const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}))
+import FormField from '@components/@material-extend/FormField'
+import { LoadingButton } from '@mui/lab'
 
 interface CreateFormProps {
   responses: CommentResponse[]
   onSubmit: (data: CommentResponse) => void
+  open: boolean
+  onClose: () => void
+  isLoading?: boolean
 }
 
 const ResponseCreateForm: React.FC<CreateFormProps> = ({
   responses,
   onSubmit,
+  open,
+  onClose,
+  isLoading,
 }) => {
   const { t } = useTranslation()
   const { Controller, methods } = useResponseCreateForm(responses)
@@ -36,70 +41,89 @@ const ResponseCreateForm: React.FC<CreateFormProps> = ({
     formState: { errors, isValid },
   } = methods
 
-  return (
-    <form id="create-form" onSubmit={handleSubmit(onSubmit)}>
-      <Card sx={{ position: 'relative', overflow: 'inherit', mb: 2 }}>
-        <Grid sx={{ width: '100%' }} spacing={2} container>
-          <Controller
-            name="keyword"
-            control={control}
-            render={({ field: { ref, ...rest } }: FieldValues) => (
-              <FormGrid size={{ md: 3, xs: 12 }}>
-                <FormLabel htmlFor="keyword" required>
-                  {t('AUTOMATION.keyword')}
-                </FormLabel>
-                <OutlinedInput
-                  {...rest}
-                  fullWidth
-                  error={!!errors?.keyword}
-                  inputRef={ref}
-                  placeholder={t('AUTOMATION.keyword')}
-                  required
-                />
-                <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                  {errors?.keyword?.message}
-                </FormLabel>
-              </FormGrid>
-            )}
-          />
+  const handleFormSubmit = (data: CommentResponse) => {
+    onSubmit(data)
+    onClose()
+  }
 
-          <Controller
-            name="content"
-            control={control}
-            render={({ field: { ref, ...rest } }: FieldValues) => (
-              <FormGrid size={{ md: 9, xs: 12 }}>
-                <Box sx={{ pr: '30px' }}>
-                  <FormLabel htmlFor="content" required>
-                    {t('AUTOMATION.content')}
-                  </FormLabel>
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogTitle>{t('AUTOMATION.create_response')}</DialogTitle>
+      <form id="create-form" onSubmit={handleSubmit(handleFormSubmit)}>
+        <DialogContent>
+          <Box sx={{ width: '100%' }}>
+            <Controller
+              name="keyword"
+              control={control}
+              render={({ field: { ref, ...rest } }: FieldValues) => (
+                <FormField
+                  sx={{ mb: 2 }}
+                  helpContent={t('AUTOMATION.keyword_help')}
+                  fullWidth
+                  errors={errors?.keyword?.message}
+                  label={t('AUTOMATION.keyword')}
+                  required
+                >
                   <OutlinedInput
                     {...rest}
-                    multiline
-                    minRows={2}
                     fullWidth
-                    error={!!errors?.content}
+                    error={!!errors?.keyword}
                     inputRef={ref}
-                    placeholder={t('AUTOMATION.content')}
-                    required
+                    placeholder={t('AUTOMATION.keyword')}
                   />
-                  <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                    {errors?.content?.message}
-                  </FormLabel>
-                </Box>
-              </FormGrid>
-            )}
-          />
-        </Grid>
-      </Card>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        disabled={!isValid}
-      >
-        {t('AUTOMATION.add_response')}
-      </Button>
-    </form>
+                </FormField>
+              )}
+            />
+            <Controller
+              name="content"
+              control={control}
+              render={({ field: { ref, ...rest } }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  formLabelProps={{ sx: { pb: 0.3 } }}
+                  helpContent={t('AUTOMATION.content_help')}
+                  label={t('AUTOMATION.content')}
+                  required
+                  errors={errors?.content?.message}
+                >
+                  <TextField
+                    {...rest}
+                    multiline
+                    fullWidth
+                    variant="outlined"
+                    inputRef={ref}
+                    minRows={4}
+                    placeholder={t('AUTOMATION.content')}
+                    slotProps={{
+                      input: {
+                        sx: {
+                          padding: '8px',
+                          height: '100%',
+                          overflow: 'auto',
+                          maxHeight: '100px',
+                        },
+                      },
+                    }}
+                  />
+                </FormField>
+              )}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>{t('SYSCOMMON.cancel')}</Button>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoading}
+            disabled={!isValid}
+          >
+            {t('AUTOMATION.add_response')}
+          </LoadingButton>
+        </DialogActions>
+      </form>
+    </Dialog>
   )
 }
 

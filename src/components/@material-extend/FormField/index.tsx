@@ -9,8 +9,9 @@ import {
   Popover,
   styled,
   FormControl,
+  FormControlProps,
 } from '@mui/material'
-import React, { PropsWithChildren, useState } from 'react'
+import React, { useState } from 'react'
 import CustomFormHelperText from './CustomFormHelperText'
 
 // Custom styled Popover content
@@ -32,7 +33,7 @@ const CloseButton = styled(IconButton)({
   border: '0 none',
 })
 
-interface FormFieldProps extends PropsWithChildren {
+interface FormFieldProps extends FormControlProps {
   label: string
   errors?: string
   desc?: string
@@ -52,6 +53,7 @@ const FormField: React.FC<FormFieldProps> = (props) => {
     required,
     helpContent,
     disabled,
+    ...rest
   } = props
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -66,7 +68,12 @@ const FormField: React.FC<FormFieldProps> = (props) => {
   }
 
   return (
-    <FormControl error={!!errors} required={required} disabled={disabled}>
+    <FormControl
+      error={!!errors}
+      required={required}
+      disabled={disabled}
+      {...rest}
+    >
       <Stack direction={'row'} alignItems={'center'} spacing={1}>
         <FormLabel sx={{ fontWeight: 500, mb: 0 }} {...formLabelProps}>
           {label}
@@ -130,8 +137,10 @@ const FormField: React.FC<FormFieldProps> = (props) => {
       <Typography variant="body2" fontSize={11} sx={{ mb: 0.2 }} color="#666">
         {desc}
       </Typography>
-      {children}
-      <CustomFormHelperText content={errors} />
+      <Box>{children}</Box>
+      <Box sx={{ height: 11 }}>
+        <CustomFormHelperText content={errors} />
+      </Box>
     </FormControl>
   )
 }

@@ -30,12 +30,38 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
         ),
         comment_responses: Yup.array().of(
           Yup.object().shape({
-            keyword: Yup.string().required(
-              t('ERROR.E000001', { field: t('AUTOMATION.keyword') })
-            ),
-            content: Yup.string().required(
-              t('ERROR.E000001', { field: t('AUTOMATION.content') })
-            ),
+            keyword: Yup.string()
+              .required(t('ERROR.E000001', { field: t('AUTOMATION.keyword') }))
+              .min(
+                2,
+                t('ERROR.E000047', {
+                  field: t('AUTOMATION.keyword'),
+                  number: 2,
+                })
+              )
+              .max(
+                20,
+                t('ERROR.E000046', {
+                  field: t('AUTOMATION.keyword'),
+                  number: 20,
+                })
+              ),
+            content: Yup.string()
+              .required(t('ERROR.E000001', { field: t('AUTOMATION.content') }))
+              .min(
+                2,
+                t('ERROR.E000047', {
+                  field: t('AUTOMATION.content'),
+                  number: 2,
+                })
+              )
+              .max(
+                500,
+                t('ERROR.E000046', {
+                  field: t('AUTOMATION.content'),
+                  number: 500,
+                })
+              ),
           })
         ),
       }),
@@ -48,7 +74,7 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
     mode: 'onChange',
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control: methods.control,
     name: 'comment_responses',
   })
@@ -59,7 +85,9 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
     Controller,
     append,
     reset: methods.reset,
+    setValue: methods.setValue,
     remove,
+    update,
   }
 }
 
