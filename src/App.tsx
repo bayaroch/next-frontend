@@ -41,14 +41,18 @@ moment.locale('mn')
 
 function App() {
   const { i18n } = useTranslation()
-  const { lang, isLoggedIn, logout } = useAuth()
+  const { lang, isLoggedIn, logout, setInit, init } = useAuth()
 
-  const { data: initData, isLoading: isInitializing } = useQuery({
+  const { isLoading: isInitializing } = useQuery({
     queryKey: ['appInit'],
     queryFn: initializeAppService,
     enabled: isLoggedIn, // Only run when user is logged in
     staleTime: Infinity, // Consider the data fresh forever since it's initialization data
+    onSuccess: (data) => {
+      setInit(data)
+    },
     onError: () => {
+      setInit(undefined)
       logout()
     },
   })
@@ -168,7 +172,7 @@ function App() {
         <Route element={<PrivateOutlet />} path={'/'}>
           <Route
             element={
-              <PaymentOutlet initData={initData} isLoading={isInitializing} />
+              <PaymentOutlet initData={init} isLoading={isInitializing} />
             }
             path={'/'}
           >

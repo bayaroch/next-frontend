@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { AppInitResponse } from '@services/auth.services'
 import React, {
   createContext,
   useContext,
@@ -16,6 +17,8 @@ interface AuthContextType extends AuthState {
   logout: () => void
   changeLanguage: (v: string) => void
   lang: string
+  init?: AppInitResponse
+  setInit: (v?: AppInitResponse) => void
 }
 
 const getInitialAuthState = (): AuthState => {
@@ -29,8 +32,8 @@ const getInitialAuthState = (): AuthState => {
 const getInitialLangState = (): string => {
   const value =
     typeof window !== 'undefined'
-      ? localStorage.getItem('language') || 'mn'
-      : 'mn'
+      ? localStorage.getItem('language') || 'en'
+      : 'en'
   return value
 }
 
@@ -47,6 +50,7 @@ export const useAuth = () => {
 const useProvideAuth = (): AuthContextType => {
   const [state, setState] = useState<AuthState>(getInitialAuthState)
   const [lang, setlanguage] = useState<string>(getInitialLangState)
+  const [init, setInit] = useState<AppInitResponse | undefined>(undefined)
 
   console.log('state', state)
   const setToken = useCallback((token: string) => {
@@ -70,6 +74,8 @@ const useProvideAuth = (): AuthContextType => {
     changeLanguage,
     lang,
     logout,
+    init,
+    setInit,
   }
 }
 

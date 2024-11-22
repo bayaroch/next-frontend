@@ -10,6 +10,7 @@ export const URI = {
   SWITCH: '/page/switch',
   AUTOMATIONS: 'automation',
   PAGE: '/page',
+  SURVEY: '/user/:id/survey',
 }
 
 export const excludeURI = [URI.LOGIN]

@@ -14,6 +14,7 @@ import {
   Typography,
   ListItemAvatar,
   Stack,
+  Paper,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
@@ -83,7 +84,7 @@ const ConnectPages = () => {
         <LoadingButton
           variant="contained"
           onClick={() => handleDisconnect(page.id)}
-          color="primary"
+          color="secondary"
         >
           {t('SYSCOMMON.disconnect')}
         </LoadingButton>
@@ -128,31 +129,32 @@ const ConnectPages = () => {
 
       {data && data.data.length > 0 ? (
         <Stack spacing={3}>
-          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+          <List sx={{ width: '100%' }}>
             {data.data.map((page: FacebookPage) => (
-              <ListItem
-                key={page.id}
-                sx={{
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 1,
-                  mb: 1,
-                  '&:hover': {
-                    bgcolor: 'action.hover',
-                  },
-                }}
-                secondaryAction={renderButton(page)}
-              >
-                <ListItemAvatar>
-                  <Avatar src={page.cover.source || undefined} alt={page.name}>
-                    {page.name.charAt(0)}
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={page.name}
-                  secondary={`${page.category || t('SYSCOMMON.page')} • ${page.followers_count || 0} ${t('SYSCOMMON.followers')}`}
-                />
-              </ListItem>
+              <Paper key={page.id} elevation={2} sx={{ mb: 1 }}>
+                <ListItem
+                  sx={{
+                    borderRadius: 1,
+                    '&:hover': {
+                      bgcolor: 'action.hover',
+                    },
+                  }}
+                  secondaryAction={renderButton(page)}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      src={page.cover.source || undefined}
+                      alt={page.name}
+                    >
+                      {page.name.charAt(0)}
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={page.name}
+                    secondary={`${page.category || t('SYSCOMMON.page')} • ${page.followers_count || 0} ${t('SYSCOMMON.followers')}`}
+                  />
+                </ListItem>
+              </Paper>
             ))}
           </List>
         </Stack>

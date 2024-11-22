@@ -48,12 +48,13 @@ export default {
       ' The page you are looking for does not exist or has been moved.',
     go_to_home: 'Go to Home',
     connected_pages: 'Connected pages',
-    add_new_page: 'Add new page',
+    add_new_page: 'Manage pages',
     create: 'Create',
     add: 'Add',
     delete_title: 'Deleting item',
     delete_desc: 'Are you sure you want to delete this item?',
     delete: 'Delete',
+    next: 'Next',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -88,6 +89,20 @@ export default {
     contact: 'Contact Us',
     description:
       'Kommai is an AI-driven automated reply solution that takes your Facebook page communication to the next level. Our intelligent system selects the most appropriate response from your pre-created answers and replies to each comment without your intervention. This saves your time and resources while increasing customer satisfaction. With simple steps of connecting to Facebook, selecting your pages, and creating automations, you can get started in minutes. With Kommai, your business is always on, 24/7.',
+  },
+  SURVEY: {
+    company_type: 'What type of company do you work for?',
+    company_type_desc:
+      "Select the option that best describes your company's primary business area.",
+    role: 'What is your role in the company?',
+    role_desc:
+      'Choose the job title or position that most closely matches your responsibilities.',
+    agency_size: 'How many employees does your company have?',
+    agency_size_desc:
+      'Select the range that best represents the number of employees in your organization.',
+    select_company_type: 'Select company type',
+    select_role: 'Select role',
+    select_company_size: 'Select company size',
   },
   AUTOMATION: {
     create_automation: 'Create Automation',

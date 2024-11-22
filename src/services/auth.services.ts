@@ -10,14 +10,15 @@ export interface LoginResponse {
 }
 
 export interface UserInput {
-  user_id: string
   email: string
   first_name: string
   fb_name: string
   exp: number
-  fb_id: string
-  has_survey_filled: boolean
+  fb_id: number
   iat: number
+  survey_responses: {
+    [key: string]: any
+  }
 }
 
 export interface ConnectedPage {
@@ -45,6 +46,16 @@ export interface AppInitResponse {
   has_active_subscription: boolean
 }
 
+export interface SurveyFields {
+  company_type: string
+  role: string
+  agency_size: string
+}
+export interface SurvePayload {
+  id: number
+  params: SurveyFields
+}
+
 export const loginService = async (
   params: LoginPayload
 ): Promise<LoginResponse> => {
@@ -54,5 +65,15 @@ export const loginService = async (
 
 export const initializeAppService = async (): Promise<AppInitResponse> => {
   const { data } = await api.get<AppInitResponse>(URI.INIT)
+  return data
+}
+
+export const surveyUpdateService = async (
+  params: SurvePayload
+): Promise<LoginResponse> => {
+  const { data } = await api.put<LoginResponse>(
+    `${URI.SURVEY.replace(/:id/gi, params.id.toString())}`,
+    params.params
+  )
   return data
 }

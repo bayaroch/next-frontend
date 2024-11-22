@@ -13,15 +13,15 @@ import { Link } from 'react-router-dom'
 import { PageSwitchService } from '@services/page.services'
 import { useTranslation } from 'react-i18next'
 import { Check } from '@mui/icons-material'
+import { useAuth } from '@global/AuthContext'
 
 export default function SelectContent() {
-  const queryClient = useQueryClient()
-  const initData = queryClient.getQueryData(['appInit'])
-  const connectedPages = _.get(initData, 'connected_pages', [])
+  const { init } = useAuth()
+  const connectedPages = _.get(init, 'connected_pages', [])
   const { t } = useTranslation()
 
-  const current = _.get(initData, 'page_info.fb_page_id', '')
-
+  const current = _.get(init, 'page_info.fb_page_id', '')
+  const queryClient = useQueryClient()
   const switchPageMutation = useMutation(PageSwitchService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')

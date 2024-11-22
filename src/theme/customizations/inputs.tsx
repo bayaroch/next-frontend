@@ -53,13 +53,13 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               color: 'white',
-              backgroundColor: gray[900],
+              backgroundColor: brand[700],
               // backgroundImage: `linear-gradient(to bottom, ${gray[700]}, ${gray[800]})`,
               // boxShadow: `inset 0 1px 0 ${gray[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
               // border: `1px solid ${gray[700]}`,
               '&:hover': {
                 backgroundImage: 'none',
-                backgroundColor: gray[700],
+                backgroundColor: brand[500],
                 boxShadow: 'none',
               },
               '&:active': {
@@ -89,16 +89,16 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               color: 'white',
-              backgroundColor: brand[400],
+              backgroundColor: gray[600],
               // backgroundImage: `linear-gradient(to bottom, ${alpha(brand[400], 0.8)}, ${brand[500]})`,
               // boxShadow: `inset 0 2px 0 ${alpha(brand[200], 0.2)}, inset 0 -2px 0 ${alpha(brand[700], 0.4)}`,
               // border: `1px solid ${brand[500]}`,
               '&:hover': {
-                backgroundColor: brand[700],
+                backgroundColor: gray[700],
                 boxShadow: 'none',
               },
               '&:active': {
-                backgroundColor: brand[700],
+                backgroundColor: gray[700],
                 backgroundImage: 'none',
               },
             },
@@ -393,7 +393,10 @@ export const inputsCustomizations: Components<Theme> = {
       },
       clearIndicator: {
         '&.MuiAutocomplete-clearIndicator': {
-          padding: '2px', // Adjust this value to change the clickable area size
+          padding: '0px',
+          height: '30px',
+          width: '30px',
+          marginRight: '2px',
         },
       },
     },

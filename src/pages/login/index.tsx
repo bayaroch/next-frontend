@@ -8,6 +8,7 @@ import { useAuth } from 'global/AuthContext'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
+import Grid from '@mui/material/Grid2'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -52,17 +53,28 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ height: '100vh', display: 'flex' }}>
-      {/* Left Column */}
-      <Box
+    <Grid
+      container
+      sx={{
+        height: {
+          xs: '100%',
+          sm: 'calc(100dvh - var(--template-frame-height, 0px))',
+        },
+        mt: { xs: 4, sm: 0 },
+      }}
+    >
+      <Grid
+        size={{ xs: 12, sm: 5, lg: 4 }}
         sx={{
-          flex: '0 0 60%',
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          justifyContent: 'center',
-          p: 4,
-          bgcolor: 'primary.main',
-          color: 'primary.contrastText',
+          backgroundColor: 'background.paper',
+          borderRight: { sm: 'none', md: '1px solid' },
+          borderColor: { sm: 'none', md: 'divider' },
+          alignItems: 'start',
+          pt: 16,
+          px: 10,
+          gap: 4,
         }}
       >
         <Stack
@@ -83,59 +95,73 @@ const LoginPage: React.FC = () => {
           <Typography variant="h5">{t('HOME.slogan_two')}</Typography>
           <Typography>{t('LOGIN.welcomeDescription')}</Typography>
         </Stack>
-      </Box>
-
-      {/* Right Column */}
-      <Box
+      </Grid>
+      <Grid
+        size={{ sm: 12, md: 7, lg: 8 }}
         sx={{
-          flex: { xs: '1', md: '0 0 40%' },
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: { xs: 2, sm: 4 },
+          maxWidth: '100%',
+          width: '100%',
+          alignItems: 'start',
+          py: { xs: 0, sm: 16 },
+          px: { xs: 2, sm: 10 },
+          gap: { xs: 4, md: 8 },
           background: "url('images/hero-illustration.svg') top right no-repeat",
         }}
       >
-        <Card variant="outlined">
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <SitemarkIcon />
-          </Box>
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(1.5rem, 10vw, 1.85rem)' }}
-          >
-            {t('LOGIN.signIn')}
-          </Typography>
-          <Typography>
-            <Box component={'span'} sx={{ pr: 0.5 }}>
-              <InfoOutlined
-                sx={{ fontSize: 16, position: 'relative', top: 4 }}
-              />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: { sm: '100%', md: '100%' },
+            gap: 4,
+            height: '100%',
+          }}
+        >
+          <Card variant="outlined">
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <SitemarkIcon />
             </Box>
-            {t('LOGIN.permissionInfo')}
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              gap: 2,
-            }}
-          >
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <FacebookLoginButton onLogin={handleFacebookLogin} />
-              {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
-              {mutation.isError &&
-                t('LOGIN.loggingIn', {
-                  error: (mutation.error as Error).message,
-                })}
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{ width: '100%', fontSize: 'clamp(1.5rem, 10vw, 1.85rem)' }}
+            >
+              {t('LOGIN.signIn')}
+            </Typography>
+            <Typography>
+              <Box component={'span'} sx={{ pr: 0.5 }}>
+                <InfoOutlined
+                  sx={{ fontSize: 16, position: 'relative', top: 4 }}
+                />
+              </Box>
+              {t('LOGIN.permissionInfo')}
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                gap: 2,
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <FacebookLoginButton onLogin={handleFacebookLogin} />
+                {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
+                {mutation.isError &&
+                  t('LOGIN.loggingIn', {
+                    error: (mutation.error as Error).message,
+                  })}
+              </Box>
             </Box>
-          </Box>
-        </Card>
-      </Box>
-    </Box>
+          </Card>
+        </Box>
+      </Grid>
+    </Grid>
   )
 }
 

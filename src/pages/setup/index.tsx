@@ -28,7 +28,8 @@ import ConnectPages from '@containers/ConnectPages'
 import SurveyPages from '@containers/SurveyPages'
 
 const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
-  const isSurveyOpen = !!initData && !initData?.user_info.has_survey_filled
+  const isSurveyOpen =
+    !!initData && _.isEmpty(initData?.user_info.survey_responses)
   const [survey, setSurvey] = useState<boolean>(isSurveyOpen)
   const isEmptyConnect = !!initData && _.isEmpty(initData.connected_pages)
 
@@ -37,7 +38,7 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
       return <ConnectPages />
     }
     if (isEmptyConnect && survey) {
-      return <SurveyPages onSkip={() => setSurvey(false)} />
+      return <SurveyPages initData={initData} onSkip={() => setSurvey(false)} />
     }
     return null
   }
@@ -104,7 +105,7 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
             width: '100%',
             backgroundColor: { xs: 'transparent', sm: 'background.default' },
             alignItems: 'start',
-            pt: { xs: 0, sm: 16 },
+            py: { xs: 0, sm: 16 },
             px: { xs: 2, sm: 10 },
             gap: { xs: 4, md: 8 },
           }}
@@ -114,8 +115,9 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
-              maxWidth: { sm: '100%', md: 600 },
+              maxWidth: { sm: '100%', md: '100%' },
               gap: 4,
+              height: '100%',
             }}
           >
             {renderInitContent()}
