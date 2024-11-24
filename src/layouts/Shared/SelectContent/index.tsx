@@ -19,6 +19,7 @@ export default function SelectContent() {
   const { init } = useAuth()
   const connectedPages = _.get(init, 'connected_pages', [])
   const { t } = useTranslation()
+  const [open, setOpen] = React.useState(false)
 
   const current = _.get(init, 'page_info.fb_page_id', '')
   const queryClient = useQueryClient()
@@ -35,6 +36,10 @@ export default function SelectContent() {
     }
   }
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <Select
       labelId="company-select"
@@ -44,6 +49,9 @@ export default function SelectContent() {
       displayEmpty
       inputProps={{ 'aria-label': 'Select company' }}
       fullWidth
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       sx={{
         maxHeight: 56,
         width: 215,
@@ -64,7 +72,13 @@ export default function SelectContent() {
       {connectedPages &&
         connectedPages.map((p: ConnectedPage) => {
           return (
-            <MenuItem key={p.fb_page_id} value={p.fb_page_id}>
+            <MenuItem
+              onClick={() => {
+                handleClose() // Close the select when clicking this item
+              }}
+              key={p.fb_page_id}
+              value={p.fb_page_id}
+            >
               {p.is_default_page && <Check sx={{ fontSize: 10, mr: 1 }} />}
               <ListItemText primary={p.fb_name} />
             </MenuItem>
@@ -73,7 +87,12 @@ export default function SelectContent() {
 
       <Divider sx={{ mx: -1 }} />
       <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/connect">
-        <MenuItem value={40}>
+        <MenuItem
+          onClick={() => {
+            handleClose() // Close the select when clicking this item
+          }}
+          value={40}
+        >
           <ListItemIcon>
             <AddRoundedIcon />
           </ListItemIcon>

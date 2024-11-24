@@ -1,10 +1,10 @@
 import Stack from '@mui/material/Stack'
 import React from 'react'
-import NavbarBreadcrumbs from '../NavBarBreadcrumbs'
 import MenuButton from '../MenuButton'
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import LanguageSwitcher from './LanguageSwitcher'
 import { Languages } from '@constants/common.constants'
+import DynamicBreadcrumbs from '../DynamicBreadcrumbs'
 
 interface HeaderProps {
   lang: string
@@ -33,11 +33,13 @@ const Header: React.FC<HeaderProps> = ({ lang, changeLanguage }) => {
         alignItems: { xs: 'flex-start', md: 'center' },
         justifyContent: 'space-between',
         maxWidth: { sm: '100%', md: '1700px' },
-        pt: 1.5,
+        borderBottom: '1px solid #e1e5ea',
+        px: { xs: 2, md: 4 },
+        py: 1,
       }}
       spacing={2}
     >
-      <NavbarBreadcrumbs />
+      <DynamicBreadcrumbs />
       <Stack direction="row" sx={{ gap: 1 }}>
         <LanguageSwitcher
           currentLang={lang}

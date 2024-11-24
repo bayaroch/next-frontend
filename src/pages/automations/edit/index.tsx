@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -11,8 +10,6 @@ import {
   Box,
   Button,
   Card as MuiCard,
-  FormLabel,
-  IconButton,
   OutlinedInput,
   styled,
   Typography,
@@ -26,7 +23,7 @@ import _ from 'lodash'
 import Grid from '@mui/material/Grid2'
 import useAutomationEditForm from './useAutomationEditForm'
 import { FieldValues } from 'react-hook-form'
-import { Add, Check, CheckOutlined, Delete } from '@mui/icons-material'
+import { Add, Delete } from '@mui/icons-material'
 import ResponseCreateForm from './ResponseCreateForm'
 import FormField from '@components/@material-extend/FormField'
 import ResponseItem, {
@@ -36,11 +33,6 @@ import { LoadingButton } from '@mui/lab'
 import { useToast } from '@components/ToastProvider'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import { useConfirm } from '@components/Confirm'
-
-const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}))
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -74,13 +66,13 @@ const AutomationEditPage: React.FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid, isValidating },
+    formState: { errors, dirtyFields, isValid },
     fields,
     reset,
     Controller,
     append,
     setValue,
-    remove,
+    // remove,
   } = useAutomationEditForm()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -133,7 +125,7 @@ const AutomationEditPage: React.FC = () => {
         setFocused(null)
         showToast(t('TOASTS.success_automation'), { severity: 'success' })
       },
-      onError: (error) => {
+      onError: () => {
         showToast(t('TOASTS.fail_automation'), { severity: 'error' })
       },
     }
@@ -142,8 +134,8 @@ const AutomationEditPage: React.FC = () => {
   const isUpdating =
     updateAutomationMutation.isLoading && !updateAutomationMutation.isSuccess
 
-  const isNameChange =
-    !!dirtyFields.name && isValid && !isUpdating && !isValidating
+  // const isNameChange =
+  //   !!dirtyFields.name && isValid && !isUpdating && !isValidating
 
   const onSubmit = (data: any) => {
     updateAutomationMutation.mutate(data)
@@ -152,31 +144,38 @@ const AutomationEditPage: React.FC = () => {
     append(data)
     handleSubmit(onSubmit)()
   }
-  const handleRemove = (index: number) => {
-    confirm({
-      title: t('SYSCOMMON.delete_title'),
-      description: t('SYSCOMMON.delete_desc'),
-      additional_confirmation: 'delete',
-    })
-      .then(() => {
-        remove(index)
-        handleSubmit(onSubmit)()
-      })
-      .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log('Cancel')
-      })
-  }
 
+  useEffect(() => {
+    if (dirtyFields.name && isValid && !errors?.name) {
+      handleSubmit(onSubmit)()
+    }
+  }, [dirtyFields.name, isValid, errors?.name])
+  // const handleRemove = (index: number) => {
+  //   confirm({
+  //     title: t('SYSCOMMON.delete_title'),
+  //     description: t('SYSCOMMON.delete_desc'),
+  //     additional_confirmation: 'delete',
+  //   })
+  //     .then(() => {
+  //       remove(index)
+  //       handleSubmit(onSubmit)()
+  //     })
+  //     .catch(() => {
+  //       // eslint-disable-next-line no-console
+  //       console.log('Cancel')
+  //     })
+  // }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEdit = (index: number, data: any) => {
     handleSubmit(onSubmit)()
   }
 
   const handleCheckResponse = (field: ResponseField) => {
     setSelectedResponses((prev) =>
-      prev.includes(field.id)
-        ? prev.filter((id) => id !== field.id)
-        : [...prev, field.id]
+      prev.includes(field.keyword)
+        ? prev.filter((keyword) => keyword !== field.keyword)
+        : [...prev, field.keyword]
     )
   }
 
@@ -188,7 +187,7 @@ const AutomationEditPage: React.FC = () => {
     })
       .then(() => {
         const newFields = fields.filter(
-          (field) => !selectedResponses.includes(field.id)
+          (field) => !selectedResponses.includes(field.keyword)
         )
         setValue('comment_responses', newFields, { shouldValidate: true })
         setSelectedResponses([])
@@ -230,7 +229,7 @@ const AutomationEditPage: React.FC = () => {
                 inputRef={ref}
                 placeholder={t('AUTOMATION.name')}
                 autoComplete={t('AUTOMATION.name')}
-                onBlur={(e) => {
+                onBlur={() => {
                   if (dirtyFields.name && isValid && !errors?.name) {
                     handleSubmit(onSubmit)()
                   }
@@ -407,10 +406,10 @@ const AutomationEditPage: React.FC = () => {
             </Card>
           ) : (
             <ResponseItem
-              isChecked={selectedResponses.includes(field.id)}
+              isChecked={selectedResponses.includes(field.keyword)}
               onCheck={handleCheckResponse}
               key={field.id}
-              onEdit={(v) => {
+              onEdit={() => {
                 setFocused({ active: field.id, fields: fields })
               }}
               response={field}

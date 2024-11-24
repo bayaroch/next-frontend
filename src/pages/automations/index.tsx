@@ -14,6 +14,7 @@ import {
   AutomationListResponse,
   AutomationService,
   CreateAutomationInput,
+  UpdateStatusInput,
 } from '@services/automation.services'
 import { Box, Button, List, Paper, styled, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -23,13 +24,11 @@ import Grid from '@mui/material/Grid2'
 import AutomationListItem from '@components/Automation/AutomationListItem'
 import CreateAutomationDialog from './CreateAutomationDialog'
 import { useConfirm } from '@components/Confirm'
+import { Add } from '@mui/icons-material'
+import AutomationListHeader from '@components/Automation/AutomationListHeader'
+import { useToast } from '@components/ToastProvider'
 
-const ITEMS_PER_PAGE = 10
-
-const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}))
+const ITEMS_PER_PAGE = 100 // finish pagination there is error wrong total count
 
 const AutomationListPage: React.FC = () => {
   const [open, setOpen] = useState(false)
@@ -39,6 +38,7 @@ const AutomationListPage: React.FC = () => {
   const queryClient = useQueryClient()
   const initData = queryClient.getQueryData(['appInit'])
   const connectedPages: ConnectedPage[] = _.get(initData, 'connected_pages', [])
+  const { showToast } = useToast()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation()
 
@@ -97,16 +97,38 @@ const AutomationListPage: React.FC = () => {
     },
   })
 
-  const handleClose = () => setOpen(false)
+  const updateStatusAutomationMutation = useMutation(
+    (input: UpdateStatusInput) =>
+      AutomationService.updateStatus(
+        input.pageId,
+        input.automationId,
+        input.input
+      ),
+    {
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries(['automations', pageId])
+        // You can add a success message or redirect here
+      },
+      onError: () => {
+        showToast(t('TOASTS.fail_automation'), { severity: 'error' })
+      },
+    }
+  )
+
+  const handleStatus = (v: Automation) => {
+    if (pageId) {
+      updateStatusAutomationMutation.mutate({
+        pageId: pageId,
+        automationId: v.automation_id,
+        input: {
+          is_active: !v.is_active,
+        },
+      })
+    }
+  }
 
   const handleOpen = () => setOpen(true)
-
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    setPage(value)
-  }
 
   const handleDelete = (automation: Automation) => {
     if (pageId) {
@@ -150,30 +172,43 @@ const AutomationListPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, width: '100%' }}>
+    <Box sx={{ width: '100%' }}>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
         mb={2}
       >
-        <Typography variant="h4">Automations</Typography>
-        <Button variant="contained" color="primary" onClick={handleOpen}>
-          Create Automation
+        <Typography variant="h4"> {t('SYSCOMMON.automations')}</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleOpen}
+          endIcon={<Add />}
+        >
+          {t('SYSCOMMON.create')}
         </Button>
       </Box>
-      <Paper elevation={2} sx={{ overflow: 'hidden' }}>
-        <List sx={{ p: 0 }}>
-          {automationsData?.data.map((automation) => (
+      <AutomationListHeader />
+      <List sx={{ p: 0 }}>
+        {automationsData?.data.map((automation) => (
+          <Paper
+            key={automation.automation_id}
+            sx={{
+              overflow: 'hidden',
+              boxShadow: '0 4px 8px #20222408,0 1px 2px #00000014',
+              mb: 2,
+            }}
+          >
             <AutomationListItem
-              key={automation.automation_id}
               data={automation}
               onEdit={() => navigate(`/automation/${automation.automation_id}`)}
               onDelete={() => handleDelete(automation)}
+              onSetActive={(v) => handleStatus(v)}
             />
-          ))}
-        </List>
-      </Paper>
+          </Paper>
+        ))}
+      </List>
 
       {/* <Box display="flex" justifyContent="center" mt={2}>
         <Pagination

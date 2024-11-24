@@ -18,6 +18,7 @@ export interface Automation {
   comment_responses: CommentResponse[]
   updated_at: string
   created_at: string
+  is_active: boolean
 }
 
 export interface CreateAutomationInput {
@@ -46,6 +47,14 @@ export interface AutomationDetailResponse {
 
 export interface AutomationCreateResponse {
   data: Automation
+}
+
+export interface UpdateStatusInput {
+  pageId: string
+  automationId: string
+  input: {
+    is_active: boolean
+  }
 }
 
 export const AutomationService = {
@@ -81,6 +90,20 @@ export const AutomationService = {
   ): Promise<AutomationCreateResponse> => {
     const { data } = await api.put<AutomationCreateResponse>(
       `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}/${automationId}`,
+      input
+    )
+    return data
+  },
+
+  updateStatus: async (
+    pageId: string,
+    automationId: string,
+    input: {
+      is_active: boolean
+    }
+  ): Promise<AutomationCreateResponse> => {
+    const { data } = await api.put<AutomationCreateResponse>(
+      `${URI.PAGE}/${pageId}/${URI.AUTOMATIONS}/${automationId}/update-status`,
       input
     )
     return data

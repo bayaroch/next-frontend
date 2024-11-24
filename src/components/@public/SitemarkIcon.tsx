@@ -2,7 +2,7 @@ import SvgIcon from '@mui/material/SvgIcon'
 
 export default function SitemarkIcon() {
   return (
-    <SvgIcon sx={{ height: 30, width: 100, mr: 2 }}>
+    <SvgIcon sx={{ height: 34, width: 'auto' }}>
       <svg
         version="1.1"
         viewBox="0 0 2048 620"

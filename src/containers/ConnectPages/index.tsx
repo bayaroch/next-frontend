@@ -13,7 +13,6 @@ import {
   Avatar,
   Typography,
   ListItemAvatar,
-  Stack,
   Paper,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -116,48 +115,47 @@ const ConnectPages = () => {
 
   return (
     <>
-      <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
+      <Typography variant="h4" component="h1">
         {t('SYSCOMMON.selectPage')}
       </Typography>
       <Typography
         variant="body1"
         color="text.secondary"
-        sx={{ lineHeight: 1.7 }}
+        sx={{ lineHeight: 1.7, mb: 2 }}
       >
         {t('SYSCOMMON.description2')}
       </Typography>
 
       {data && data.data.length > 0 ? (
-        <Stack spacing={3}>
-          <List sx={{ width: '100%' }}>
-            {data.data.map((page: FacebookPage) => (
-              <Paper key={page.id} elevation={2} sx={{ mb: 1 }}>
-                <ListItem
-                  sx={{
-                    borderRadius: 1,
-                    '&:hover': {
-                      bgcolor: 'action.hover',
-                    },
-                  }}
-                  secondaryAction={renderButton(page)}
-                >
-                  <ListItemAvatar>
-                    <Avatar
-                      src={page.cover.source || undefined}
-                      alt={page.name}
-                    >
-                      {page.name.charAt(0)}
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={page.name}
-                    secondary={`${page.category || t('SYSCOMMON.page')} • ${page.followers_count || 0} ${t('SYSCOMMON.followers')}`}
-                  />
-                </ListItem>
-              </Paper>
-            ))}
-          </List>
-        </Stack>
+        <List sx={{ width: '100%', p: 0 }}>
+          {data.data.map((page: FacebookPage) => (
+            <Paper key={page.id} elevation={2} sx={{ mb: 1 }}>
+              <ListItem
+                sx={{
+                  borderRadius: 1,
+                  '&:hover': {
+                    bgcolor: 'action.hover',
+                  },
+                }}
+                secondaryAction={renderButton(page)}
+              >
+                <ListItemAvatar sx={{ mr: 2 }}>
+                  <Avatar
+                    sx={{ width: 60, height: 60 }}
+                    src={page.cover.source || undefined}
+                    alt={page.name}
+                  >
+                    {page.name.charAt(0)}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={page.name}
+                  secondary={`${page.category || t('SYSCOMMON.page')} • ${page.followers_count || 0} ${t('SYSCOMMON.followers')}`}
+                />
+              </ListItem>
+            </Paper>
+          ))}
+        </List>
       ) : (
         <Typography color="text.secondary">{t('SYSCOMMON.noPages')}</Typography>
       )}

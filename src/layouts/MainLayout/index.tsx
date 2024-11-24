@@ -45,22 +45,13 @@ const MainLayout: React.FC<PropsWithChildren> = () => {
                 ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
                 : alpha(theme.palette.background.default, 1),
               overflow: 'auto',
+              p: 0,
             })}
           >
-            <Stack
-              spacing={2}
-              sx={{
-                alignItems: 'center',
-                mx: 3,
-                pb: 5,
-                mt: { xs: 8, md: 0 },
-              }}
-            >
-              <Header lang={lang} changeLanguage={changeLanguage} />
-              <Box sx={{ width: '100%' }}>
-                <Outlet />
-              </Box>
-            </Stack>
+            <Header lang={lang} changeLanguage={changeLanguage} />
+            <Box sx={{ width: '100%', p: { xs: 2, md: 4 } }}>
+              <Outlet />
+            </Box>
           </Box>
         </Box>
       </Box>

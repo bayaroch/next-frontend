@@ -79,7 +79,14 @@ const MenuContent: React.FC = () => {
               disablePadding
               sx={{ display: 'block', color: 'inherit' }}
             >
-              <ListItemButton selected={isSelected}>
+              <ListItemButton
+                sx={{
+                  '&.Mui-selected': {
+                    color: (theme) => theme.palette.primary.main,
+                  },
+                }}
+                selected={isSelected}
+              >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={t(item.text)} />
               </ListItemButton>

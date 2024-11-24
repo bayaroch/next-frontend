@@ -37,14 +37,35 @@ const SideMenu: React.FC<SideMenuProps> = ({ initData, onLogout }) => {
   return (
     <Drawer
       variant="permanent"
+      PaperProps={{
+        sx: {
+          zIndex: 10,
+          overflow: 'hidden',
+          background: 'none',
+          border: '0 none',
+          '&:after': {
+            content: '""',
+            position: 'absolute',
+            zIndex: 20,
+            top: '-40px',
+            bottom: '-40px',
+            left: '100%',
+            width: '100%',
+            boxShadow: '-12px 0 24px -5px rgba(132, 146, 166, .16)',
+            pointerEvents: 'none',
+          },
+        },
+      }}
       sx={{
+        position: 'relative',
+        zIndex: 10,
         display: { xs: 'none', md: 'block' },
         [`& .${drawerClasses.paper}`]: {
-          backgroundColor: 'background.paper',
+          backgroundColor: 'transparent',
         },
       }}
     >
-      <Box sx={{ mt: 2, ml: 2 }}>
+      <Box sx={{ pt: 1, pb: 0.5, px: 2, borderBottom: '1px solid #e1e5ea' }}>
         <Link to="/">
           <SitemarkIcon />
         </Link>

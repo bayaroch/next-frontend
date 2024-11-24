@@ -55,6 +55,9 @@ export default {
     delete_desc: 'Are you sure you want to delete this item?',
     delete: 'Delete',
     next: 'Next',
+    name: 'Name',
+    status: 'Status',
+    edit: 'Edit',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -105,6 +108,8 @@ export default {
     select_company_size: 'Select company size',
   },
   AUTOMATION: {
+    responses: 'Responses',
+    last_modified: 'Modified',
     create_automation: 'Create Automation',
     name: 'Name',
     select_post: 'Select Post',
@@ -119,12 +124,19 @@ export default {
       'Enter the content that will be posted as a comment. This content will be used when the AI selects the corresponding keyword from a Facebook post.',
     keyword_help:
       'Enter a keyword that represents the meaning of your content. The AI will analyze user comments and choose the most suitable keyword for reply. Examples: price, location, product detail. Note: Choose keywords that accurately represent your content as the AI only matches keywords, not the actual content.',
+    pause: 'Pause',
+    activate: 'Activate',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',
     automation_post: 'Post connected to this automation',
     automation_keyword: 'Keyword for AI',
     automation_contennt: 'Auto-reply content',
+  },
+  ROUTES: {
+    dashboard: 'Dashhboard',
+    automation: 'Automations',
+    edit: 'Edit',
   },
   ERROR: {
     E000001: '{{field}} is required',
