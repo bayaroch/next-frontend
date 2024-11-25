@@ -17,6 +17,7 @@ import {
   surveyUpdateService,
 } from '@services/auth.services'
 import _ from 'lodash'
+import { LoadingButton } from '@mui/lab'
 
 interface SurveyPagesProps {
   onSkip?: () => void
@@ -246,9 +247,14 @@ const SurveyPages: React.FC<SurveyPagesProps> = ({ onSkip, initData }) => {
           <Button variant="text" onClick={() => onSkip && onSkip()}>
             Skip
           </Button>
-          <Button variant="contained" color="primary" type="submit">
+          <LoadingButton
+            loading={updateSurvey.isLoading}
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
             {t('SYSCOMMON.next')}
-          </Button>
+          </LoadingButton>
         </Stack>
       </form>
     </>

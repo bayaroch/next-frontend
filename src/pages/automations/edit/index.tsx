@@ -268,7 +268,15 @@ const AutomationEditPage: React.FC = () => {
                 />
               </FormField>
               {fbDetail && (
-                <Paper elevation={2} sx={{ mb: 2 }}>
+                <Paper
+                  elevation={2}
+                  sx={{
+                    mb: 2,
+                    borderRadius: 1,
+                    border: '0 none',
+                    overflow: 'hidden',
+                  }}
+                >
                   <AutomationPostItem data={fbDetail} />
                 </Paper>
               )}

@@ -276,7 +276,10 @@ const PaymentOutlet = ({
     return <Suspense fallback={<PageLoader />}>Payment page</Suspense>
   }
 
-  if (initData && _.isEmpty(initData.connected_pages)) {
+  if (
+    (initData && _.isEmpty(initData.connected_pages)) ||
+    (initData && _.isEmpty(initData.user_info.survey_responses))
+  ) {
     return (
       <Suspense fallback={<PageLoader />}>
         <SetupPage initData={initData} />

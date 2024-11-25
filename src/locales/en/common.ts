@@ -137,6 +137,7 @@ export default {
     dashboard: 'Dashhboard',
     automation: 'Automations',
     edit: 'Edit',
+    connect: 'Connect',
   },
   ERROR: {
     E000001: '{{field}} is required',

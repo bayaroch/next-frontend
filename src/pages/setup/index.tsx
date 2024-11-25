@@ -37,7 +37,10 @@ const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
     if (isEmptyConnect && !survey) {
       return <ConnectPages />
     }
-    if (isEmptyConnect && survey) {
+    if (
+      (isEmptyConnect && survey && initData) ||
+      (!isEmptyConnect && survey && initData)
+    ) {
       return <SurveyPages initData={initData} onSkip={() => setSurvey(false)} />
     }
     return null

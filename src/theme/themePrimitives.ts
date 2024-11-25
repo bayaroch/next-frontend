@@ -29,6 +29,7 @@ declare module '@mui/material/styles/createPalette' {
 const defaultTheme = createTheme()
 
 const customShadows: Shadows = [...defaultTheme.shadows]
+customShadows[2] = '0 4px 8px #20222408,0 1px 2px #00000014'
 
 export const brand = {
   50: 'hsl(256, 52%, 95%)',

@@ -6,6 +6,7 @@ import {
   Stack,
   IconButton,
   Avatar,
+  Paper,
 } from '@mui/material'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import moment from 'moment'
@@ -58,12 +59,15 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
   const formattedDate = moment(data.created_time).format('YYYY-MM-DD hh:mm')
   return (
     <ListItem
+      component={Paper}
+      elevation={2}
       data-test-id="automation-list-item"
       onClick={() => onSelect && onSelect(data)}
       sx={{
         pl: 1,
+        mb: 2,
         alignItems: 'flex-start',
-        borderBottom: '1px solid #dedede',
+        border: '0 none',
         '&:last-child': {
           borderBottom: '0 none',
         },
@@ -141,7 +145,10 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
             mb: 0.5,
           }}
         >
-          <AccessTimeIcon fontSize="small" />
+          <AccessTimeIcon
+            sx={{ color: active ? '#eee' : 'inherit' }}
+            fontSize="small"
+          />
           <Typography
             variant="body2"
             sx={{ fontSize: 10, color: active ? '#eee' : 'inherit' }}
@@ -154,6 +161,12 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
             variant="subtitle2"
             sx={{
               fontWeight: 500,
+              color: active ? '#eee' : 'inherit',
+              mb: 1,
+              display: '-webkit-box',
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
             }}
           >
             {data.message ? data.message : 'No message'}

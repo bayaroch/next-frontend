@@ -135,6 +135,7 @@ export default {
     dashboard: 'Эхлэл',
     automation: 'Автоматжуулалт',
     edit: 'засах',
+    connect: 'Холболт',
   },
   ERROR: {
     E000001: '{{field}} оруулах',
