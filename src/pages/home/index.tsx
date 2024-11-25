@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import Divider from '@mui/material/Divider'
 import Hero from '@components/@public/Hero'
-import Pricing from '@components/@public/Pricing'
+// import Pricing from '@components/@public/Pricing'
 import Features from '@components/@public/Features'
 import FAQ from '@components/@public/FAQ'
 import { lang } from '@constants/content.constants'
@@ -18,7 +18,7 @@ export default function HomePage() {
         <Features />
         <Divider />
         {/* <Testimonials /> */}
-        <Pricing />
+        {/* <Pricing /> */}
         <Divider />
         <FAQ lang={`${i18next.language as lang}`} />
         <Divider />
