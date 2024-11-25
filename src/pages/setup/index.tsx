@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { AppInitResponse } from '@services/auth.services'
 import {
@@ -26,22 +26,30 @@ import {
 import { useTranslation } from 'react-i18next'
 import ConnectPages from '@containers/ConnectPages'
 import SurveyPages from '@containers/SurveyPages'
+import { useAuth } from '@global/AuthContext'
 
-const SetupPage = ({ initData }: { initData?: AppInitResponse }) => {
-  const isSurveyOpen =
-    !!initData && _.isEmpty(initData?.user_info.survey_responses)
+const SetupPage = () => {
+  const { init } = useAuth()
+
+  const isSurveyOpen = !!init && _.isEmpty(init?.user_info.survey_responses)
   const [survey, setSurvey] = useState<boolean>(isSurveyOpen)
-  const isEmptyConnect = !!initData && _.isEmpty(initData.connected_pages)
+  const isEmptyConnect = !!init && _.isEmpty(init.connected_pages)
+
+  useEffect(() => {
+    if (!!init && !_.isEmpty(init?.user_info.survey_responses)) {
+      setSurvey(false)
+    }
+  }, [init])
 
   const renderInitContent = () => {
     if (isEmptyConnect && !survey) {
       return <ConnectPages />
     }
     if (
-      (isEmptyConnect && survey && initData) ||
-      (!isEmptyConnect && survey && initData)
+      (isEmptyConnect && survey && init) ||
+      (!isEmptyConnect && survey && init)
     ) {
-      return <SurveyPages initData={initData} onSkip={() => setSurvey(false)} />
+      return <SurveyPages initData={init} onSkip={() => setSurvey(false)} />
     }
     return null
   }

@@ -282,7 +282,7 @@ const PaymentOutlet = ({
   ) {
     return (
       <Suspense fallback={<PageLoader />}>
-        <SetupPage initData={initData} />
+        <SetupPage />
       </Suspense>
     )
   }
