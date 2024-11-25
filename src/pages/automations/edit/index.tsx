@@ -15,7 +15,6 @@ import {
   Typography,
   Stack,
   TextField,
-  Paper,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
@@ -267,19 +266,7 @@ const AutomationEditPage: React.FC = () => {
                   required
                 />
               </FormField>
-              {fbDetail && (
-                <Paper
-                  elevation={2}
-                  sx={{
-                    mb: 2,
-                    borderRadius: 1,
-                    border: '0 none',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <AutomationPostItem data={fbDetail} />
-                </Paper>
-              )}
+              {fbDetail && <AutomationPostItem data={fbDetail} />}
             </>
           )}
         />

@@ -7,6 +7,7 @@ import {
   IconButton,
   Avatar,
   Paper,
+  Chip,
 } from '@mui/material'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import moment from 'moment'
@@ -19,6 +20,7 @@ import EventIcon from '@mui/icons-material/Event'
 import NoteIcon from '@mui/icons-material/Note'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
+import { t } from 'i18next'
 // import _ from 'lodash'
 
 interface AutomationPostItemProps {
@@ -62,7 +64,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
       component={Paper}
       elevation={2}
       data-test-id="automation-list-item"
-      onClick={() => onSelect && onSelect(data)}
+      onClick={() => !data?.is_used && onSelect && onSelect(data)}
       sx={{
         pl: 1,
         mb: 2,
@@ -74,7 +76,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
         backgroundColor: active
           ? (theme) => theme.palette.primary.main
           : 'white',
-        cursor: 'pointer',
+        cursor: data.is_used ? 'inherit' : 'pointer',
         '&:hover': {
           backgroundColor: active
             ? (theme) => theme.palette.primary.main
@@ -82,18 +84,21 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
         },
       }}
       secondaryAction={
-        onSelect && (
-          <IconButton
-            data-test-id="delete-button"
-            edge="end"
-            aria-label="delete"
-            onClick={() => onSelect && onSelect(data)}
-            size="small"
-            color="primary"
-          >
-            <ArrowRight />
-          </IconButton>
-        )
+        <>
+          {onSelect && !data?.is_used && (
+            <IconButton
+              data-test-id="delete-button"
+              edge="end"
+              aria-label="delete"
+              onClick={() => !data?.is_used && onSelect && onSelect(data)}
+              size="small"
+              color="primary"
+            >
+              <ArrowRight />
+            </IconButton>
+          )}
+          {data?.is_used && <Chip label={t('SYSCOMMON.used')} />}
+        </>
       }
     >
       {data.full_picture && !imageError ? (
@@ -156,7 +161,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
             {formattedDate}
           </Typography>
         </Stack>
-        <Box sx={{ height: 45, overflow: 'hidden' }}>
+        <Box sx={{ height: 45, overflow: 'hidden', pr: 10 }}>
           <Typography
             variant="subtitle2"
             sx={{

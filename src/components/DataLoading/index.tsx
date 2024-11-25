@@ -63,6 +63,7 @@ const DataLoading: React.FC<DataLoadingProps> = ({
       sx={{
         display: 'flex',
         width: '100%',
+        height: '100%',
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',

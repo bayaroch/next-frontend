@@ -73,6 +73,7 @@ export interface Post {
   }
   shares?: { count: number }
   is_published: boolean
+  is_used?: boolean
   icon?: string
   //add other graph api fields icon comments likes
 }
