@@ -18,6 +18,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
 import { useConfirm } from '@components/Confirm'
+import _ from 'lodash'
 
 const ConnectPages = () => {
   const { t } = useTranslation()
@@ -142,7 +143,7 @@ const ConnectPages = () => {
                 <ListItemAvatar sx={{ mr: 2 }}>
                   <Avatar
                     sx={{ width: 60, height: 60 }}
-                    src={page.cover.source || undefined}
+                    src={_.get(page, 'cover.source')}
                     alt={page.name}
                   >
                     {page.name.charAt(0)}

@@ -222,6 +222,7 @@ const AutomationListPage: React.FC = () => {
 
       <CreateAutomationDialog
         open={open}
+        isLoading={isLoadingPosts}
         onClose={() => setOpen(false)}
         posts={posts}
         onSubmit={handleSubmit}

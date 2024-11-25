@@ -19,7 +19,7 @@ export interface FacebookPage {
       width: number
     }
   }
-  cover: {
+  cover?: {
     cover_id: string
     offset_x: number
     offset_y: number

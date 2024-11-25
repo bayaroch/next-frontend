@@ -22,6 +22,7 @@ import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import useAutomationCreateForm from './useAutomationCreateForm'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
+import DataLoading from '@components/DataLoading'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -35,6 +36,7 @@ interface CreateAutomationDialogProps {
     data: Post[]
   }
   onSubmit: (data: { name: string; fb_page_post_id: string }) => void
+  isLoading: boolean
 }
 
 const StyledDialogContent = styled(DialogContent)({
@@ -50,7 +52,8 @@ const ScrollableBox = styled(Paper)(() => ({
   overflowY: 'auto',
   paddingRight: '10px',
   display: 'flex',
-  border: '0 none',
+  border: '1px solid #ececec',
+  padding: '12px',
   borderRadius: 0,
   flexDirection: 'column',
   marginTop: '9px',
@@ -87,10 +90,13 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   onClose,
   posts,
   onSubmit,
+  isLoading,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const { Controller, methods } = useAutomationCreateForm()
+
+  const isLoadingPosts = !posts && isLoading
 
   const {
     control,
@@ -148,105 +154,126 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   }, [debouncedSetSearch])
 
   return (
-    <Dialog fullScreen open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogContent sx={{ borderRadius: 0 }}>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <StyledDialogTitle>
-            {t('AUTOMATION.create_automation')}
-            <IconButton
-              aria-label="close"
-              onClick={onClose}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </StyledDialogTitle>
-          <StyledDialogContent>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field: { ref, ...rest } }: FieldValues) => (
-                <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
-                  <FormLabel htmlFor="first-name" required>
-                    {t('AUTOMATION.name')}
-                  </FormLabel>
-                  <OutlinedInput
-                    {...rest}
-                    error={!!errors?.name}
-                    inputRef={ref}
-                    placeholder={t('AUTOMATION.name')}
-                    autoComplete={t('AUTOMATION.name')}
-                    required
-                  />
-
-                  <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                    {errors?.name && errors.name.message}
-                  </FormLabel>
-                </FormGrid>
-              )}
-            />
-
-            <Box>
-              <Stack
-                direction={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-              >
-                <FormLabel sx={{ minWidth: 150 }}>
-                  {t('AUTOMATION.select_post')}
-                </FormLabel>
-                <TextField
-                  size="small"
-                  placeholder={t('AUTOMATION.search_posts')}
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </Stack>
-            </Box>
-
-            <ScrollableBox>
-              <Controller
-                name="fb_page_post_id"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {posts &&
-                      filteredAndOrderedPosts.map((p) => (
-                        <AutomationPostItem
-                          key={p.id}
-                          data={p}
-                          active={p.id === _.get(value, 'id', null)}
-                          onSelect={(v) => onChange(v)}
-                        />
-                      ))}
-                  </>
-                )}
-              />
-            </ScrollableBox>
-          </StyledDialogContent>
-          <DialogActions
+    <Dialog
+      sx={{
+        '& .MuiDialog-paper': {
+          borderRadius: 0,
+        },
+      }}
+      fullScreen
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+    >
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <StyledDialogTitle>
+          {t('AUTOMATION.create_automation')}
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
             sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
+              position: 'absolute',
+              right: 8,
+              top: 8,
             }}
           >
-            <Button onClick={onClose}> {t('SYSCOMMON.cancel')}</Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!isValid}
+            <CloseIcon />
+          </IconButton>
+        </StyledDialogTitle>
+        <StyledDialogContent>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field: { ref, ...rest } }: FieldValues) => (
+              <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
+                <FormLabel htmlFor="first-name" required>
+                  {t('AUTOMATION.name')}
+                </FormLabel>
+                <OutlinedInput
+                  {...rest}
+                  error={!!errors?.name}
+                  inputRef={ref}
+                  placeholder={t('AUTOMATION.name')}
+                  autoComplete={t('AUTOMATION.name')}
+                  required
+                />
+
+                <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
+                  {errors?.name && errors.name.message}
+                </FormLabel>
+              </FormGrid>
+            )}
+          />
+
+          <Box>
+            <Stack
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
             >
-              {t('SYSCOMMON.create')}
-            </Button>
-          </DialogActions>
-        </form>
-      </DialogContent>
+              <FormLabel sx={{ minWidth: 150 }}>
+                {t('AUTOMATION.select_post')}
+              </FormLabel>
+              <TextField
+                size="small"
+                placeholder={t('AUTOMATION.search_posts')}
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </Stack>
+          </Box>
+
+          <ScrollableBox>
+            <Controller
+              name="fb_page_post_id"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  {posts &&
+                    filteredAndOrderedPosts.map((p) => (
+                      <AutomationPostItem
+                        key={p.id}
+                        data={p}
+                        active={p.id === _.get(value, 'id', null)}
+                        onSelect={(v) => onChange(v)}
+                      />
+                    ))}
+                  {isLoadingPosts && (
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '200px',
+                        position: 'relative',
+                      }}
+                    >
+                      <DataLoading isLoading={isLoadingPosts} />
+                    </Box>
+                  )}
+                </>
+              )}
+            />
+          </ScrollableBox>
+        </StyledDialogContent>
+        <DialogActions
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            borderTop: '1px solid #ccc',
+          }}
+        >
+          <Button onClick={onClose}> {t('SYSCOMMON.cancel')}</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={!isValid}
+          >
+            {t('SYSCOMMON.create')}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }
