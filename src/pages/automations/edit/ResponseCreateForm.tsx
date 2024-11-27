@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
@@ -39,7 +39,17 @@ const ResponseCreateForm: React.FC<CreateFormProps> = ({
     control,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = methods
+
+  useEffect(() => {
+    if (!open) {
+      reset({
+        keyword: '',
+        content: '',
+      })
+    }
+  }, [open])
 
   const handleFormSubmit = (data: CommentResponse) => {
     onSubmit(data)

@@ -135,7 +135,6 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   // Memoize filtered and ordered posts
   const filteredAndOrderedPosts = useMemo(() => {
     //also filter by is_published true
-
     return _.chain(publishedPosts)
       .filter((post: Post) => {
         // Handle case where message might be undefined

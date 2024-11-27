@@ -9,6 +9,7 @@ import {
   MenuItem,
   useMediaQuery,
   useTheme,
+  Stack,
 } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
@@ -113,7 +114,9 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
         />
       </Box>
 
-      <Box
+      <Stack
+        spacing={1}
+        direction={'row'}
         sx={{
           flex: 1,
           display: !isMobile ? 'flex' : 'none',
@@ -122,8 +125,13 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
           width: isMobile ? '100%' : 'auto',
         }}
       >
-        {data.comment_responses.length}
-      </Box>
+        <Chip
+          label={`${data.comment_responses.length > 1 ? data.comment_responses.length : 'No'} responses`}
+          size="small"
+          color="primary"
+          variant={data.comment_responses.length > 0 ? 'filled' : 'outlined'}
+        />
+      </Stack>
 
       {/* Modified Date Column */}
       <Box

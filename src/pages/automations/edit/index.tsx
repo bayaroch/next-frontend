@@ -15,6 +15,7 @@ import {
   Typography,
   Stack,
   TextField,
+  Paper,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
@@ -207,69 +208,75 @@ const AutomationEditPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, width: '100%' }}>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="name"
-          control={control}
-          render={({ field: { ref, ...rest } }: FieldValues) => (
-            <FormField
-              sx={{ mb: 1 }}
-              fullWidth
-              errors={errors?.name && errors.name.message}
-              label={t('AUTOMATION.name')}
-              desc={t('FORM_DESC.automation_name')}
-              required
-            >
-              <OutlinedInput
-                {...rest}
-                fullWidth
-                error={!!errors?.name}
-                inputRef={ref}
-                placeholder={t('AUTOMATION.name')}
-                autoComplete={t('AUTOMATION.name')}
-                onBlur={() => {
-                  if (dirtyFields.name && isValid && !errors?.name) {
-                    handleSubmit(onSubmit)()
-                  }
-                }}
-                required
-              />
-            </FormField>
-          )}
-        />
-
-        <Controller
-          name="fb_page_post_id"
-          control={control}
-          render={({ field: { ref, ...rest } }: FieldValues) => (
-            <>
+        <Box
+          component={Paper}
+          elevation={2}
+          sx={{ padding: 2, width: '100%', background: '#fff', mb: 4 }}
+        >
+          <Controller
+            name="name"
+            control={control}
+            render={({ field: { ref, ...rest } }: FieldValues) => (
               <FormField
+                sx={{ mb: 2 }}
                 fullWidth
-                hidden
-                errors={
-                  errors?.fb_page_post_id && errors.fb_page_post_id.message
-                }
-                label={t('AUTOMATION.post')}
-                desc={t('FORM_DESC.automation_post')}
+                errors={errors?.name && errors.name.message}
+                label={t('AUTOMATION.name')}
+                desc={t('FORM_DESC.automation_name')}
                 required
               >
                 <OutlinedInput
                   {...rest}
-                  hidden
-                  error={!!errors?.fb_page_post_id}
-                  disabled
                   fullWidth
-                  sx={{ display: 'none' }}
+                  error={!!errors?.name}
                   inputRef={ref}
-                  placeholder={t('AUTOMATION.post')}
+                  placeholder={t('AUTOMATION.name')}
+                  autoComplete={t('AUTOMATION.name')}
+                  onBlur={() => {
+                    if (dirtyFields.name && isValid && !errors?.name) {
+                      handleSubmit(onSubmit)()
+                    }
+                  }}
                   required
                 />
               </FormField>
-              {fbDetail && <AutomationPostItem data={fbDetail} />}
-            </>
-          )}
-        />
+            )}
+          />
+
+          <Controller
+            name="fb_page_post_id"
+            control={control}
+            render={({ field: { ref, ...rest } }: FieldValues) => (
+              <>
+                <FormField
+                  fullWidth
+                  hidden
+                  errors={
+                    errors?.fb_page_post_id && errors.fb_page_post_id.message
+                  }
+                  label={t('AUTOMATION.post')}
+                  desc={t('FORM_DESC.automation_post')}
+                  required
+                >
+                  <OutlinedInput
+                    {...rest}
+                    hidden
+                    error={!!errors?.fb_page_post_id}
+                    disabled
+                    fullWidth
+                    sx={{ display: 'none' }}
+                    inputRef={ref}
+                    placeholder={t('AUTOMATION.post')}
+                    required
+                  />
+                </FormField>
+                {fbDetail && <AutomationPostItem data={fbDetail} />}
+              </>
+            )}
+          />
+        </Box>
         <Stack
           direction={'row'}
           width={'100%'}
@@ -420,7 +427,7 @@ const AutomationEditPage: React.FC = () => {
         open={open}
         onClose={handleClose}
       />
-    </Box>
+    </>
   )
 }
 
