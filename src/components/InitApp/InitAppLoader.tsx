@@ -1,6 +1,6 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import DataLoading from '@components/DataLoading'
+import { CircularProgress } from '@mui/material'
 
 const InitAppLoader: React.FC = () => {
   return (
@@ -29,7 +29,7 @@ const InitAppLoader: React.FC = () => {
         },
       }}
     >
-      <DataLoading isLoading={true} />
+      <CircularProgress size={24} />
     </Box>
   )
 }

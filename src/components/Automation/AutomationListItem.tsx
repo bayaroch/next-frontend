@@ -10,15 +10,18 @@ import {
   useMediaQuery,
   useTheme,
   Stack,
+  Link as MuiLink,
 } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PauseIcon from '@mui/icons-material/Pause'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import moment from 'moment'
 import { Automation } from '@services/automation.services'
 import { useTranslation } from 'react-i18next'
+import { formatHumanDate } from '@utils/helper/common.helper'
+import { AccessTimeOutlined } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 interface AutomationListItemProps {
   data: Automation
@@ -34,7 +37,7 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
   onSetActive,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const formattedDate = moment(data.updated_at).format('YYYY-MM-DD HH:mm')
+  const formattedDate = formatHumanDate(data.updated_at)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
@@ -81,19 +84,28 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
     >
       {/* Name Column */}
       <Box sx={{ flex: 2, width: '100%', mb: isMobile ? 2 : 0 }}>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            fontWeight: 500,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            fontSize: 15,
-            whiteSpace: 'nowrap',
-            maxWidth: { xs: '100%', sm: '200px', md: '300px', lg: '400px' },
-          }}
+        <MuiLink
+          component={Link}
+          to={`/automation/${data.automation_id}`}
+          sx={{ border: '0 none', textDecoration: 'none', color: 'inherit' }}
         >
-          {data.name}
-        </Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 500,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              fontSize: 15,
+              whiteSpace: 'nowrap',
+              maxWidth: { xs: '100%', sm: '200px', md: '300px', lg: '400px' },
+              '&:hover': {
+                color: (theme) => theme.palette.primary.main,
+              },
+            }}
+          >
+            {data.name}
+          </Typography>
+        </MuiLink>
       </Box>
 
       {/* Status Column */}
@@ -146,8 +158,14 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ mr: 2, fontSize: 12, color: '#666' }}
+          sx={{ mr: 2, fontSize: 11, color: '#888' }}
         >
+          <Typography
+            component="span"
+            sx={{ position: 'relative', top: 4, mr: 0.5 }}
+          >
+            <AccessTimeOutlined />
+          </Typography>
           {formattedDate}
         </Typography>
 

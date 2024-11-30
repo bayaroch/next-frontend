@@ -3,6 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box, { BoxProps } from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography } from '@mui/material'
+import { TopicOutlined } from '@mui/icons-material'
 
 export interface DataLoadingProps extends BoxProps {
   isLoading: boolean
@@ -11,7 +12,8 @@ export interface DataLoadingProps extends BoxProps {
   isSearchResult?: boolean
   emptyAction?: React.ReactNode
   resultAction?: React.ReactNode
-  emptyDataSx?: any
+  emptyDesc?: string
+  icon?: React.ReactNode
 }
 
 const DataLoading: React.FC<DataLoadingProps> = ({
@@ -21,7 +23,8 @@ const DataLoading: React.FC<DataLoadingProps> = ({
   isSearchResult = false,
   emptyAction,
   resultAction,
-  emptyDataSx,
+  emptyDesc,
+  icon,
   ...rest
 }) => {
   const { t } = useTranslation()
@@ -29,8 +32,35 @@ const DataLoading: React.FC<DataLoadingProps> = ({
   const renderEmptyData = () => {
     if (!isLoading && isEmptyData) {
       return (
-        <Box sx={emptyDataSx}>
-          <Typography component={Box} variant="body1" sx={{ mb: 1 }}>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            pt: 9,
+            pb: 2,
+          }}
+        >
+          <Box
+            className="empty-icon"
+            sx={{
+              '& .MuiSvgIcon-root': {
+                fontSize: 32,
+                color: (theme) => theme.palette.primary.main,
+              },
+            }}
+          >
+            {icon ? icon : <TopicOutlined />}
+          </Box>
+          <Typography
+            className="empty-text"
+            component={Box}
+            variant="body1"
+            sx={{ fontSize: 18 }}
+          >
             {isSearchResult ? (
               <>
                 <Box sx={{ fontWeight: 500, mb: 1 }}>
@@ -50,8 +80,17 @@ const DataLoading: React.FC<DataLoadingProps> = ({
               </>
             )}
           </Typography>
-          {emptyAction && !isSearchResult && <Box>{emptyAction}</Box>}
-          {resultAction && isSearchResult && <Box>{resultAction}</Box>}
+          <Typography variant="body2" sx={{ mb: 1 }} color="#999">
+            {emptyDesc
+              ? emptyDesc
+              : t('SYSCOMMON.empty_desc', {
+                  resources: resource ? resource : t('SYSCOMMON.data'),
+                })}
+          </Typography>
+          <Box>
+            {emptyAction && !isSearchResult && <Box>{emptyAction}</Box>}
+            {resultAction && isSearchResult && <Box>{resultAction}</Box>}
+          </Box>
         </Box>
       )
     }
@@ -59,35 +98,38 @@ const DataLoading: React.FC<DataLoadingProps> = ({
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
-      {...rest}
-    >
+    <>
       {isLoading ? (
-        <Box sx={{ height: '100%' }}>
-          <Stack spacing={2} direction={'row'}>
-            <CircularProgress size={20} />
-            <Box>
-              {resource
-                ? t('SYSCOMMON.loading_resource', {
-                    resources: resource,
-                  })
-                : ''}
-            </Box>
-          </Stack>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            textAlign: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            minHeight: 200,
+          }}
+          {...rest}
+        >
+          <Box sx={{ height: '100%' }}>
+            <Stack spacing={2} direction={'row'}>
+              <CircularProgress size={16} />
+              <Box>
+                {resource
+                  ? t('SYSCOMMON.loading_resource', {
+                      resources: resource,
+                    })
+                  : ''}
+              </Box>
+            </Stack>
+          </Box>
         </Box>
       ) : (
         ''
       )}
       {renderEmptyData()}
-    </Box>
+    </>
   )
 }
 

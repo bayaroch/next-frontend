@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          backgroundColor: 'background.paper',
+          backgroundColor: '#eee',
           borderRight: { sm: 'none', md: '1px solid' },
           borderColor: { sm: 'none', md: 'divider' },
           alignItems: 'start',
@@ -133,8 +133,8 @@ const LoginPage: React.FC = () => {
             >
               {t('LOGIN.signIn')}
             </Typography>
-            <Typography>
-              <Box component={'span'} sx={{ pr: 0.5 }}>
+            <Typography sx={{ color: '#666' }}>
+              <Box component={'span'} sx={{ pr: 0.5, color: '#333' }}>
                 <InfoOutlined
                   sx={{ fontSize: 16, position: 'relative', top: 4 }}
                 />
@@ -150,7 +150,10 @@ const LoginPage: React.FC = () => {
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <FacebookLoginButton onLogin={handleFacebookLogin} />
+                <FacebookLoginButton
+                  isLoading={mutation.isLoading}
+                  onLogin={handleFacebookLogin}
+                />
                 {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
                 {mutation.isError &&
                   t('LOGIN.loggingIn', {

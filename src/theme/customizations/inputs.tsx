@@ -216,6 +216,19 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
+  MuiLink: {
+    styleOverrides: {
+      root: {
+        textDecorationColor: 'transparent',
+        '&:hover': {
+          textDecorationColor: 'inherit',
+        },
+        '&::after': {
+          display: 'none',
+        },
+      },
+    },
+  },
   MuiIconButton: {
     styleOverrides: {
       root: ({ theme }) => ({

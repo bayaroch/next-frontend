@@ -49,7 +49,6 @@ export default function SelectContent() {
         title: t('SYSCOMMON.switch_page'),
         description: t('SYSCOMMON.switch_page_desc'),
         confirmationText: t('SYSCOMMON.switch'),
-        cancellationText: t('SYSCOMMON.cancel'),
       })
         .then(() => {
           switchPageMutation.mutate({ fb_page_id: value })

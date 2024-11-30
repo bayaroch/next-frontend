@@ -27,6 +27,7 @@ import { useConfirm } from '@components/Confirm'
 import { Add } from '@mui/icons-material'
 import AutomationListHeader from '@components/Automation/AutomationListHeader'
 import { useToast } from '@components/ToastProvider'
+import DataLoading from '@components/DataLoading'
 
 const ITEMS_PER_PAGE = 100 // finish pagination there is error wrong total count
 
@@ -118,13 +119,28 @@ const AutomationListPage: React.FC = () => {
 
   const handleStatus = (v: Automation) => {
     if (pageId) {
-      updateStatusAutomationMutation.mutate({
-        pageId: pageId,
-        automationId: v.automation_id,
-        input: {
-          is_active: !v.is_active,
-        },
+      confirm({
+        title: v.is_active
+          ? t('AUTOMATION.pause_title')
+          : t('AUTOMATION.resume_title'),
+        description: v.is_active
+          ? t('AUTOMATION.pause_desc')
+          : t('AUTOMATION.resume_desc'),
+        additional_confirmation: v.is_active ? 'pause' : 'resume',
       })
+        .then(() => {
+          updateStatusAutomationMutation.mutate({
+            pageId: pageId,
+            automationId: v.automation_id,
+            input: {
+              is_active: !v.is_active,
+            },
+          })
+        })
+        .catch(() => {
+          // eslint-disable-next-line no-console
+          console.log('Cancel')
+        })
     }
   }
 
@@ -134,7 +150,7 @@ const AutomationListPage: React.FC = () => {
     if (pageId) {
       confirm({
         title: t('AUTOMATION.delete_title'),
-        description: t('AAUTOMATION.delete_desc'),
+        description: t('AUTOMATION.delete_desc'),
         additional_confirmation: 'delete',
       })
         .then(() => {
@@ -179,7 +195,7 @@ const AutomationListPage: React.FC = () => {
         alignItems="center"
         mb={2}
       >
-        <Typography variant="h4"> {t('SYSCOMMON.automations')}</Typography>
+        <Typography variant="h5"> {t('SYSCOMMON.automations')}</Typography>
         <Button
           variant="contained"
           color="primary"
@@ -189,7 +205,7 @@ const AutomationListPage: React.FC = () => {
           {t('SYSCOMMON.create')}
         </Button>
       </Box>
-      <AutomationListHeader />
+      {<AutomationListHeader />}
       <List sx={{ p: 0 }}>
         {automationsData?.data.map((automation) => (
           <Paper
@@ -209,6 +225,16 @@ const AutomationListPage: React.FC = () => {
           </Paper>
         ))}
       </List>
+      <DataLoading
+        resource={t('SYSCOMMON.automation')}
+        isLoading={isLoadingAutomations}
+        isEmptyData={_.isEmpty(automationsData?.data)}
+        emptyAction={
+          <Button variant="outlined" onClick={handleOpen} endIcon={<Add />}>
+            {t('SYSCOMMON.create')}
+          </Button>
+        }
+      />
 
       {/* <Box display="flex" justifyContent="center" mt={2}>
         <Pagination

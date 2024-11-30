@@ -1,21 +1,3 @@
-import {
-  blue,
-  blueGrey,
-  cyan,
-  deepOrange,
-  green,
-  grey,
-  indigo,
-  lightBlue,
-  lightGreen,
-  lime,
-  orange,
-  pink,
-  purple,
-  red,
-  teal,
-  yellow,
-} from '@mui/material/colors'
 import moment from 'moment'
 import { DefaultExtensionType } from 'react-file-icon'
 
@@ -44,32 +26,6 @@ export const hashCode = (str: string) => {
     hash = (hash << 5) - hash + char
   }
   return hash
-}
-
-export const colorPalettes = [
-  blue[500],
-  purple[500],
-  orange[500],
-  green[700],
-  red[500],
-  teal[600],
-  yellow[500],
-  indigo[500],
-  pink[300],
-  cyan[500],
-  grey[500],
-  lightGreen[500],
-  deepOrange[700],
-  lime[500],
-  blueGrey[600],
-  red[100],
-  purple[100],
-  lightBlue[100],
-]
-
-export const getColor = (index: number) => {
-  const colorIndex = index % colorPalettes.length
-  return colorPalettes[colorIndex]
 }
 
 export const generateFileName = (prefix: string, fileExtension: string) => {

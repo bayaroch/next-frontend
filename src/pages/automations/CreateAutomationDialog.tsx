@@ -14,7 +14,6 @@ import {
   Stack,
   Paper,
 } from '@mui/material'
-import Grid from '@mui/material/Grid2'
 import CloseIcon from '@mui/icons-material/Close'
 import { Post } from '@services/page.services'
 import { FieldValues } from 'react-hook-form'
@@ -23,11 +22,7 @@ import useAutomationCreateForm from './useAutomationCreateForm'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import DataLoading from '@components/DataLoading'
-
-const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}))
+import FormField from '@components/@material-extend/FormField'
 
 interface CreateAutomationDialogProps {
   open: boolean
@@ -181,29 +176,31 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
           </IconButton>
         </StyledDialogTitle>
         <StyledDialogContent>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field: { ref, ...rest } }: FieldValues) => (
-              <FormGrid size={{ xs: 12, md: 12 }} sx={{ mb: 2 }}>
-                <FormLabel htmlFor="first-name" required>
-                  {t('AUTOMATION.name')}
-                </FormLabel>
-                <OutlinedInput
-                  {...rest}
-                  error={!!errors?.name}
-                  inputRef={ref}
-                  placeholder={t('AUTOMATION.name')}
-                  autoComplete={t('AUTOMATION.name')}
+          <Box sx={{ width: '100%', mb: 2 }}>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field: { ref, ...rest } }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  hidden
+                  errors={errors?.name && errors.name.message}
+                  label={t('AUTOMATION.name')}
+                  desc={t('FORM_DESC.automation_post')}
                   required
-                />
-
-                <FormLabel sx={{ fontSize: 11, mb: 0, pt: 0.5 }} error>
-                  {errors?.name && errors.name.message}
-                </FormLabel>
-              </FormGrid>
-            )}
-          />
+                >
+                  <OutlinedInput
+                    fullWidth
+                    {...rest}
+                    inputRef={ref}
+                    placeholder={t('AUTOMATION.name')}
+                    autoComplete={t('AUTOMATION.name')}
+                    required
+                  />
+                </FormField>
+              )}
+            />
+          </Box>
 
           <Box>
             <Stack

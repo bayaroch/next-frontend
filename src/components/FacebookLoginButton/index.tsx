@@ -1,13 +1,15 @@
 import { FacebookIcon } from '@components/@public/CustomIcons'
-import { Button } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import React from 'react'
 import {
   ReactFacebookLoginInfo,
   ReactFacebookFailureResponse,
 } from 'react-facebook-login'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import { useTranslation } from 'react-i18next'
 
 interface FacebookLoginButtonProps {
+  isLoading: boolean
   onLogin: (
     response: ReactFacebookLoginInfo | ReactFacebookFailureResponse
   ) => void
@@ -15,7 +17,9 @@ interface FacebookLoginButtonProps {
 
 const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
   onLogin,
+  isLoading,
 }) => {
+  const { t } = useTranslation()
   return (
     <FacebookLogin
       appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
@@ -24,14 +28,18 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       scope="email,pages_show_list,pages_manage_posts,business_management,pages_read_user_content,pages_manage_engagement,pages_messaging,pages_manage_metadata"
       callback={onLogin}
       render={(renderProps) => (
-        <Button
+        <LoadingButton
           fullWidth
+          loading={isLoading}
+          sx={{
+            boxShadow: 1,
+          }}
           variant="outlined"
           onClick={renderProps.onClick}
           startIcon={<FacebookIcon />}
         >
-          Sign in with Facebook
-        </Button>
+          {t('SYSCOMMON.facebook_login')}
+        </LoadingButton>
       )}
     />
   )

@@ -82,9 +82,9 @@ const ConnectPages = () => {
     if (page.status === 'connected') {
       return (
         <LoadingButton
-          variant="contained"
+          variant="outlined"
           onClick={() => handleDisconnect(page.id)}
-          color="secondary"
+          color="primary"
         >
           {t('SYSCOMMON.disconnect')}
         </LoadingButton>

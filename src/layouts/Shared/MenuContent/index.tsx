@@ -5,11 +5,13 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded'
-import { Quickreply } from '@mui/icons-material'
+import {
+  DashboardOutlined,
+  HelpOutlineRounded,
+  InfoOutlined,
+  QuickreplyOutlined,
+  SettingsOutlined,
+} from '@mui/icons-material'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -24,13 +26,13 @@ export type MenuItemType = {
 const mainListItems: MenuItemType[] = [
   {
     text: 'SYSCOMMON.dashboard',
-    icon: <HomeRoundedIcon />,
+    icon: <DashboardOutlined />,
     to: '/',
     isExact: true,
   },
   {
     text: 'SYSCOMMON.automations',
-    icon: <Quickreply />,
+    icon: <QuickreplyOutlined />,
     to: '/automation',
     isExact: true,
   },
@@ -39,25 +41,29 @@ const mainListItems: MenuItemType[] = [
 const secondaryListItems: MenuItemType[] = [
   {
     text: 'SYSCOMMON.settings',
-    icon: <SettingsRoundedIcon />,
+    icon: <SettingsOutlined />,
     to: '/settings',
     isExact: true,
   },
   {
     text: 'SYSCOMMON.home_page',
-    icon: <InfoRoundedIcon />,
+    icon: <InfoOutlined />,
     to: '/home ',
     isExact: true,
   },
   {
     text: 'SYSCOMMON.feedback',
-    icon: <HelpRoundedIcon />,
+    icon: <HelpOutlineRounded />,
     to: '/feedback ',
     isExact: true,
   },
 ]
 
-const MenuContent: React.FC = () => {
+interface MenuContentProps {
+  onClick?: () => void
+}
+
+const MenuContent: React.FC<MenuContentProps> = ({ onClick }) => {
   const { t } = useTranslation()
   const location = useLocation()
 
@@ -78,6 +84,7 @@ const MenuContent: React.FC = () => {
               key={index}
               disablePadding
               sx={{ display: 'block', color: 'inherit' }}
+              onClick={() => onClick && onClick()}
             >
               <ListItemButton
                 sx={{

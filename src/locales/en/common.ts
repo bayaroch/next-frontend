@@ -58,6 +58,18 @@ export default {
     name: 'Name',
     status: 'Status',
     edit: 'Edit',
+    no_resources: 'No {{resources}}',
+    switch_page: 'Switch page',
+    switch_page_desc: 'Are you sure you want to switch page?',
+    switch: 'Switch',
+    automation: 'Automation',
+    empty_desc:
+      '"It looks like there are no {{resources}} here yet. Please create new',
+    loading_resource: 'Loading {{resources}}',
+    go_to_automation: 'Go to automation',
+    no_data: 'There is no data to show please go to automations page',
+    reports: 'Reports',
+    facebook_login: 'Log In with Facebook',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -130,6 +142,8 @@ export default {
     pause_desc: 'Are you sure you want to pause this automation?',
     resume_title: 'Activate',
     resume_desc: 'Are you sure you want to activate this automation?',
+    delete_title: 'Deleting automation',
+    delete_desc: 'Are you sure you want to delete this automation?',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',
