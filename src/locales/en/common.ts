@@ -126,12 +126,17 @@ export default {
       'Enter a keyword that represents the meaning of your content. The AI will analyze user comments and choose the most suitable keyword for reply. Examples: price, location, product detail. Note: Choose keywords that accurately represent your content as the AI only matches keywords, not the actual content.',
     pause: 'Pause',
     activate: 'Activate',
+    pause_title: 'Pause',
+    pause_desc: 'Are you sure you want to pause this automation?',
+    resume_title: 'Activate',
+    resume_desc: 'Are you sure you want to activate this automation?',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',
     automation_post: 'Post connected to this automation',
     automation_keyword: 'Keyword for AI',
     automation_contennt: 'Auto-reply content',
+    automation_status: 'Automation status',
   },
   ROUTES: {
     dashboard: 'Dashhboard',

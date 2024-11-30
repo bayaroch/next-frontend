@@ -57,7 +57,7 @@ const ResponseCreateForm: React.FC<CreateFormProps> = ({
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>{t('AUTOMATION.create_response')}</DialogTitle>
       <form id="create-form" onSubmit={handleSubmit(handleFormSubmit)}>
         <DialogContent>

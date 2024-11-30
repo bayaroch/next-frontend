@@ -29,6 +29,7 @@ export const feedbackCustomizations: Components<Theme> = {
           borderRadius: '10px',
           border: '1px solid',
           borderColor: theme.palette.divider,
+          backgroundColor: '#fff',
         },
       }),
     },

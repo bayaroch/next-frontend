@@ -26,12 +26,11 @@ const DynamicBreadcrumbs: React.FC = () => {
   const { id } = useParams()
 
   const isDynamicRoute = id !== undefined
-  // eslint-disable-next-line no-console
-  console.log(location)
 
   return (
     <StyledBreadcrumbs
       aria-label="breadcrumb"
+      sx={{ display: 'flex', flexWrap: 'nowrap', flexDirection: 'row' }}
       separator={<NavigateNextRoundedIcon fontSize="small" />}
     >
       <Typography component={Link} to="/" variant="body1" color="inherit">
@@ -56,6 +55,13 @@ const DynamicBreadcrumbs: React.FC = () => {
             to={to}
             variant="body1"
             color="inherit"
+            // break if too long
+            sx={{
+              maxWidth: '200px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            noWrap
           >
             {t(`ROUTES.${value}`)}
           </Typography>

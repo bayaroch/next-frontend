@@ -9,11 +9,13 @@ import _ from 'lodash'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { useMutation, useQueryClient } from 'react-query'
 import { ConnectedPage } from '@services/auth.services'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PageSwitchService } from '@services/page.services'
 import { useTranslation } from 'react-i18next'
 import { Check } from '@mui/icons-material'
 import { useAuth } from '@global/AuthContext'
+import { useConfirm } from '@components/Confirm'
+import { Box } from '@mui/material'
 
 export default function SelectContent() {
   const { init } = useAuth()
@@ -21,18 +23,41 @@ export default function SelectContent() {
   const { t } = useTranslation()
   const [open, setOpen] = React.useState(false)
 
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const confirm = useConfirm()
+
   const current = _.get(init, 'page_info.fb_page_id', '')
   const queryClient = useQueryClient()
   const switchPageMutation = useMutation(PageSwitchService, {
     onSuccess: () => {
       queryClient.invalidateQueries('appInit')
+      // check if current  route has id params
+      if (id) {
+        navigate(`/`)
+      }
     },
   })
 
   const handleChange = (event: SelectChangeEvent) => {
+    // confirm before change
     const value = event.target.value
     if (value !== current) {
-      switchPageMutation.mutate({ fb_page_id: value })
+      //confirm dialog
+      confirm({
+        title: t('SYSCOMMON.switch_page'),
+        description: t('SYSCOMMON.switch_page_desc'),
+        confirmationText: t('SYSCOMMON.switch'),
+        cancellationText: t('SYSCOMMON.cancel'),
+      })
+        .then(() => {
+          switchPageMutation.mutate({ fb_page_id: value })
+        })
+        .catch(() => {
+          // eslint-disable-next-line no-console
+          console.log('Cancel')
+        })
     }
   }
 
@@ -79,7 +104,11 @@ export default function SelectContent() {
               key={p.fb_page_id}
               value={p.fb_page_id}
             >
-              {p.is_default_page && <Check sx={{ fontSize: 10, mr: 1 }} />}
+              {p.is_default_page ? (
+                <Check sx={{ fontSize: 10, mr: 1 }} />
+              ) : (
+                <Box sx={{ width: 18 }}></Box>
+              )}
               <ListItemText primary={p.fb_name} />
             </MenuItem>
           )

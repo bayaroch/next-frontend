@@ -9,6 +9,7 @@ import SideMenu from '@layouts/Shared/SideMenu'
 import AppNavbar from '@layouts/Shared/AppNavbar'
 import { useQueryClient } from 'react-query'
 import { AppInitResponse } from '@services/auth.services'
+import DynamicBreadcrumbs from '@layouts/Shared/DynamicBreadcrumbs'
 
 const MainLayout: React.FC<PropsWithChildren> = () => {
   const { isSidebarOpen, toggleSidebar, changeLanguage, lang, logout } =
@@ -46,6 +47,7 @@ const MainLayout: React.FC<PropsWithChildren> = () => {
                 : alpha(theme.palette.background.default, 1),
               overflow: 'auto',
               p: 0,
+              pt: { xs: '64px', md: '0px' },
             })}
           >
             <Header lang={lang} changeLanguage={changeLanguage} />
