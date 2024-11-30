@@ -68,7 +68,6 @@ const LoginPage: React.FC = () => {
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          backgroundColor: '#eee',
           borderRight: { sm: 'none', md: '1px solid' },
           borderColor: { sm: 'none', md: 'divider' },
           alignItems: 'start',
