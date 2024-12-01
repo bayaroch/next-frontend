@@ -16,7 +16,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(2), // Reduced margin for mobile
   borderRadius: theme.shape.borderRadius,
   borderColor: theme.palette.grey[200],
-  backgroundImage: `url(${'/images/flow.png'})`,
+  backgroundImage: `url(${'/images/home-pic.png'})`,
   backgroundSize: 'contain', // Changed to contain to prevent cropping
   backgroundPosition: 'center', // Center the background
   backgroundRepeat: 'no-repeat',

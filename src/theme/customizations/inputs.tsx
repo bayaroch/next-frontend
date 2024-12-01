@@ -13,6 +13,7 @@ export const inputsCustomizations: Components<Theme> = {
     },
     styleOverrides: {
       root: ({ theme }) => ({
+        fontWeight: '400 !important',
         boxSizing: 'border-box',
         transition: 'all 100ms ease-in',
         '&:focus-visible': {
@@ -53,7 +54,7 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               color: 'white',
-              backgroundColor: brand[700],
+              backgroundColor: brand[400],
               // backgroundImage: `linear-gradient(to bottom, ${gray[700]}, ${gray[800]})`,
               // boxShadow: `inset 0 1px 0 ${gray[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
               // border: `1px solid ${gray[700]}`,
@@ -63,7 +64,7 @@ export const inputsCustomizations: Components<Theme> = {
                 boxShadow: 'none',
               },
               '&:active': {
-                backgroundColor: gray[800],
+                backgroundColor: brand[500],
               },
               ...theme.applyStyles('dark', {
                 color: 'black',
@@ -307,7 +308,7 @@ export const inputsCustomizations: Components<Theme> = {
         padding: '12px 16px',
         textTransform: 'none',
         borderRadius: '10px',
-        fontWeight: 500,
+        fontWeight: 400,
         ...theme.applyStyles('dark', {
           color: gray[400],
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',

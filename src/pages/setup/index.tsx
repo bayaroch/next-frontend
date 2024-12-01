@@ -27,9 +27,11 @@ import { useTranslation } from 'react-i18next'
 import ConnectPages from '@containers/ConnectPages'
 import SurveyPages from '@containers/SurveyPages'
 import { useAuth } from '@global/AuthContext'
+import LanguageSwitcher from '@layouts/Shared/Header/LanguageSwitcher'
+import { Languages } from '@constants/common.constants'
 
 const SetupPage = () => {
-  const { init } = useAuth()
+  const { init, logout, lang, changeLanguage } = useAuth()
 
   const isSurveyOpen = !!init && _.isEmpty(init?.user_info.survey_responses)
   const isEmptyConnect = !!init && _.isEmpty(init.connected_pages)
@@ -58,7 +60,7 @@ const SetupPage = () => {
             xs: '100%',
             sm: 'calc(100dvh - var(--template-frame-height, 0px))',
           },
-          mt: { xs: 4, sm: 0 },
+          mt: { xs: 4, sm: 4, md: 0 },
         }}
       >
         <Grid
@@ -66,11 +68,12 @@ const SetupPage = () => {
           sx={{
             display: { xs: 'none', md: 'flex' },
             flexDirection: 'column',
-            backgroundColor: 'background.paper',
+            backgroundColor: 'hsl(243.75deg 85.33% 97.59%)',
             borderRight: { sm: 'none', md: '1px solid' },
             borderColor: { sm: 'none', md: 'divider' },
             alignItems: 'start',
             pt: 16,
+            position: 'relatiive',
             px: 10,
             gap: 4,
           }}
@@ -80,7 +83,6 @@ const SetupPage = () => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              flexGrow: 1,
               width: '100%',
               maxWidth: 500,
               gap: 4,
@@ -99,6 +101,13 @@ const SetupPage = () => {
               </Typography>
             </Stack>
           </Box>
+          <Button
+            variant="text"
+            onClick={() => logout()}
+            sx={{ position: 'absolute', bottom: 0, mb: 4 }}
+          >
+            {t('SYSCOMMON.logout')}
+          </Button>
         </Grid>
         <Grid
           size={{ sm: 12, md: 7, lg: 8 }}
@@ -111,9 +120,42 @@ const SetupPage = () => {
             alignItems: 'start',
             py: { xs: 0, sm: 16 },
             px: { xs: 2, sm: 10 },
+            position: 'relative',
             gap: { xs: 4, md: 8 },
           }}
         >
+          <Stack
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              left: 0,
+              mt: { xs: 0, md: 4 },
+              px: 4,
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'space-between',
+              mr: 4,
+            }}
+          >
+            <Box>
+              <Button
+                variant="text"
+                sx={{ display: { xs: 'auto', md: 'none' } }}
+                onClick={() => logout()}
+              >
+                {t('SYSCOMMON.logout')}
+              </Button>
+            </Box>
+            <Box>
+              <LanguageSwitcher
+                currentLang={lang}
+                data={Languages}
+                onSwitch={changeLanguage}
+              />
+            </Box>
+          </Stack>
           <Box
             sx={{
               display: 'flex',

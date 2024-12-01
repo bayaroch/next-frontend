@@ -520,7 +520,6 @@ const AutomationEditPage: React.FC = () => {
                       loading={isUpdating}
                       size="small"
                       variant="contained"
-                      color="secondary"
                       onClick={() => handleEdit(index, field)}
                     >
                       {t('SYSCOMMON.save')}
