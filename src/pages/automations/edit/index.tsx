@@ -30,6 +30,7 @@ import useAutomationEditForm from './useAutomationEditForm'
 import { FieldValues } from 'react-hook-form'
 import {
   Add,
+  CommentOutlined,
   Delete,
   PauseCircleOutlineOutlined,
   PauseOutlined,
@@ -45,6 +46,7 @@ import { LoadingButton } from '@mui/lab'
 import { useToast } from '@components/ToastProvider'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import { useConfirm } from '@components/Confirm'
+import DataLoading from '@components/DataLoading'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -538,6 +540,23 @@ const AutomationEditPage: React.FC = () => {
               />
             )
           })}
+
+          <DataLoading
+            icon={<CommentOutlined />}
+            isLoading={isLoadingAutomations}
+            resource={t('AUTOMATION.comment_responses')}
+            isEmptyData={automation && _.isEmpty(automation.comment_responses)}
+            emptyAction={
+              <Button
+                variant="outlined"
+                onClick={handleOpen}
+                color="primary"
+                endIcon={<Add />}
+              >
+                {t('SYSCOMMON.add')}
+              </Button>
+            }
+          />
         </form>
       )}
 

@@ -32,26 +32,19 @@ const SetupPage = () => {
   const { init } = useAuth()
 
   const isSurveyOpen = !!init && _.isEmpty(init?.user_info.survey_responses)
-  const [survey, setSurvey] = useState<boolean>(isSurveyOpen)
   const isEmptyConnect = !!init && _.isEmpty(init.connected_pages)
 
-  useEffect(() => {
-    if (!!init && !_.isEmpty(init?.user_info.survey_responses)) {
-      setSurvey(false)
-    }
-  }, [init])
-
   const renderInitContent = () => {
-    if (isEmptyConnect && !survey) {
+    if (isEmptyConnect && !isSurveyOpen) {
       return <ConnectPages />
     }
     if (
-      (isEmptyConnect && survey && init) ||
-      (!isEmptyConnect && survey && init)
+      (isEmptyConnect && isSurveyOpen && init) ||
+      (!isEmptyConnect && isSurveyOpen && init)
     ) {
-      return <SurveyPages initData={init} onSkip={() => setSurvey(false)} />
+      return <SurveyPages initData={init} />
     }
-    return null
+    return <>asdas</>
   }
 
   const { t } = useTranslation()

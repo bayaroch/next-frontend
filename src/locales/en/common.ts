@@ -17,8 +17,7 @@ export default {
     welcome: 'Welcome to Kommai',
     description1:
       "We're excited to have you here! To get started with Kommai, please configure your initial settings.",
-    description2:
-      "First, select the Facebook Page you'd like to connect with Kommai. This will allow us to manage your page's messaging and customer interactions effectively.",
+    description2: 'We found {{count}} Facebook Pages managed by you.',
     note: "Don't worry, you can always modify these settings later in your account preferences.",
     selectPage: 'Select an Facebook Page',
     continue: 'Continue',
@@ -70,6 +69,7 @@ export default {
     no_data: 'There is no data to show please go to automations page',
     reports: 'Reports',
     facebook_login: 'Log In with Facebook',
+    facebook_pages: 'Facebook pages',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',

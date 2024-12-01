@@ -20,7 +20,6 @@ import _ from 'lodash'
 import { LoadingButton } from '@mui/lab'
 
 interface SurveyPagesProps {
-  onSkip?: () => void
   initData: AppInitResponse
 }
 
@@ -76,14 +75,14 @@ const AGENCY_SIZE_OPTIONS: Option[] = [
   { value: '500+', label: '500+ employees' },
 ]
 
-const SurveyPages: React.FC<SurveyPagesProps> = ({ onSkip, initData }) => {
+const SurveyPages: React.FC<SurveyPagesProps> = ({ initData }) => {
   const { t } = useTranslation()
   const { Controller, methods } = useSurveyForm()
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = methods
 
   const queryClient = useQueryClient()
@@ -103,6 +102,20 @@ const SurveyPages: React.FC<SurveyPagesProps> = ({ onSkip, initData }) => {
     if (userId) {
       const payload = {
         params: data,
+        id: userId,
+      }
+      updateSurvey.mutate(payload)
+    }
+  }
+
+  const handleSkip = () => {
+    if (userId) {
+      const payload = {
+        params: {
+          company_type: '',
+          role: '',
+          agency_size: '',
+        },
         id: userId,
       }
       updateSurvey.mutate(payload)
@@ -244,13 +257,14 @@ const SurveyPages: React.FC<SurveyPagesProps> = ({ onSkip, initData }) => {
           />
         </Box>
         <Stack direction={'row'} justifyContent={'space-between'}>
-          <Button variant="text" onClick={() => onSkip && onSkip()}>
-            Skip
+          <Button variant="text" onClick={() => handleSkip()}>
+            {t('SYSCOMMON.skip')}
           </Button>
           <LoadingButton
             loading={updateSurvey.isLoading}
             variant="contained"
             color="primary"
+            disabled={!isValid}
             type="submit"
           >
             {t('SYSCOMMON.next')}

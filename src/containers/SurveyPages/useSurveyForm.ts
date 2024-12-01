@@ -4,18 +4,18 @@ import { Controller, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 const initialValues = {
-  company_type: null,
-  role: null,
-  agency_size: null,
+  company_type: '',
+  role: '',
+  agency_size: '',
 }
 
 const useSurveyForm = () => {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        company_type: Yup.string().required().nullable(),
-        role: Yup.string().required().nullable(),
-        agency_size: Yup.string().required().nullable(),
+        company_type: Yup.string().required(),
+        role: Yup.string().required(),
+        agency_size: Yup.string().required(),
       }),
     []
   )
