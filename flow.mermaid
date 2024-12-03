@@ -1,0 +1,17 @@
+graph TD
+    A[User] -->|Selects Product| B(Create Subscription)
+    B --> C{Initial Transaction}
+    C -->|Success| D[Active Subscription]
+    C -->|Failure| E[Failed Subscription]
+    D -->|Regular Usage| F[Token Usage]
+    F --> G[Update Remaining Tokens]
+    D -->|Renewal Date| H{Renewal Transaction}
+    H -->|Success| I[Extend Subscription]
+    I --> J[Replenish Tokens]
+    H -->|Failure| K[Grace Period]
+    K -->|Payment Received| I
+    K -->|No Payment| L[Suspend Subscription]
+    D -->|Low on Tokens| M{Token Purchase}
+    M -->|Success| N[Add Tokens to Subscription]
+    M -->|Failure| O[Token Purchase Failed]
+    N --> P[Log Token Addition Event]
