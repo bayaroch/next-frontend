@@ -28,6 +28,7 @@ import { useQuery } from 'react-query'
 import { AppInitResponse, initializeAppService } from '@services/auth.services'
 import SetupPage from '@pages/setup'
 import _ from 'lodash'
+const InternalLoginPage = lazy(() => import('@pages/internal/login'))
 const AutomationListPage = lazy(() => import('@pages/automations'))
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
@@ -99,6 +100,16 @@ function App() {
                 </Suspense>
               }
             />
+            <Route path="internal">
+              <Route
+                path="login"
+                element={
+                  <Suspense fallback={<InitAppLoader />}>
+                    <InternalLoginPage />
+                  </Suspense>
+                }
+              />
+            </Route>
           </Route>
           <Route
             path={'logout'}
@@ -211,6 +222,7 @@ function App() {
                   </Suspense>
                 }
               />
+
               {/* Project Route Pack Start */}
             </Route>
           </Route>

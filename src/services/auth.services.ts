@@ -9,12 +9,19 @@ export interface LoginResponse {
   access_token: string
 }
 
+export enum ROLE {
+  ADMIN = 'admin',
+  USER = 'user',
+  SELLER = 'seller',
+}
+
 export interface UserInput {
   email: string
   first_name: string
   fb_name: string
   exp: number
   fb_id: number
+  role: ROLE
   iat: number
   survey_responses: {
     [key: string]: any
@@ -54,6 +61,10 @@ export interface SurveyFields {
 export interface SurvePayload {
   id: number
   params: SurveyFields
+}
+
+export interface GoogleLoginParams {
+  access_token: string
 }
 
 export const loginService = async (

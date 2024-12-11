@@ -13,6 +13,7 @@ import getMainTheme from '@theme/getMainTheme'
 import { PublicLayoutProvider } from '@layouts/PublicLayout/PublicProvider'
 import { ToastProvider } from '@components/ToastProvider'
 import QueryWrapper from '@components/QueryClientWrapper'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
@@ -20,23 +21,27 @@ const mode: PaletteMode = 'light'
 const theme = createTheme(getMainTheme(mode))
 
 root.render(
-  <ThemeProvider theme={theme}>
-    <AuthProvider>
-      <QueryWrapper>
-        <ToastProvider>
-          <PublicLayoutProvider>
-            <LayoutProvider>
-              <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
-                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline enableColorScheme />
-                <App />
-              </ConfirmProvider>
-            </LayoutProvider>
-          </PublicLayoutProvider>
-        </ToastProvider>
-      </QueryWrapper>
-    </AuthProvider>
-  </ThemeProvider>
+  <GoogleOAuthProvider
+    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
+  >
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <QueryWrapper>
+          <ToastProvider>
+            <PublicLayoutProvider>
+              <LayoutProvider>
+                <ConfirmProvider defaultOptions={defaultConfirmationOptions}>
+                  {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                  <CssBaseline enableColorScheme />
+                  <App />
+                </ConfirmProvider>
+              </LayoutProvider>
+            </PublicLayoutProvider>
+          </ToastProvider>
+        </QueryWrapper>
+      </AuthProvider>
+    </ThemeProvider>
+  </GoogleOAuthProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function
