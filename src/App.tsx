@@ -272,9 +272,9 @@ const PaymentOutlet = ({
     return <InitAppLoader />
   }
 
-  if (initData && !initData.has_active_subscription) {
-    return <Suspense fallback={<PageLoader />}>Payment page</Suspense>
-  }
+  // if (initData && !initData.has_active_subscription) {
+  //   return <Suspense fallback={<PageLoader />}>Payment page</Suspense>
+  // }
 
   if (
     (initData && _.isEmpty(initData.connected_pages)) ||

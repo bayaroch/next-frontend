@@ -11,6 +11,7 @@ export const URI = {
   AUTOMATIONS: 'automation',
   PAGE: '/page',
   SURVEY: '/user/:id/survey',
+  PRODUCT: '/product',
 }
 
 export const excludeURI = [URI.LOGIN]
