@@ -12,6 +12,7 @@ export const URI = {
   PAGE: '/page',
   SURVEY: '/user/:id/survey',
   PRODUCT: '/product',
+  GOOGLE_LOGIN: '/auth/google/login',
 }
 
 export const excludeURI = [URI.LOGIN]

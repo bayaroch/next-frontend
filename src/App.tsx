@@ -33,6 +33,8 @@ import {
 import SetupPage from '@pages/setup'
 import _ from 'lodash'
 import ProtectedOutlet from '@containers/ProtectedOutlet'
+import PartnerPage from '@pages/partner'
+import PendingPage from '@pages/pending'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
@@ -189,76 +191,116 @@ function App() {
         {/* MAIN PUBLIC STACK END */}
         {/* MAIN PRIVATE STACK START*/}
         <Route element={<PrivateOutlet />} path={'/'}>
+          {/* Users */}
           <Route
-            element={
-              <PaymentOutlet initData={init} isLoading={isInitializing} />
-            }
+            element={<ProtectedOutlet allowedRole={ROLE.USER} />}
             path={'/'}
           >
-            <Route element={<MainLayout />} path={'/'}>
-              <Route
-                index
-                element={
-                  <Suspense fallback={<PageLoader />}>
-                    <DashboardPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="admin"
-                element={<ProtectedOutlet allowedRole={ROLE.ADMIN} />}
-              >
-                <Route path="products">
-                  <Route
-                    index
-                    element={
-                      <Suspense fallback={<PageLoader />}>
-                        <ProductsPage />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-                <Route path="sellers">
-                  <Route
-                    index
-                    element={
-                      <Suspense fallback={<PageLoader />}>
-                        <SellersPage />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-              </Route>
-              <Route path="automation">
+            <Route
+              element={
+                <PaymentOutlet initData={init} isLoading={isInitializing} />
+              }
+              path={'/'}
+            >
+              <Route element={<MainLayout />} path={'/'}>
                 <Route
                   index
                   element={
                     <Suspense fallback={<PageLoader />}>
-                      <AutomationListPage />
+                      <DashboardPage />
                     </Suspense>
                   }
                 />
+
+                <Route path="automation">
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <AutomationListPage />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path=":id"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <AutomationEditPage />
+                      </Suspense>
+                    }
+                  />
+                </Route>
                 <Route
-                  path=":id"
+                  path="connect"
                   element={
                     <Suspense fallback={<PageLoader />}>
-                      <AutomationEditPage />
+                      <Connect />
+                    </Suspense>
+                  }
+                />
+
+                {/* Project Route Pack Start */}
+              </Route>
+            </Route>
+          </Route>
+          {/* Users */}
+          {/* Admin */}
+          <Route
+            path="admin"
+            element={<ProtectedOutlet allowedRole={ROLE.ADMIN} />}
+          >
+            <Route element={<MainLayout />} path={'admin'}>
+              <Route path="products">
+                <Route
+                  index
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <ProductsPage />
                     </Suspense>
                   }
                 />
               </Route>
+              <Route path="sellers">
+                <Route
+                  index
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <SellersPage />
+                    </Suspense>
+                  }
+                />
+              </Route>
+            </Route>
+          </Route>
+          {/* Admin */}
+          {/* Partners */}
+          <Route
+            path="partner"
+            element={<ProtectedOutlet allowedRole={ROLE.SELLER} />}
+          >
+            <Route element={<MainLayout />} path={'partner'}>
               <Route
-                path="connect"
+                index
                 element={
                   <Suspense fallback={<PageLoader />}>
-                    <Connect />
+                    <PartnerPage />
                   </Suspense>
                 }
               />
-
-              {/* Project Route Pack Start */}
             </Route>
           </Route>
+        </Route>
+        {/* Partners */}
+
+        <Route path="waiting_approval">
+          <Route
+            index
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PendingPage />
+              </Suspense>
+            }
+          />
         </Route>
 
         {/* MAIN PRIVATE STACK END*/}
@@ -290,8 +332,9 @@ function App() {
 }
 
 const PrivateOutlet = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, init } = useAuth()
   const location = useLocation()
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location.pathname])
@@ -303,7 +346,27 @@ const PrivateOutlet = () => {
     })
   }, [location])
 
-  return isLoggedIn ? <Outlet /> : <Navigate to={'/home'} />
+  if (!isLoggedIn) {
+    return <Navigate to={'/home'} />
+  }
+
+  const role = _.get(init, 'user_info.role', undefined)
+  const isConfirmedSeller = _.get(init, 'user_info.is_confirmed_seller', false)
+
+  switch (role) {
+    case ROLE.ADMIN:
+      return <Navigate to="/admin" replace />
+    case ROLE.SELLER:
+      return isConfirmedSeller ? (
+        <Navigate to="/partner" replace />
+      ) : (
+        <Navigate to="/waiting_approval" replace /> // or a pending approval page
+      )
+    case ROLE.USER:
+      return <Navigate to="/" replace />
+    default:
+      return <Navigate to="/" replace /> // Default route if role is undefined
+  }
 }
 
 const PaymentOutlet = ({
@@ -345,7 +408,7 @@ const PublicOutlet = () => {
     // })
   }, [location])
 
-  const authPagePaths = ['/login']
+  const authPagePaths = ['/login', '/internal/login']
 
   const isAuthPage = authPagePaths.includes(location.pathname)
 

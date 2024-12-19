@@ -16,7 +16,7 @@ const GoogleButton: React.FC<GoogleLoginProps> = ({
   const handleResponse = async (response: any) => {
     !!onSuccess &&
       onSuccess({
-        access_token: response.credential,
+        google_access_token: response.credential,
       })
   }
   //

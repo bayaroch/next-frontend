@@ -71,13 +71,20 @@ export interface SurvePayload {
 }
 
 export interface GoogleLoginParams {
-  access_token: string
+  google_access_token: string
 }
 
 export const loginService = async (
   params: LoginPayload
 ): Promise<LoginResponse> => {
   const { data } = await api.post<LoginResponse>(URI.LOGIN, params)
+  return data
+}
+
+export const loginGoogleService = async (
+  params: GoogleLoginParams
+): Promise<LoginResponse> => {
+  const { data } = await api.post<LoginResponse>(URI.GOOGLE_LOGIN, params)
   return data
 }
 

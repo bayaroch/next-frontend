@@ -2,7 +2,7 @@ import SitemarkIcon from '@components/@public/SitemarkIcon'
 import { InfoOutlined } from '@mui/icons-material'
 import { Box, Stack, styled, Typography } from '@mui/material'
 import MuiCard from '@mui/material/Card'
-import { loginService } from '@services/auth.services'
+import { loginGoogleService } from '@services/auth.services'
 import { useAuth } from 'global/AuthContext'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -34,7 +34,7 @@ const InternalLoginPage: React.FC = () => {
   const { t } = useTranslation()
 
   const { setToken } = useAuth()
-  const mutation = useMutation(loginService, {
+  const mutation = useMutation(loginGoogleService, {
     onSuccess: (data) => {
       // Update client context
       setToken(data.access_token)
@@ -46,9 +46,12 @@ const InternalLoginPage: React.FC = () => {
     },
   })
 
-  const handleFacebookLogin = async (response: any) => {
-    if (response.accessToken) {
-      mutation.mutate({ fb_access_token: response.accessToken })
+  const handleGoogleLogin = async (response: any) => {
+    console.warn(response)
+    if (response.google_access_token) {
+      mutation.mutate({
+        google_access_token: response.google_access_token,
+      })
     }
   }
 
@@ -150,7 +153,7 @@ const InternalLoginPage: React.FC = () => {
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <GoogleButton width="100%" onSuccess={handleFacebookLogin} />
+                <GoogleButton width="100%" onSuccess={handleGoogleLogin} />
                 {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
                 {mutation.isError &&
                   t('LOGIN.loggingIn', {
