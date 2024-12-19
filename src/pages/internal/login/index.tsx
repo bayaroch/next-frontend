@@ -1,5 +1,4 @@
 import SitemarkIcon from '@components/@public/SitemarkIcon'
-import FacebookLoginButton from '@components/FacebookLoginButton'
 import { InfoOutlined } from '@mui/icons-material'
 import { Box, Stack, styled, Typography } from '@mui/material'
 import MuiCard from '@mui/material/Card'
@@ -9,6 +8,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 import Grid from '@mui/material/Grid2'
+import GoogleButton from './GoogleButton'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -27,8 +27,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
       'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
   }),
 }))
-
-const LoginPage: React.FC = () => {
+//
+const InternalLoginPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const { t } = useTranslation()
@@ -150,10 +150,7 @@ const LoginPage: React.FC = () => {
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <FacebookLoginButton
-                  isLoading={mutation.isLoading}
-                  onLogin={handleFacebookLogin}
-                />
+                <GoogleButton width="100%" onSuccess={handleFacebookLogin} />
                 {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
                 {mutation.isError &&
                   t('LOGIN.loggingIn', {
@@ -168,4 +165,4 @@ const LoginPage: React.FC = () => {
   )
 }
 
-export default LoginPage
+export default InternalLoginPage

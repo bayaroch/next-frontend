@@ -36,6 +36,7 @@ import ProtectedOutlet from '@containers/ProtectedOutlet'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
+const InternalLoginPage = lazy(() => import('@pages/internal/login'))
 const AutomationListPage = lazy(() => import('@pages/automations'))
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
@@ -107,6 +108,16 @@ function App() {
                 </Suspense>
               }
             />
+            <Route path="internal">
+              <Route
+                path="login"
+                element={
+                  <Suspense fallback={<InitAppLoader />}>
+                    <InternalLoginPage />
+                  </Suspense>
+                }
+              />
+            </Route>
           </Route>
           <Route
             path={'logout'}
@@ -244,6 +255,7 @@ function App() {
                   </Suspense>
                 }
               />
+
               {/* Project Route Pack Start */}
             </Route>
           </Route>

@@ -70,6 +70,10 @@ export interface SurvePayload {
   params: SurveyFields
 }
 
+export interface GoogleLoginParams {
+  access_token: string
+}
+
 export const loginService = async (
   params: LoginPayload
 ): Promise<LoginResponse> => {
