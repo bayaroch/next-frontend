@@ -19,6 +19,7 @@ const GoogleButton: React.FC<GoogleLoginProps> = ({
         access_token: response.credential,
       })
   }
+  //
 
   return (
     <GoogleLogin
