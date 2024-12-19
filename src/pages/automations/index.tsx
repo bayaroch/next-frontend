@@ -1,26 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import {
-  GetPostsResponse,
-  GetPostsService,
-  Post,
-} from '@services/page.services'
+import { GetPostsResponse, GetPostsService } from '@services/page.services'
 import {
   Automation,
   AutomationCreateResponse,
-  AutomationDetailResponse,
   AutomationListResponse,
   AutomationService,
   CreateAutomationInput,
   UpdateStatusInput,
 } from '@services/automation.services'
-import { Box, Button, List, Paper, styled, Typography } from '@mui/material'
+import { Box, Button, List, Paper, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
 import _ from 'lodash'
-import Grid from '@mui/material/Grid2'
 import AutomationListItem from '@components/Automation/AutomationListItem'
 import CreateAutomationDialog from './CreateAutomationDialog'
 import { useConfirm } from '@components/Confirm'
@@ -33,9 +26,7 @@ const ITEMS_PER_PAGE = 100 // finish pagination there is error wrong total count
 
 const AutomationListPage: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const [page, setPage] = useState(1)
-  const [automationName, setAutomationName] = useState<string>('')
-  const [selectedPostId, setSelectedPostId] = useState<string>('')
+  const [page] = useState(1)
   const queryClient = useQueryClient()
   const initData = queryClient.getQueryData(['appInit'])
   const connectedPages: ConnectedPage[] = _.get(initData, 'connected_pages', [])

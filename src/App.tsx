@@ -25,9 +25,17 @@ import PageLoader from '@components/InitApp/PageLoader'
 import { useAuth } from 'global/AuthContext'
 import PublicLayout from '@layouts/PublicLayout'
 import { useQuery } from 'react-query'
-import { AppInitResponse, initializeAppService } from '@services/auth.services'
+import {
+  AppInitResponse,
+  initializeAppService,
+  ROLE,
+} from '@services/auth.services'
 import SetupPage from '@pages/setup'
 import _ from 'lodash'
+import ProtectedOutlet from '@containers/ProtectedOutlet'
+// turn those dynamic import import ProductsPage from '@pages/admin/products'
+const ProductsPage = lazy(() => import('@pages/admin/products'))
+const SellersPage = lazy(() => import('@pages/admin/sellers'))
 const AutomationListPage = lazy(() => import('@pages/automations'))
 const PrivacyPolicyPage = lazy(() => import('@pages/privacy_policy'))
 const AboutPage = lazy(() => import('@pages/about'))
@@ -185,6 +193,31 @@ function App() {
                   </Suspense>
                 }
               />
+              <Route
+                path="admin"
+                element={<ProtectedOutlet allowedRole={ROLE.ADMIN} />}
+              >
+                <Route path="products">
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <ProductsPage />
+                      </Suspense>
+                    }
+                  />
+                </Route>
+                <Route path="sellers">
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <SellersPage />
+                      </Suspense>
+                    }
+                  />
+                </Route>
+              </Route>
               <Route path="automation">
                 <Route
                   index

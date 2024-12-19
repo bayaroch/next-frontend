@@ -8,6 +8,11 @@ export interface LoginPayload {
 export interface LoginResponse {
   access_token: string
 }
+export enum ROLE {
+  ADMIN = 'admin',
+  USER = 'user',
+  SELLER = 'seller',
+}
 
 export interface UserInput {
   email: string
@@ -15,7 +20,9 @@ export interface UserInput {
   fb_name: string
   exp: number
   fb_id: number
+  role: ROLE
   iat: number
+  is_seller_confirmed: boolean
   survey_responses: {
     [key: string]: any
   }
@@ -43,7 +50,14 @@ export interface AppInitResponse {
   } | null
   user_info: UserInput
   connected_pages: ConnectedPage[]
-  has_active_subscription: boolean
+  subscription?: {
+    product_id?: string
+    status?: string
+    start_at?: Date
+    end_at?: Date
+    remaining_token?: number
+    free_plan_available?: boolean
+  }
 }
 
 export interface SurveyFields {
