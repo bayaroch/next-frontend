@@ -249,7 +249,15 @@ function App() {
             path="admin"
             element={<ProtectedOutlet allowedRole={ROLE.ADMIN} />}
           >
-            <Route element={<MainLayout />} path={'admin'}>
+            <Route element={<MainLayout />}>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    Welcome to admin dashboard
+                  </Suspense>
+                }
+              />
               <Route path="products">
                 <Route
                   index
@@ -353,22 +361,34 @@ const PrivateOutlet = () => {
   const role = _.get(init, 'user_info.role', undefined)
   const isConfirmedSeller = _.get(init, 'user_info.is_confirmed_seller', false)
 
-  switch (role) {
-    case ROLE.ADMIN:
+  // Redirect based on role and current path
+  if (role === ROLE.ADMIN) {
+    if (!location.pathname.startsWith('/admin')) {
       return <Navigate to="/admin" replace />
-    case ROLE.SELLER:
-      return isConfirmedSeller ? (
-        <Navigate to="/partner" replace />
-      ) : (
-        <Navigate to="/waiting_approval" replace /> // or a pending approval page
-      )
-    case ROLE.USER:
+    }
+  } else if (role === ROLE.SELLER) {
+    if (isConfirmedSeller) {
+      if (!location.pathname.startsWith('/partner')) {
+        return <Navigate to="/partner" replace />
+      }
+    } else {
+      return <Navigate to="/waiting_approval" replace />
+    }
+  } else if (role === ROLE.USER) {
+    if (
+      location.pathname.startsWith('/admin') ||
+      location.pathname.startsWith('/partner')
+    ) {
       return <Navigate to="/" replace />
-    default:
-      return <Navigate to="/" replace /> // Default route if role is undefined
+    }
+  } else {
+    // If role is undefined or not recognized
+    return <Navigate to="/" replace />
   }
-}
 
+  // If none of the above conditions are met, render the outlet
+  return <Outlet />
+}
 const PaymentOutlet = ({
   initData,
   isLoading,

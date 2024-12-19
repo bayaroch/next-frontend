@@ -10,8 +10,9 @@ import SelectContent from '../SelectContent'
 import MenuContent from '../MenuContent'
 import OptionsMenu from '../OptionsMenu'
 import SitemarkIcon from '@components/@public/SitemarkIcon'
-import { AppInitResponse } from '@services/auth.services'
+import { AppInitResponse, ROLE } from '@services/auth.services'
 import { Link } from 'react-router-dom'
+import RoleWrapper from '@containers/RoleWrapper'
 
 const drawerWidth = 240
 
@@ -70,16 +71,25 @@ const SideMenu: React.FC<SideMenuProps> = ({ initData, onLogout }) => {
           <SitemarkIcon />
         </Link>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          p: 1.5,
+      <RoleWrapper
+        allowedRoles={[ROLE.USER]}
+        render={() => {
+          return (
+            <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  mt: 'calc(var(--template-frame-height, 0px) + 4px)',
+                  p: 1.5,
+                }}
+              >
+                <SelectContent />
+              </Box>
+              <Divider />
+            </>
+          )
         }}
-      >
-        <SelectContent />
-      </Box>
-      <Divider />
+      />
       <MenuContent />
       <Stack
         direction="row"
