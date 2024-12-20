@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import FormField from '@components/@material-extend/FormField'
 import { CreateProductParams } from '@services/payment.services'
 import useProductCreateForm from './useProductCreateForm'
+import CurrencyInput from 'react-currency-input-field'
 
 interface CreateProductDialogProps {
   open: boolean
@@ -107,18 +108,30 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
               name="price"
               control={control}
               rules={{ required: 'Price is required', min: 0 }}
-              render={({ field }) => (
+              render={({ field: { onChange, value, ref } }) => (
                 <FormField
                   fullWidth
                   errors={errors.price?.message}
                   label={t('PRODUCT.price')}
                   required
                 >
-                  <OutlinedInput
-                    {...field}
-                    fullWidth
-                    type="number"
-                    placeholder={t('PRODUCT.price')}
+                  <CurrencyInput
+                    id="price-input"
+                    name="price"
+                    placeholder="Please enter a price"
+                    defaultValue={value}
+                    decimalsLimit={2}
+                    onValueChange={(value) => onChange(value)}
+                    prefix="T"
+                    ref={ref}
+                    style={{
+                      // Basic styling, adjust as needed
+                      width: '100%',
+                      padding: '10px',
+                      fontSize: '16px',
+                      border: '1px solid #ccc',
+                      borderRadius: '4px',
+                    }}
                   />
                 </FormField>
               )}

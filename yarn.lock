@@ -11235,7 +11235,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-app-rewired: "npm:^2.2.1"
     react-beautiful-dnd: "npm:^13.1.1"
-    react-currency-input-field: "npm:^3.6.12"
+    react-currency-input-field: "npm:^3.9.0"
     react-custom-scrollbars-2: "npm:^4.5.0"
     react-div-100vh: "npm:^0.7.0"
     react-dom: "npm:^18.3.1"
@@ -14082,12 +14082,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-currency-input-field@npm:^3.6.12":
-  version: 3.8.0
-  resolution: "react-currency-input-field@npm:3.8.0"
+"react-currency-input-field@npm:^3.9.0":
+  version: 3.9.0
+  resolution: "react-currency-input-field@npm:3.9.0"
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: d82d367933925c046d5434b29701874b5fd2298943b677747172a76e80c365c6cf86e79abe69b8b89e21bc2c85a7d36262092d4f9f3efee2d3bf9774ea7c7276
+  checksum: c169e91332d60a98c376cce7675da3caeab52c9917e7613653247f0e897444b6d5f543c6d7dcdd8a71974a7eabedaa3c955182df4eaa7a154802aeb79836e7ad
   languageName: node
   linkType: hard
 

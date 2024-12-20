@@ -31,6 +31,9 @@ const DataLoading: React.FC<DataLoadingProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  // eslint-disable-next-line no-console
+  console.log(isLoading)
+
   const renderEmptyData = () => {
     if (!isLoading && isEmptyData) {
       return (

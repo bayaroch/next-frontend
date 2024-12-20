@@ -27,17 +27,18 @@ const ProductListPage: React.FC = () => {
   const {
     data: productsData,
     isLoading,
+    isFetching,
     error,
   } = useQuery<Product[], Error>(
     ['products'],
-    () => ProductService.getProductsByPage(ITEMS_PER_PAGE),
+    () => ProductService.getProductsByPage(),
     {
       refetchOnWindowFocus: false,
     }
   )
 
   // eslint-disable-next-line no-console
-  console.log(productsData)
+  console.log(productsData, isFetching, isLoading)
 
   const createProductMutation = useMutation<any, Error, CreateProductParams>(
     (input) => ProductService.createProduct(input),
@@ -141,8 +142,8 @@ const ProductListPage: React.FC = () => {
       </List>
 
       <DataLoading
-        resource={t('SYSCOMMON.product')}
-        isLoading={isLoading}
+        resource={t('ADMIN.products')}
+        isLoading={isLoading && !error}
         isEmptyData={_.isEmpty(productsData) && productsData !== undefined}
         emptyAction={
           <Button variant="outlined" onClick={handleOpen} endIcon={<Add />}>
