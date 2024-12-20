@@ -130,7 +130,6 @@ function App() {
             }
           />
         </Route>
-
         {/* MAIN PUBLIC STACK START */}
         <Route path={'/'} element={<PublicOutlet />}>
           <Route element={<PublicLayout />} path={'/'}>
@@ -187,7 +186,6 @@ function App() {
             />
           </Route>
         </Route>
-
         {/* MAIN PUBLIC STACK END */}
         {/* MAIN PRIVATE STACK START*/}
         <Route element={<PrivateOutlet />} path={'/'}>
@@ -297,22 +295,23 @@ function App() {
               />
             </Route>
           </Route>
-        </Route>
-        {/* Partners */}
+          {/* Partners */}
 
-        <Route path="waiting_approval">
           <Route
-            index
-            element={
-              <Suspense fallback={<PageLoader />}>
-                <PendingPage />
-              </Suspense>
-            }
-          />
+            path="waiting_approval"
+            element={<ProtectedOutlet allowedRole={ROLE.SELLER} />}
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <PendingPage />
+                </Suspense>
+              }
+            />
+          </Route>
         </Route>
-
         {/* MAIN PRIVATE STACK END*/}
-
         {/* No Route match redirects to last route */}
         <Route
           path="/503"

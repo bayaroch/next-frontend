@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box, { BoxProps } from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography } from '@mui/material'
-import { TopicOutlined } from '@mui/icons-material'
+import { ErrorOutline, TopicOutlined } from '@mui/icons-material'
 
 export interface DataLoadingProps extends BoxProps {
   isLoading: boolean
@@ -14,6 +14,7 @@ export interface DataLoadingProps extends BoxProps {
   resultAction?: React.ReactNode
   emptyDesc?: string
   icon?: React.ReactNode
+  error?: any
 }
 
 const DataLoading: React.FC<DataLoadingProps> = ({
@@ -25,6 +26,7 @@ const DataLoading: React.FC<DataLoadingProps> = ({
   resultAction,
   emptyDesc,
   icon,
+  error,
   ...rest
 }) => {
   const { t } = useTranslation()
@@ -97,6 +99,49 @@ const DataLoading: React.FC<DataLoadingProps> = ({
     return null
   }
 
+  const renderError = () => {
+    if (error && error.message) {
+      return (
+        <>
+          {' '}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              pt: 9,
+              pb: 2,
+            }}
+          >
+            <Box
+              className="empty-icon"
+              sx={{
+                '& .MuiSvgIcon-root': {
+                  fontSize: 32,
+                  color: (theme) => theme.palette.primary.main,
+                },
+              }}
+            >
+              {<ErrorOutline />}
+            </Box>
+            <Typography
+              className="empty-text"
+              component={Box}
+              variant="body1"
+              sx={{ fontSize: 18 }}
+            >
+              {t(`ERROR.${error.code}`)}
+            </Typography>
+          </Box>
+        </>
+      )
+    }
+    return null
+  }
+
   return (
     <>
       {isLoading ? (
@@ -129,6 +174,7 @@ const DataLoading: React.FC<DataLoadingProps> = ({
         ''
       )}
       {renderEmptyData()}
+      {renderError()}
     </>
   )
 }
