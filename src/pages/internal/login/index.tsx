@@ -1,6 +1,6 @@
 import SitemarkIcon from '@components/@public/SitemarkIcon'
 import { InfoOutlined } from '@mui/icons-material'
-import { Box, Stack, styled, Typography } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
 import MuiCard from '@mui/material/Card'
 import { loginGoogleService } from '@services/auth.services'
 import { useAuth } from 'global/AuthContext'
@@ -67,39 +67,7 @@ const InternalLoginPage: React.FC = () => {
       }}
     >
       <Grid
-        size={{ xs: 12, sm: 5, lg: 4 }}
-        sx={{
-          display: { xs: 'none', md: 'flex' },
-          flexDirection: 'column',
-          borderRight: { sm: 'none', md: '1px solid' },
-          borderColor: { sm: 'none', md: 'divider' },
-          alignItems: 'start',
-          pt: 16,
-          px: 10,
-          gap: 4,
-        }}
-      >
-        <Stack
-          direction="column"
-          sx={{
-            justifyContent: 'center',
-            gap: 3,
-            maxWidth: '600px',
-            margin: 'auto',
-          }}
-        >
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Box component="img" width="240px" src="/images/logo-full.png" />
-          </Box>
-          <Typography variant="h2" sx={{ mb: 0, p: 0 }}>
-            {t('LOGIN.welcomeTitle')}
-          </Typography>
-          <Typography variant="h5">{t('HOME.slogan_two')}</Typography>
-          <Typography>{t('LOGIN.welcomeDescription')}</Typography>
-        </Stack>
-      </Grid>
-      <Grid
-        size={{ sm: 12, md: 7, lg: 8 }}
+        size={{ sm: 12, md: 12, lg: 12 }}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -109,8 +77,6 @@ const InternalLoginPage: React.FC = () => {
           py: { xs: 0, sm: 16 },
           px: { xs: 2, sm: 10 },
           gap: { xs: 4, md: 8 },
-          background:
-            "url('/images/hero-illustration.svg') top right no-repeat",
         }}
       >
         <Box
@@ -126,23 +92,16 @@ const InternalLoginPage: React.FC = () => {
           }}
         >
           <Card variant="outlined">
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <Box sx={{ display: { xs: 'flex' } }}>
               <SitemarkIcon />
             </Box>
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ width: '100%', fontSize: 'clamp(1.5rem, 10vw, 1.85rem)' }}
-            >
-              {t('LOGIN.signIn')}
-            </Typography>
             <Typography sx={{ color: '#666' }}>
               <Box component={'span'} sx={{ pr: 0.5, color: '#333' }}>
                 <InfoOutlined
                   sx={{ fontSize: 16, position: 'relative', top: 4 }}
                 />
               </Box>
-              {t('LOGIN.permissionInfo')}
+              {t('LOGIN.become_partner')}
             </Typography>
             <Box
               sx={{

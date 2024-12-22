@@ -160,6 +160,24 @@ const LoginPage: React.FC = () => {
                     error: (mutation.error as Error).message,
                   })}
               </Box>
+              {/* Add the partner login link here */}
+              <Typography
+                variant="body2"
+                sx={{
+                  mt: 2,
+                  textAlign: 'center',
+                  '& a': {
+                    color: 'primary.main',
+                    textDecoration: 'none',
+                    '&:hover': {
+                      textDecoration: 'underline',
+                    },
+                  },
+                }}
+              >
+                {t('SYSCOMMON.are_you_partner')}
+                <a href="/internal/login">{t('SYSCOMMON.login')}</a>
+              </Typography>
             </Box>
           </Card>
         </Box>

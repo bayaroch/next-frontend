@@ -71,6 +71,7 @@ export default {
     facebook_login: 'Log In with Facebook',
     facebook_pages: 'Facebook pages',
     update: 'Update',
+    are_you_partner: 'Are you partner? ',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -82,6 +83,8 @@ export default {
       'Please accept all required Facebook permissions and select the pages you want to manage to use our service.',
     loggingIn: 'Logging in...',
     loginError: 'Error: {{error}}',
+    become_partner:
+      'If you want to become a partner and work with us, please contact kommaiapp@gmail.com for requests and to get information about working conditions.',
   },
   PRODUCT: {
     name: 'Name',
