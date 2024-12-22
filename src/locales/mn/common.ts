@@ -68,6 +68,7 @@ export default {
     reports: 'Тайлан',
     facebook_login: 'Фэйсбүүкээр нэвтрэх',
     facebook_pages: 'Фэйбүүк хуудсууд',
+    update: 'Шинэчлэх',
   },
   LOGIN: {
     welcomeTitle: 'Тавтай морил',
@@ -80,6 +81,21 @@ export default {
     loggingIn: 'Нэвтэрч байна...',
     loginError: 'Алдаа: {{error}}',
   },
+  PRODUCT: {
+    name: 'Нэр',
+    description: 'Тайлбар',
+    price: 'Үнэ',
+    duration_days: 'Хугацаа',
+    actions: 'Үйлдлүүд',
+    create_product: 'Бүтээгдэхүүн үүсгэх',
+    token_amount: 'Токен хэмжээ',
+    setting_key: 'Түлхүүр',
+    setting_value: 'Агуулга',
+    additional_settings: 'Нэмэлт тохиргоо',
+    add_settings: 'Нэмэх',
+    edit_product: 'Бүтээгдэхүүн засварлах',
+  },
+
   HOME: {
     home: 'Нүүр хуудас',
     about: 'Бидний тухай',
@@ -149,13 +165,15 @@ export default {
     automation_keyword: 'AI-д зориулсан түлхүүр үг',
     automation_contennt: 'Автомат хариултын агуулга',
     automation_status: 'Автоматжуулалтын төлөв',
+    duration_days: 'Бүтээгдэхүүний хүчинтэй байх хугацаа (өдрөөр)',
+    additional_settings: 'Бүтээгдэхүүний онцлогууд болон бусад тохиргоонууд',
   },
   ROUTES: {
     dashboard: 'Эхлэл',
     automation: 'Автоматжуулалт',
     edit: 'засах',
     connect: 'Холболт',
-    admin: 'Эхлэл',
+    admin: 'Админ',
     products: 'Бүтээгдэхүүн',
   },
   ADMIN: {
@@ -198,6 +216,7 @@ export default {
     E000067: 'Дуусах цаг хойно байх ёстой',
     E000068: 'Эхлэх цаг ирээдүйд байх ёстой',
     E000069: '{{field}} Давтагдахгүй байх',
+    E000070: 'Алдаа гарлаа',
     //
     BE00001: 'Олдсонгүй',
     BE00002: 'Graph API алдаа',

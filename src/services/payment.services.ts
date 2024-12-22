@@ -43,7 +43,7 @@ export const ProductService = {
   },
   // update endpoint
   updateProduct: async (input: UpdateProductParams): Promise<any> => {
-    const { data } = await api.put<any>(
+    const { data } = await api.patch<any>(
       `${URI.PRODUCT}/${input.id}`,
       input.payload
     )

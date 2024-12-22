@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Button,
   Dialog,
@@ -9,25 +9,29 @@ import {
   styled,
   IconButton,
   Stack,
+  TextField,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import FormField from '@components/@material-extend/FormField'
-import { CreateProductParams } from '@services/payment.services'
+import { CreateProductParams, Product } from '@services/payment.services'
 import useProductCreateForm from './useProductCreateForm'
 import CurrencyInput from 'react-currency-input-field'
+import { Add, DeleteOutlined } from '@mui/icons-material'
+import { LoadingButton } from '@mui/lab'
 
-interface CreateProductDialogProps {
+interface ProductDialogProps {
   open: boolean
   onClose: () => void
   onSubmit: (data: CreateProductParams) => void
+  data?: Product | null
+  isLoading: boolean
 }
 
 const StyledDialogContent = styled(DialogContent)({
   display: 'flex',
   flexDirection: 'column',
   padding: '20px',
-  height: 'calc(100vh - 120px)',
   overflow: 'hidden',
 })
 
@@ -37,21 +41,49 @@ const StyledDialogTitle = styled(DialogTitle)({
   alignItems: 'center',
 })
 
-const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
+const ProductDialog: React.FC<ProductDialogProps> = ({
   open,
   onClose,
   onSubmit,
+  isLoading,
+  data,
 }) => {
   const { t } = useTranslation()
-  const { Controller, methods } = useProductCreateForm()
+  const { Controller, methods, fields, append, remove } = useProductCreateForm()
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = methods
-  const handleFormSubmit = (data: any) => {
-    onSubmit(data)
-    onClose()
+
+  useEffect(() => {
+    if (data && open) {
+      reset(data)
+    }
+  }, [data, reset, open])
+
+  // eslint-disable-next-line no-console
+  console.log('12312312', errors)
+
+  useEffect(() => {
+    if (!open) {
+      reset({
+        name: '',
+        price: 0,
+        token_amount: 0,
+        duration_days: 0,
+        description: '',
+        additional_settings: [],
+      })
+    }
+  }, [open, reset])
+
+  // eslint-disable-next-line no-console
+  console.log(data, isValid)
+
+  const handleFormSubmit = (formData: any) => {
+    onSubmit(formData)
   }
 
   return (
@@ -69,7 +101,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
     >
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <StyledDialogTitle>
-          {t('PRODUCT.create_product')}
+          {data ? t('PRODUCT.edit_product') : t('PRODUCT.create_product')}
           <IconButton
             aria-label="close"
             onClick={onClose}
@@ -122,16 +154,11 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
                     defaultValue={value}
                     decimalsLimit={2}
                     onValueChange={(value) => onChange(value)}
-                    prefix="T"
+                    prefix="₮"
+                    groupSeparator=","
+                    decimalSeparator="."
+                    customInput={OutlinedInput}
                     ref={ref}
-                    style={{
-                      // Basic styling, adjust as needed
-                      width: '100%',
-                      padding: '10px',
-                      fontSize: '16px',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px',
-                    }}
                   />
                 </FormField>
               )}
@@ -141,18 +168,24 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
               name="token_amount"
               control={control}
               rules={{ required: 'Token amount is required', min: 0 }}
-              render={({ field }) => (
+              render={({ field: { onChange, value, ref } }) => (
                 <FormField
                   fullWidth
                   errors={errors.token_amount?.message}
                   label={t('PRODUCT.token_amount')}
                   required
                 >
-                  <OutlinedInput
-                    {...field}
-                    fullWidth
-                    type="number"
+                  <CurrencyInput
+                    id="token_amount"
+                    name="token_amount"
                     placeholder={t('PRODUCT.token_amount')}
+                    defaultValue={value}
+                    decimalsLimit={2}
+                    onValueChange={(value) => onChange(value)}
+                    groupSeparator=","
+                    decimalSeparator="."
+                    customInput={OutlinedInput}
+                    ref={ref}
                   />
                 </FormField>
               )}
@@ -167,6 +200,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
                   fullWidth
                   errors={errors.duration_days?.message}
                   label={t('PRODUCT.duration_days')}
+                  desc={t('FORM_DESC.duration_days')}
                   required
                 >
                   <OutlinedInput
@@ -188,16 +222,94 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
                   errors={errors.description?.message}
                   label={t('PRODUCT.description')}
                 >
-                  <OutlinedInput
+                  <TextField
                     {...field}
                     fullWidth
                     multiline
+                    slotProps={{
+                      input: {
+                        sx: {
+                          padding: '8px',
+                          height: '100%',
+                          overflow: 'auto',
+                          maxHeight: '100px',
+                        },
+                      },
+                    }}
                     rows={4}
                     placeholder={t('PRODUCT.description')}
                   />
                 </FormField>
               )}
             />
+
+            {/* Additional Settings */}
+            <FormField
+              fullWidth
+              label={t('PRODUCT.additional_settings')}
+              desc={t('FORM_DESC.additional_settings')}
+              sx={{ mb: 0 }}
+            />
+            {fields.map((field, index) => (
+              <Stack
+                key={field.id}
+                direction="row"
+                spacing={1}
+                sx={{ pb: 1, width: '100%', marginTop: '0 !important' }}
+              >
+                <Controller
+                  name={`additional_settings.${index}.key`}
+                  control={control}
+                  render={({ field }) => (
+                    <FormField
+                      sx={{ width: 200 }}
+                      label=""
+                      error={
+                        !!errors.additional_settings?.[index]?.key?.message
+                      }
+                    >
+                      <OutlinedInput
+                        {...field}
+                        placeholder={t('PRODUCT.setting_key')}
+                        error={!!errors.additional_settings?.[index]?.key}
+                      />
+                    </FormField>
+                  )}
+                />
+
+                <Controller
+                  name={`additional_settings.${index}.value`}
+                  control={control}
+                  render={({ field }) => (
+                    <FormField
+                      label=""
+                      fullWidth
+                      error={
+                        !!errors.additional_settings?.[index]?.value?.message
+                      }
+                    >
+                      <OutlinedInput
+                        {...field}
+                        placeholder={t('PRODUCT.setting_value')}
+                        sx={{ width: '100%' }}
+                      />
+                    </FormField>
+                  )}
+                />
+
+                <IconButton onClick={() => remove(index)}>
+                  <DeleteOutlined />
+                </IconButton>
+              </Stack>
+            ))}
+            <Button
+              color="primary"
+              variant="outlined"
+              startIcon={<Add />}
+              onClick={() => append({ key: '', value: '' })}
+            >
+              {t('PRODUCT.add_settings')}
+            </Button>
           </Stack>
         </StyledDialogContent>
         <DialogActions
@@ -208,19 +320,22 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             borderTop: '1px solid #ccc',
           }}
         >
-          <Button onClick={onClose}>{t('SYSCOMMON.cancel')}</Button>
-          <Button
+          <Button variant="outlined" color="primary" onClick={onClose}>
+            {t('SYSCOMMON.cancel')}
+          </Button>
+          <LoadingButton
             variant="contained"
             color="primary"
             type="submit"
             disabled={!isValid}
+            loading={isLoading}
           >
-            {t('SYSCOMMON.create')}
-          </Button>
+            {data ? t('SYSCOMMON.update') : t('SYSCOMMON.create')}
+          </LoadingButton>
         </DialogActions>
       </form>
     </Dialog>
   )
 }
 
-export default CreateProductDialog
+export default ProductDialog

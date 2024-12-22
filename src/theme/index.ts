@@ -1,4 +1,4 @@
-import { alpha, createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 
 export const themeValue = {
   // breakpoints: {
@@ -126,13 +126,6 @@ export const themeValue = {
     },
   },
   components: {
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          borderColor: alpha('#000', 0.1),
-        },
-      },
-    },
     MuiPopover: {
       styleOverrides: {
         paper: {

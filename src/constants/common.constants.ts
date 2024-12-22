@@ -53,3 +53,15 @@ export const BgColorOptionsMedium = {
   lightness: 60,
   alpha: 100,
 }
+
+export enum Direction {
+  desc = 'desc',
+  asc = 'asc',
+}
+
+export interface FilterParams {
+  search: string
+  page: number
+  orderDir: Direction
+  orderBy: string
+}

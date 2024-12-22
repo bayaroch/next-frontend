@@ -23,6 +23,17 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
+  MuiTableCell: {
+    styleOverrides: {
+      root: {
+        borderColor: alpha('#000', 0.1),
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 8,
+        paddingBottom: 8,
+      },
+    },
+  },
   MuiButton: {
     styleOverrides: {
       root: ({ theme }) => ({

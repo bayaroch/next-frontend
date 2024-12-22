@@ -70,6 +70,7 @@ export default {
     reports: 'Reports',
     facebook_login: 'Log In with Facebook',
     facebook_pages: 'Facebook pages',
+    update: 'Update',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -81,6 +82,20 @@ export default {
       'Please accept all required Facebook permissions and select the pages you want to manage to use our service.',
     loggingIn: 'Logging in...',
     loginError: 'Error: {{error}}',
+  },
+  PRODUCT: {
+    name: 'Name',
+    description: 'Description',
+    price: 'Price',
+    duration_days: 'Duration',
+    actions: 'Actions',
+    token_amount: 'Token amount',
+    create_product: 'Create Product',
+    setting_key: 'Feature key',
+    setting_value: 'Feature Content',
+    additional_settings: 'Additional Settings',
+    add_settings: 'Add Settings',
+    edit_product: 'Edit Product',
   },
   HOME: {
     home: 'Home',
@@ -151,6 +166,9 @@ export default {
     automation_keyword: 'Keyword for AI',
     automation_contennt: 'Auto-reply content',
     automation_status: 'Automation status',
+    duration_days:
+      'The number of days the product will be available. After the duration, the product will be automatically deactivated.',
+    additional_settings: 'Feature list or some other additional options',
   },
   ROUTES: {
     dashboard: 'Dashhboard',
@@ -165,6 +183,7 @@ export default {
     sellers: 'Sellers',
     products: 'Products',
   },
+
   ERROR: {
     E000001: '{{field}} is required',
     E000002: 'Field is required',
@@ -199,6 +218,7 @@ export default {
     E000067: 'End time must be greater',
     E000068: 'Start time must be in future',
     E000069: '{{field}} Must be unique',
+    E000070: 'Unknown error',
     // New errors added with 'BE' prefix
     BE00001: 'No found',
     BE00002: 'Graph API error',
