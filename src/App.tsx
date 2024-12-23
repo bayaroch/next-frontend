@@ -35,6 +35,7 @@ import _ from 'lodash'
 import ProtectedOutlet from '@containers/ProtectedOutlet'
 import PartnerPage from '@pages/partner'
 import PendingPage from '@pages/pending'
+import Checkout from '@containers/Checkout'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
@@ -399,9 +400,13 @@ const PaymentOutlet = ({
     return <InitAppLoader />
   }
 
-  // if (initData && !initData.has_active_subscription) {
-  //   return <Suspense fallback={<PageLoader />}>Payment page</Suspense>
-  // }
+  if (initData && initData.subscription?.status !== 'active') {
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <Checkout />
+      </Suspense>
+    )
+  }
 
   if (
     (initData && _.isEmpty(initData.connected_pages)) ||

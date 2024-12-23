@@ -99,6 +99,7 @@ export default {
     additional_settings: 'Additional Settings',
     add_settings: 'Add Settings',
     edit_product: 'Edit Product',
+    choose: 'Choose',
   },
   HOME: {
     home: 'Home',

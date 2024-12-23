@@ -97,6 +97,7 @@ export default {
     additional_settings: 'Нэмэлт тохиргоо',
     add_settings: 'Нэмэх',
     edit_product: 'Бүтээгдэхүүн засварлах',
+    choose: 'Сонгох',
   },
 
   HOME: {

@@ -46,7 +46,7 @@ const SetupPage = () => {
     ) {
       return <SurveyPages initData={init} />
     }
-    return <>asdas</>
+    return <></>
   }
 
   const { t } = useTranslation()

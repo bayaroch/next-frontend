@@ -49,7 +49,7 @@ const ProductListPage: React.FC = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(['products'])
         showToast('Product created successfully', { severity: 'success' })
-        setOpen(false)
+        handleClose()
       },
       onError: (err: any) => {
         if (err.code && err) {
@@ -69,8 +69,7 @@ const ProductListPage: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['products'])
       showToast('Product updated successfully', { severity: 'success' })
-      setOpen(false)
-      setSelectedProduct(null)
+      handleClose()
     },
     onError: (err: any) => {
       if (err.code && err) {
@@ -110,6 +109,7 @@ const ProductListPage: React.FC = () => {
   }
 
   const handleMenuOpen = (event: any, product: Product) => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget)
     setSelectedProduct(product)
   }
@@ -118,9 +118,14 @@ const ProductListPage: React.FC = () => {
     setAnchorEl(null)
   }
 
+  // eslint-disable-next-line no-console
+  console.log(selectedProduct, 'selectted')
+
   const handleEdit = (item: Product) => {
     setOpen(true)
     setSelectedProduct(item)
+    // eslint-disable-next-line no-console
+    console.log(item, 'item')
     handleMenuClose()
   }
 
@@ -187,7 +192,6 @@ const ProductListPage: React.FC = () => {
             background: '#f2f2f2',
           },
         }}
-        onClick={() => {}}
         key={item.product_id}
       >
         <TableCell align="left">{item.name}</TableCell>
@@ -199,22 +203,6 @@ const ProductListPage: React.FC = () => {
             sx={{ fontSize: 18, height: 18, position: 'relative', top: 3 }}
             onClick={(event) => handleMenuOpen(event, item)}
           />
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleEdit(item)}>
-              <EditIcon fontSize="small" style={{ marginRight: 8 }} />
-              {t('SYSCOMMON.edit')}
-            </MenuItem>
-            <MenuItem onClick={handleDelete}>
-              <DeleteIcon fontSize="small" style={{ marginRight: 8 }} />
-              {t('SYSCOMMON.delete')}
-            </MenuItem>
-          </Menu>
         </TableCell>
       </TableRow>
     )
@@ -255,6 +243,25 @@ const ProductListPage: React.FC = () => {
           createProductMutation.isLoading || updateProductMutation.isLoading
         }
       />
+
+      {selectedProduct && (
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={() => handleEdit(selectedProduct)}>
+            <EditIcon fontSize="small" style={{ marginRight: 8 }} />
+            {t('SYSCOMMON.edit')}
+          </MenuItem>
+          <MenuItem onClick={() => handleDelete()}>
+            <DeleteIcon fontSize="small" style={{ marginRight: 8 }} />
+            {t('SYSCOMMON.delete')}
+          </MenuItem>
+        </Menu>
+      )}
       {/* Add CreateProductDialog component here */}
     </Box>
   )

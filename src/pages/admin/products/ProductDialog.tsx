@@ -58,16 +58,16 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
   } = methods
 
   useEffect(() => {
-    if (data && open) {
-      reset(data)
-    }
-  }, [data, reset, open])
-
-  // eslint-disable-next-line no-console
-  console.log('12312312', errors)
-
-  useEffect(() => {
-    if (!open) {
+    if (open && data) {
+      reset({
+        name: data.name,
+        price: data.price,
+        token_amount: data.token_amount,
+        duration_days: data.duration_days,
+        description: data.description,
+        additional_settings: data.additional_settings || [],
+      })
+    } else if (!open) {
       reset({
         name: '',
         price: 0,
@@ -77,10 +77,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
         additional_settings: [],
       })
     }
-  }, [open, reset])
-
-  // eslint-disable-next-line no-console
-  console.log(data, isValid)
+  }, [open, data, reset])
 
   const handleFormSubmit = (formData: any) => {
     onSubmit(formData)

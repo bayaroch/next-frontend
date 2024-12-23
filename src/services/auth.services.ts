@@ -34,6 +34,12 @@ export interface ConnectedPage {
   is_default_page: boolean
 }
 
+export enum SubStatus {
+  ACTIVE = 'active',
+  CANCEL = 'cancel',
+  EXPIRED = 'expired',
+}
+
 export interface AppInitResponse {
   page_info: {
     name: string
@@ -52,7 +58,7 @@ export interface AppInitResponse {
   connected_pages: ConnectedPage[]
   subscription?: {
     product_id?: string
-    status?: string
+    status?: SubStatus
     start_at?: Date
     end_at?: Date
     remaining_token?: number
