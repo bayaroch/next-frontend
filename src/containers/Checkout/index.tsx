@@ -16,11 +16,16 @@ import InfoMobile from './InfoMobile'
 import Info from './Info'
 import Pricing from '@components/@public/Pricing'
 import {
+  CheckResponse,
+  CheckTransactionVariables,
+  CreateTransactionParams,
   Product,
   ProductionListResponse,
   ProductService,
+  TransactionResponse,
+  TransactionService,
 } from '@services/payment.services'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@global/AuthContext'
 import LanguageSwitcher from '@layouts/Shared/Header/LanguageSwitcher'
@@ -30,13 +35,17 @@ import { useWatch } from 'react-hook-form'
 import FormField from '@components/@material-extend/FormField'
 import { FormControl, MenuItem, OutlinedInput, Select } from '@mui/material'
 import _ from 'lodash'
+import { useToast } from '@components/ToastProvider'
 
 const steps = ['Select Plan', 'Place Order', 'Payment page']
 
 export default function Checkout() {
+  const queryClient = useQueryClient()
   const { t } = useTranslation()
   const { logout, changeLanguage, lang, init } = useAuth()
   const [activeStep, setActiveStep] = React.useState(0)
+  const [transactionResponse, setTransactionResponse] =
+    React.useState<TransactionResponse | null>(null)
   const { data: tiers } = useQuery<ProductionListResponse, Error>(
     ['products'],
     () => ProductService.getProductsByPage(),
@@ -45,6 +54,53 @@ export default function Checkout() {
     }
   )
   const { Controller, methods } = useProductForm()
+
+  const { showToast } = useToast()
+
+  const createTransactionMutation = useMutation<
+    TransactionResponse,
+    Error,
+    CreateTransactionParams
+  >((input) => TransactionService.createTransaction(input), {
+    onSuccess: (data) => {
+      showToast('Product created successfully', { severity: 'success' })
+      setActiveStep(activeStep + 1)
+      checkTransactionMutation.mutate({
+        amount: data.data.finalAmount,
+        transaction_id: data.data.transaction_id,
+      })
+      setTransactionResponse(data)
+    },
+    onError: (err: any) => {
+      if (err.code && err) {
+        showToast(t(`ERROR.${err.code}`), { severity: 'error' })
+      } else {
+        showToast(t('ERROR.E000070'), { severity: 'error' })
+      }
+    },
+  })
+
+  const checkTransactionMutation = useMutation<
+    CheckResponse,
+    Error,
+    CheckTransactionVariables
+  >((input) => TransactionService.checkTransactions(input), {
+    retry: 100,
+    retryDelay: 2,
+    onSuccess: (data) => {
+      if (data.is_success) {
+        queryClient.invalidateQueries(['appInit'])
+        setActiveStep(activeStep + 1)
+      }
+    },
+    onError: (err: any) => {
+      if (err.code && err) {
+        showToast(t(`ERROR.${err.code}`), { severity: 'error' })
+      } else {
+        showToast(t('ERROR.E000070'), { severity: 'error' })
+      }
+    },
+  })
 
   const {
     control,
@@ -61,11 +117,30 @@ export default function Checkout() {
   const formData = useWatch({ control })
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1)
+    if (activeStep === 1 && isValid) {
+      // trigger onSumit form
+      handleSubmit((data) => {
+        if (data.product_id !== null && !_.isEmpty(data.product_id)) {
+          const payload = {
+            product_id: _.get(data, 'product_id.product_id', '') as string,
+            quantity: data.quantity,
+            payment_method: data.payment_method,
+            promo_code: _.get(data, 'promo_code', ''),
+          }
+          createTransactionMutation.mutate(payload)
+        }
+      })()
+    } else {
+      setActiveStep(activeStep + 1)
+    }
   }
   const handleBack = () => {
     setActiveStep(activeStep - 1)
   }
+
+  const isNextStepDisabled =
+    (activeStep === 0 && selectedProduct === null) ||
+    (activeStep === 1 && !isValid)
 
   const getStepContent = (step: number) => {
     switch (step) {
@@ -155,7 +230,35 @@ export default function Checkout() {
           </Box>
         )
       case 2:
-        return <></>
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              Scan QR Code to Pay
+            </Typography>
+            {transactionResponse && transactionResponse.data.qpay && (
+              <img
+                src={`data:image/png;base64,${transactionResponse.data.qpay?.qr_image}`}
+                alt="QR Code"
+                style={{ width: 200, height: 200, marginBottom: 20 }}
+              />
+            )}
+            <Typography variant="body1" gutterBottom>
+              Amount:{' '}
+              {transactionResponse ? transactionResponse.data.finalAmount : 0}{' '}
+              MNT
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Please scan this QR code with your preferred payment app to
+              complete the transaction.
+            </Typography>
+          </Box>
+        )
       default:
         throw new Error('Unknown step')
     }
@@ -414,10 +517,10 @@ export default function Checkout() {
                     variant="contained"
                     endIcon={<ChevronRightRoundedIcon />}
                     onClick={handleNext}
-                    disabled={activeStep === 0 && selectedProduct === null}
+                    disabled={isNextStepDisabled}
                     sx={{ width: { xs: '100%', sm: 'fit-content' } }}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 2 ? 'Place order' : 'Next'}
                   </Button>
                 </Box>
               </React.Fragment>

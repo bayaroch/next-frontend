@@ -24,14 +24,50 @@ export type CreateProductParams = {
 export type CreateTransactionParams = {
   product_id: string
   payment_method: string
-  quantity: 1
-  discount_applied: boolean
+  quantity: number
   promo_code: string
 }
 
 export type UpdateProductParams = {
   id: string
   payload: CreateProductParams
+}
+
+export interface QpayResponse {
+  invoice_id: string
+  qr_text: string
+  qr_image: string
+  urls: {
+    name: string
+    description: string
+    link: string
+  }[]
+}
+
+export interface DiscountResponse {
+  promo_code: string
+  discountApplied: boolean
+  discountValue: number
+  discountType: string
+}
+
+export type TransactionResponse = {
+  data: {
+    transaction_id: string
+    qpay?: QpayResponse
+    discount?: DiscountResponse
+    finalAmount: number
+  }
+}
+
+export interface CheckTransactionVariables {
+  transaction_id: string
+  amount: number
+  invoice_id?: string
+}
+
+export type CheckResponse = {
+  is_success: boolean
 }
 
 export const ProductService = {
@@ -68,25 +104,46 @@ export const TransactionService = {
   getTransactions: async (
     limit: number = 10,
     lastKey?: string
-  ): Promise<ProductionListResponse> => {
-    const { data } = await api.get<ProductionListResponse>(`${URI.PRODUCT}`, {
+  ): Promise<any> => {
+    const { data } = await api.get<any>(`${URI.PRODUCT}`, {
       params: { limit, lastKey },
     })
     return data
   },
   // create endpoint
-  createTransaction: async (input: CreateTransactionParams): Promise<any> => {
-    const { data } = await api.post<any>(`${URI.TRANSACTION}`, input)
+  createTransaction: async (
+    input: CreateTransactionParams
+  ): Promise<TransactionResponse> => {
+    const { data } = await api.post<TransactionResponse>(
+      `${URI.TRANSACTION}`,
+      input
+    )
     return data
   },
   // update endpoint
-  updateTransaction: async (input: CreateTransactionParams): Promise<any> => {
-    const { data } = await api.put<any>(`${URI.TRANSACTION}`, input)
+  updateTransaction: async (
+    input: CreateTransactionParams
+  ): Promise<TransactionResponse> => {
+    const { data } = await api.put<TransactionResponse>(
+      `${URI.TRANSACTION}`,
+      input
+    )
     return data
   },
   // delete endpoint
   deleteTransaction: async (id: string): Promise<any> => {
     const { data } = await api.delete<any>(`${URI.TRANSACTION}/${id}`)
+    return data
+  },
+  checkTransactions: async (
+    params: CheckTransactionVariables
+  ): Promise<CheckResponse> => {
+    const { data } = await api.get<CheckResponse>(
+      `${URI.TRANSACTION}/${params.transaction_id}/check-payment-status`,
+      {
+        params: { amount: params.amount, invoice_id: params.invoice_id },
+      }
+    )
     return data
   },
 }

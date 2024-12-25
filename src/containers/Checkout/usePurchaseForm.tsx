@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 export const initialValues = {
   product_id: null,
   payment_method: 'Qpay',
-  quantity: 0,
+  quantity: 1,
   promo_code: '',
 }
 
