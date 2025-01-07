@@ -14,6 +14,7 @@ export const URI = {
   PRODUCT: '/product',
   TRANSACTION: '/user/transaction',
   GOOGLE_LOGIN: '/auth/google/login',
+  PROMO: '/promo',
 }
 
 export const excludeURI = [URI.LOGIN]

@@ -400,7 +400,12 @@ const PaymentOutlet = ({
     return <InitAppLoader />
   }
 
-  if (initData && initData.subscription?.status !== 'active') {
+  if (
+    initData &&
+    initData.subscription?.status !== 'active' &&
+    !_.isEmpty(initData.connected_pages) &&
+    !_.isEmpty(initData.user_info.survey_responses)
+  ) {
     return (
       <Suspense fallback={<PageLoader />}>
         <Checkout />

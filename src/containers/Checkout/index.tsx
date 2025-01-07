@@ -24,6 +24,10 @@ import {
   ProductService,
   TransactionResponse,
   TransactionService,
+  PromoService,
+  PromoApplyParams,
+  PromoResponse,
+  Promo,
 } from '@services/payment.services'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useTranslation } from 'react-i18next'
@@ -44,6 +48,7 @@ export default function Checkout() {
   const { t } = useTranslation()
   const { logout, changeLanguage, lang, init } = useAuth()
   const [activeStep, setActiveStep] = React.useState(0)
+  const [promoData, setPromo] = React.useState<Promo | null>(null)
   const [transactionResponse, setTransactionResponse] =
     React.useState<TransactionResponse | null>(null)
   const { data: tiers } = useQuery<ProductionListResponse, Error>(
@@ -66,12 +71,33 @@ export default function Checkout() {
       showToast('Product created successfully', { severity: 'success' })
       setActiveStep(activeStep + 1)
       checkTransactionMutation.mutate({
-        amount: data.data.finalAmount,
         transaction_id: data.data.transaction_id,
       })
       setTransactionResponse(data)
     },
     onError: (err: any) => {
+      if (err.code && err) {
+        showToast(t(`ERROR.${err.code}`), { severity: 'error' })
+      } else {
+        showToast(t('ERROR.E000070'), { severity: 'error' })
+      }
+    },
+  })
+
+  const promoCheckMutation = useMutation<
+    PromoResponse,
+    Error,
+    PromoApplyParams
+  >((input) => PromoService.applyPromo(input), {
+    onSuccess: (data) => {
+      showToast('Product created successfully', { severity: 'success' })
+      if (data) {
+        setPromo(data.data)
+      }
+      //
+    },
+    onError: (err: any) => {
+      setPromo(null)
       if (err.code && err) {
         showToast(t(`ERROR.${err.code}`), { severity: 'error' })
       } else {
@@ -89,8 +115,9 @@ export default function Checkout() {
     retryDelay: 2,
     onSuccess: (data) => {
       if (data.is_success) {
-        queryClient.invalidateQueries(['appInit'])
+        // queryClient.invalidateQueries(['appInit'])
         setActiveStep(activeStep + 1)
+        // use qpay response print something after success payment
       }
     },
     onError: (err: any) => {
@@ -115,6 +142,15 @@ export default function Checkout() {
     name: 'product_id',
   })
   const formData = useWatch({ control })
+
+  const handlePromo = () => {
+    const promo = formData.promo_code
+    if (!_.isEmpty(promo) && promo) {
+      promoCheckMutation.mutate({
+        promo_code: promo,
+      })
+    }
+  }
 
   const handleNext = () => {
     if (activeStep === 1 && isValid) {
@@ -218,11 +254,20 @@ export default function Checkout() {
                   name="promo_code"
                   control={control}
                   render={({ field }) => (
-                    <OutlinedInput
-                      {...field}
-                      fullWidth
-                      placeholder={t('PRODUCT.promo_code')}
-                    />
+                    <Stack direction={'row'} spacing={2}>
+                      <OutlinedInput
+                        {...field}
+                        fullWidth
+                        placeholder={t('PRODUCT.promo_code')}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handlePromo()}
+                      >
+                        Apply
+                      </Button>
+                    </Stack>
                   )}
                 />
               </FormField>
@@ -304,7 +349,7 @@ export default function Checkout() {
             maxWidth: 500,
           }}
         >
-          <Info init={init} formData={formData} />
+          <Info init={init} formData={formData} promoData={promoData} />
         </Box>
         <Button
           variant="text"
@@ -417,7 +462,11 @@ export default function Checkout() {
                   {activeStep >= 2 ? '$144.97' : '$134.98'}
                 </Typography>
               </div>
-              <InfoMobile formData={formData} init={init} />
+              <InfoMobile
+                formData={formData}
+                init={init}
+                promoData={promoData}
+              />
             </CardContent>
           </Card>
           <Box
