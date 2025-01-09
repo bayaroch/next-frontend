@@ -71,6 +71,7 @@ export default function Checkout() {
   React.useEffect(() => {
     if (activeStep === 0) {
       reset()
+      setPromo(null)
     }
   }, [activeStep])
 
@@ -326,7 +327,7 @@ export default function Checkout() {
             }}
           >
             <Typography variant="h6" gutterBottom>
-              Scan QR Code to Pay
+              {t('PAYMENT.scan_qr')}
             </Typography>
             {transactionResponse && transactionResponse.data.qpay && (
               <img
@@ -336,13 +337,12 @@ export default function Checkout() {
               />
             )}
             <Typography variant="body1" gutterBottom>
-              Amount:{' '}
+              {t('PRODUCT.total_price')}:{' '}
               {transactionResponse ? transactionResponse.data.finalAmount : 0}{' '}
               MNT
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              Please scan this QR code with your preferred payment app to
-              complete the transaction.
+              {t('PAYMENT.scan_qr_desc')}
             </Typography>
           </Box>
         )

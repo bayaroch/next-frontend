@@ -124,7 +124,11 @@ export default {
     selected_products: 'Selected Products',
     more_info: 'View details',
     promo_not_applied: 'Promo not applied',
+    scan_qr: 'Scan QR code to pay',
+    scan_qr_desc:
+      'Please scan this QR code with your preferred bank app to  complete the transaction.',
   },
+
   NO_SUBSCRIPTION: {
     title: 'No Active Subscription',
     description:

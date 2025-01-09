@@ -123,6 +123,8 @@ export default {
     selected_products: 'Сонгосон бүтээгдэхүүн',
     more_info: 'Захиалга үзэх',
     promo_not_applied: 'Промо код оруулаагүй байна.',
+    scan_qr: 'QR код уншуулан төлбөрөө төлнө үү',
+    scan_qr_desc: 'Хүссэн банкны аппаараа QPay-ээр төлбөрөө хийнэ үү',
   },
   NO_SUBSCRIPTION: {
     title: 'Идэвхтэй багц байхгүй байна',
