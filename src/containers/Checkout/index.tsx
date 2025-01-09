@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -29,7 +28,7 @@ import {
   PromoResponse,
   Promo,
 } from '@services/payment.services'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@global/AuthContext'
 import LanguageSwitcher from '@layouts/Shared/Header/LanguageSwitcher'
@@ -40,13 +39,20 @@ import FormField from '@components/@material-extend/FormField'
 import { FormControl, MenuItem, OutlinedInput, Select } from '@mui/material'
 import _ from 'lodash'
 import { useToast } from '@components/ToastProvider'
-
-const steps = ['Select Plan', 'Place Order', 'Payment page']
+import { LoadingButton } from '@mui/lab'
+import SitemarkIcon from '@components/@public/SitemarkIcon'
+import NoSubscriptionMessage from '@components/NoSubscription'
 
 export default function Checkout() {
-  const queryClient = useQueryClient()
   const { t } = useTranslation()
+  const steps = [
+    t('PAYMENT.select_plan'),
+    t('PAYMENT.place_order'),
+    t('PAYMENT.payment_page'),
+  ]
   const { logout, changeLanguage, lang, init } = useAuth()
+  const [shouldCheckTransaction, setShouldCheckTransaction] =
+    React.useState(false)
   const [activeStep, setActiveStep] = React.useState(0)
   const [promoData, setPromo] = React.useState<Promo | null>(null)
   const [transactionResponse, setTransactionResponse] =
@@ -62,6 +68,12 @@ export default function Checkout() {
 
   const { showToast } = useToast()
 
+  React.useEffect(() => {
+    if (activeStep === 0) {
+      reset()
+    }
+  }, [activeStep])
+
   const createTransactionMutation = useMutation<
     TransactionResponse,
     Error,
@@ -74,6 +86,7 @@ export default function Checkout() {
         transaction_id: data.data.transaction_id,
       })
       setTransactionResponse(data)
+      setShouldCheckTransaction(true)
     },
     onError: (err: any) => {
       if (err.code && err) {
@@ -111,13 +124,17 @@ export default function Checkout() {
     Error,
     CheckTransactionVariables
   >((input) => TransactionService.checkTransactions(input), {
-    retry: 100,
-    retryDelay: 2,
+    retry: 10,
+    retryDelay: (attemptIndex) => Math.min(3000 * 2 ** attemptIndex, 30000),
     onSuccess: (data) => {
       if (data.is_success) {
         // queryClient.invalidateQueries(['appInit'])
         setActiveStep(activeStep + 1)
+        setShouldCheckTransaction(false)
         // use qpay response print something after success payment
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('please wait ...')
       }
     },
     onError: (err: any) => {
@@ -129,10 +146,28 @@ export default function Checkout() {
     },
   })
 
+  React.useEffect(() => {
+    let intervalId: NodeJS.Timeout
+
+    if (shouldCheckTransaction && transactionResponse) {
+      intervalId = setInterval(() => {
+        checkTransactionMutation.mutate({
+          transaction_id: transactionResponse.data.transaction_id,
+        })
+      }, 3000) // Check every 3 seconds
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [shouldCheckTransaction, transactionResponse])
+
   const {
     control,
-    reset,
     setValue,
+    reset,
     formState: { errors, isValid },
     handleSubmit,
   } = methods
@@ -185,8 +220,12 @@ export default function Checkout() {
           <>
             <Pricing
               data={tiers}
-              selected={selectedProduct}
-              onChoose={(item: Product) => setValue('product_id', item)}
+              selected={selectedProduct as any}
+              onChoose={(item: Product) =>
+                formData.product_id === item
+                  ? setValue('product_id', null)
+                  : setValue('product_id', item)
+              }
             />
           </>
         )
@@ -257,16 +296,19 @@ export default function Checkout() {
                     <Stack direction={'row'} spacing={2}>
                       <OutlinedInput
                         {...field}
+                        disabled={promoData !== null}
                         fullWidth
                         placeholder={t('PRODUCT.promo_code')}
                       />
-                      <Button
+                      <LoadingButton
                         variant="contained"
                         color="primary"
+                        disabled={promoData !== null}
+                        loading={promoCheckMutation.isLoading}
                         onClick={() => handlePromo()}
                       >
-                        Apply
-                      </Button>
+                        {t('PRODUCT.apply')}
+                      </LoadingButton>
                     </Stack>
                   )}
                 />
@@ -309,12 +351,13 @@ export default function Checkout() {
     }
   }
 
-  const handleFormSubmit = (data: any) => null
+  const handleFormSubmit = () => null
 
   return (
     <Grid
       container
       sx={{
+        pt: 8,
         height: {
           xs: '100%',
           sm: 'calc(100dvh - var(--template-frame-height, 0px))',
@@ -326,7 +369,7 @@ export default function Checkout() {
       }}
     >
       <Grid
-        size={{ xs: 12, sm: 4, lg: 3 }}
+        size={{ sm: 12, md: 4, lg: 4 }}
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
@@ -336,7 +379,7 @@ export default function Checkout() {
           alignItems: 'start',
           position: 'relative',
           pt: 16,
-          px: 10,
+          px: { sm: 2, xs: 2, md: 2, lg: 10 },
           gap: 4,
         }}
       >
@@ -349,7 +392,16 @@ export default function Checkout() {
             maxWidth: 500,
           }}
         >
-          <Info init={init} formData={formData} promoData={promoData} />
+          <Box sx={{ width: 'auto' }}>
+            <SitemarkIcon />
+          </Box>
+          {activeStep === 0 && !selectedProduct && <NoSubscriptionMessage />}
+          <Info
+            init={init}
+            activeStep={activeStep}
+            formData={formData}
+            promoData={promoData}
+          />
         </Box>
         <Button
           variant="text"
@@ -360,7 +412,7 @@ export default function Checkout() {
         </Button>
       </Grid>
       <Grid
-        size={{ sm: 12, md: 8, lg: 9 }}
+        size={{ sm: 12, md: 8, lg: 8 }}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -368,7 +420,7 @@ export default function Checkout() {
           width: '100%',
           backgroundColor: { xs: 'transparent', sm: 'background.default' },
           alignItems: 'start',
-          pt: { xs: 0, sm: 16 },
+          pt: { xs: 0, sm: 0, md: 14 },
           px: { xs: 2, sm: 10 },
           gap: { xs: 4, md: 8 },
         }}
@@ -384,8 +436,8 @@ export default function Checkout() {
               top: 0,
               right: 0,
               left: 0,
-              mt: { xs: 1, md: 4 },
-              px: 4,
+              mt: { xs: 2, md: 2 },
+              px: 2,
               display: 'flex',
               flexDirection: 'row',
               width: '100%',
@@ -454,15 +506,8 @@ export default function Checkout() {
                 justifyContent: 'space-between',
               }}
             >
-              <div>
-                <Typography variant="subtitle2" gutterBottom>
-                  Selected products
-                </Typography>
-                <Typography variant="body1">
-                  {activeStep >= 2 ? '$144.97' : '$134.98'}
-                </Typography>
-              </div>
               <InfoMobile
+                activeStep={activeStep}
                 formData={formData}
                 init={init}
                 promoData={promoData}
@@ -478,30 +523,18 @@ export default function Checkout() {
               maxWidth: { sm: '100%', md: 1000 },
               maxHeight: '720px',
               gap: { xs: 5, md: 'none' },
+              mt: 2,
             }}
           >
             <Stepper
               id="mobile-stepper"
               activeStep={activeStep}
               alternativeLabel
-              sx={{ display: { sm: 'flex', md: 'none' } }}
+              sx={{ display: { sm: 'flex', md: 'none' }, mt: 1 }}
             >
               {steps.map((label) => (
-                <Step
-                  sx={{
-                    ':first-child': { pl: 0 },
-                    ':last-child': { pr: 0 },
-                    '& .MuiStepConnector-root': { top: { xs: 6, sm: 12 } },
-                  }}
-                  key={label}
-                >
-                  <StepLabel
-                    sx={{
-                      '.MuiStepLabel-labelContainer': { maxWidth: '70px' },
-                    }}
-                  >
-                    {label}
-                  </StepLabel>
+                <Step key={label}>
+                  <StepLabel sx={{ mt: 1 }}>{label}</StepLabel>
                 </Step>
               ))}
             </Stepper>
@@ -532,7 +565,7 @@ export default function Checkout() {
                       alignItems: 'end',
                       flexGrow: 1,
                       gap: 1,
-                      pb: { xs: 12, sm: 0 },
+                      pb: { xs: 12, sm: 4 },
                       mt: { xs: 2, sm: 0 },
                       mb: '60px',
                     },
@@ -548,7 +581,7 @@ export default function Checkout() {
                       variant="text"
                       sx={{ display: { xs: 'none', sm: 'flex' } }}
                     >
-                      Previous
+                      {t('SYSCOMMON.previous')}
                     </Button>
                   )}
                   {activeStep !== 0 && (
@@ -559,7 +592,7 @@ export default function Checkout() {
                       fullWidth
                       sx={{ display: { xs: 'flex', sm: 'none' } }}
                     >
-                      Previous
+                      {t('SYSCOMMON.previous')}
                     </Button>
                   )}
                   <Button
@@ -569,7 +602,9 @@ export default function Checkout() {
                     disabled={isNextStepDisabled}
                     sx={{ width: { xs: '100%', sm: 'fit-content' } }}
                   >
-                    {activeStep === steps.length - 2 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 2
+                      ? t('SYSCOMMON.place_order')
+                      : t('SYSCOMMON.next')}
                   </Button>
                 </Box>
               </React.Fragment>

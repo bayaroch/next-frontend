@@ -60,3 +60,54 @@ export const getFileExtension = (filename: string): DefaultExtensionType => {
 export const getFileName = (path: string): string => {
   return path.substring(path.lastIndexOf('/') + 1)
 }
+
+import { Promo } from '@services/payment.services'
+
+interface PriceDetails {
+  subtotal: number
+  discountAmount: number
+  total: number
+}
+
+interface CalculatePriceParams {
+  basePrice: number
+  quantity: number
+  promo: Promo | null
+}
+
+export const calculatePrice = ({
+  basePrice = 0,
+  quantity = 1,
+  promo,
+}: CalculatePriceParams): PriceDetails => {
+  // Handle invalid inputs
+  if (!Number.isFinite(basePrice) || !Number.isFinite(quantity)) {
+    return {
+      subtotal: 0,
+      discountAmount: 0,
+      total: 0,
+    }
+  }
+
+  // Calculate subtotal
+  const subtotal = basePrice * quantity
+
+  // Calculate discount if promo exists and is valid
+  let discountAmount = 0
+  if (promo && Number.isFinite(promo.discount_value)) {
+    discountAmount =
+      promo.discount_type === 'fixed'
+        ? promo.discount_value
+        : (subtotal * promo.discount_value) / 100
+  }
+
+  // Calculate final total
+  const total = Math.max(0, subtotal - discountAmount)
+
+  // Return all price details
+  return {
+    subtotal: Number.isFinite(subtotal) ? subtotal : 0,
+    discountAmount: Number.isFinite(discountAmount) ? discountAmount : 0,
+    total: Number.isFinite(total) ? total : 0,
+  }
+}

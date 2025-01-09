@@ -7,9 +7,14 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 import Info, { InfoProps } from './Info'
+import { Typography } from '@mui/material'
+import PriceCalculator from './PriceCalculator'
+import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 function InfoMobile(props: InfoProps) {
   const [open, setOpen] = React.useState(false)
+  const { t } = useTranslation()
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
@@ -27,30 +32,52 @@ function InfoMobile(props: InfoProps) {
     </Box>
   )
 
+  const product = _.get(props.formData, 'product_id')
+
   return (
-    <div>
-      <Button
-        variant="text"
-        endIcon={<ExpandMoreRoundedIcon />}
-        onClick={toggleDrawer(true)}
-      >
-        View details
-      </Button>
-      <Drawer
-        open={open}
-        anchor="top"
-        onClose={toggleDrawer(false)}
-        PaperProps={{
-          sx: {
-            top: 'var(--template-frame-height, 0px)',
-            backgroundImage: 'none',
-            backgroundColor: 'background.paper',
-          },
-        }}
-      >
-        {DrawerList}
-      </Drawer>
-    </div>
+    <>
+      <Box>
+        <Typography variant="subtitle2" gutterBottom>
+          {t('PAYMENT.selected_products')}
+        </Typography>
+        {product && (
+          <>
+            {' '}
+            <Typography variant="body1">{product.name}</Typography>
+            <Typography variant="body1">
+              <PriceCalculator
+                promo={props.promoData}
+                quantity={props.formData.quantity}
+                basePrice={product.price}
+              />
+            </Typography>
+          </>
+        )}
+      </Box>
+      <div>
+        <Button
+          variant="text"
+          endIcon={<ExpandMoreRoundedIcon />}
+          onClick={toggleDrawer(true)}
+        >
+          {t('PAYMENT.more_info')}
+        </Button>
+        <Drawer
+          open={open}
+          anchor="top"
+          onClose={toggleDrawer(false)}
+          PaperProps={{
+            sx: {
+              top: 'var(--template-frame-height, 0px)',
+              backgroundImage: 'none',
+              backgroundColor: 'background.paper',
+            },
+          }}
+        >
+          {DrawerList}
+        </Drawer>
+      </div>
+    </>
   )
 }
 

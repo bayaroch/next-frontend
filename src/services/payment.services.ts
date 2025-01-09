@@ -185,7 +185,7 @@ export const TransactionService = {
   checkTransactions: async (
     params: CheckTransactionVariables
   ): Promise<CheckResponse> => {
-    const { data } = await api.get<CheckResponse>(`/qpay/check-payment`, {
+    const { data } = await api.get<CheckResponse>(`user/qpay/check-payment`, {
       params: { transaction_id: params.transaction_id },
     })
     return data

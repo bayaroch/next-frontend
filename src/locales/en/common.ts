@@ -72,6 +72,8 @@ export default {
     facebook_pages: 'Facebook pages',
     update: 'Update',
     are_you_partner: 'Are you partner? ',
+    previous: ' Previous',
+    place_order: 'Place order',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -100,6 +102,37 @@ export default {
     add_settings: 'Add Settings',
     edit_product: 'Edit Product',
     choose: 'Choose',
+    total_duration: 'Total Duration',
+    promo_code: 'Promo code',
+    total_price: 'Total price',
+    promo_info: 'Promo info',
+    total_duration_desc: 'Total duration of the product in days',
+    promo_code_desc: 'Promo code for the product',
+    total_price_desc: 'Total price of the product in MNT',
+    amount: 'Amount',
+    quantity: 'Quantity',
+    payment_method: 'Payment method',
+    apply: 'Apply',
+    sub_total: 'Sub total',
+    discount: 'Discount',
+  },
+  PAYMENT: {
+    qpay: 'Qpay',
+    select_plan: 'Select plan',
+    place_order: 'Place order',
+    payment_page: 'Payment page',
+    selected_products: 'Selected Products',
+    more_info: 'View details',
+    promo_not_applied: 'Promo not applied',
+  },
+  NO_SUBSCRIPTION: {
+    title: 'No Active Subscription',
+    description:
+      "You currently don't have an active subscription to access our services.",
+    action:
+      'Please select a subscription plan to continue using our premium features and services.',
+    benefits:
+      'Get access to all features and unlock the full potential of our platform.',
   },
   HOME: {
     home: 'Home',

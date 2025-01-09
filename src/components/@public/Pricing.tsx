@@ -9,7 +9,7 @@ import { Product, ProductionListResponse } from '@services/payment.services'
 interface PricingProps {
   data: ProductionListResponse
   onChoose: (data: Product) => void
-  selected?: any
+  selected?: Product | null
 }
 
 const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
@@ -31,10 +31,7 @@ const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
         sx={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
         {data?.data.map((tier: Product) => (
-          <Grid
-            size={{ xs: 12, sm: tier.name === 'Enterprise' ? 12 : 6, md: 4 }}
-            key={tier.name}
-          >
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 4 }} key={tier.name}>
             <ProductCard
               selected={selected?.product_id === tier.product_id}
               data={tier}
