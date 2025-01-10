@@ -115,6 +115,7 @@ export default {
     apply: 'Apply',
     sub_total: 'Sub total',
     discount: 'Discount',
+    save: 'Save',
   },
   PAYMENT: {
     qpay: 'Qpay',

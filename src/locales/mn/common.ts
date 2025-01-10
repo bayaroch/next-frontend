@@ -114,6 +114,7 @@ export default {
     apply: 'Ашиглах',
     sub_total: 'Бүтээгдэхүүний үнэ',
     discount: 'Хөнгөлөлт',
+    save: 'Хэмнэлт',
   },
   PAYMENT: {
     qpay: 'Qpay',

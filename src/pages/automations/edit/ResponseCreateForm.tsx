@@ -47,6 +47,7 @@ const ResponseCreateForm: React.FC<CreateFormProps> = ({
       reset({
         keyword: '',
         content: '',
+        chat: '',
       })
     }
   }, [open])
@@ -104,6 +105,40 @@ const ResponseCreateForm: React.FC<CreateFormProps> = ({
                     inputRef={ref}
                     minRows={4}
                     placeholder={t('AUTOMATION.content')}
+                    slotProps={{
+                      input: {
+                        sx: {
+                          padding: '8px',
+                          height: '100%',
+                          overflow: 'auto',
+                          maxHeight: '100px',
+                        },
+                      },
+                    }}
+                  />
+                </FormField>
+              )}
+            />
+            <Controller
+              name="chat"
+              control={control}
+              render={({ field: { ref, ...rest } }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  formLabelProps={{ sx: { pb: 0.3 } }}
+                  helpContent={t('AUTOMATION.chat_help')}
+                  label={t('AUTOMATION.chat')}
+                  required
+                  errors={errors?.content?.message}
+                >
+                  <TextField
+                    {...rest}
+                    multiline
+                    fullWidth
+                    variant="outlined"
+                    inputRef={ref}
+                    minRows={4}
+                    placeholder={t('AUTOMATION.chat')}
                     slotProps={{
                       input: {
                         sx: {

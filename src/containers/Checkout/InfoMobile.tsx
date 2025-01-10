@@ -8,13 +8,20 @@ import CloseIcon from '@mui/icons-material/Close'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 import Info, { InfoProps } from './Info'
 import { Typography } from '@mui/material'
-import PriceCalculator from './PriceCalculator'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { calculatePrice } from '@utils/helper/common.helper'
 
 function InfoMobile(props: InfoProps) {
   const [open, setOpen] = React.useState(false)
   const { t } = useTranslation()
+  const product = _.get(props.formData, 'product_id')
+
+  const { total } = calculatePrice({
+    basePrice: product?.price ? product?.price : 0,
+    quantity: props.formData.quantity,
+    promo: props.promoData,
+  })
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
@@ -32,8 +39,6 @@ function InfoMobile(props: InfoProps) {
     </Box>
   )
 
-  const product = _.get(props.formData, 'product_id')
-
   return (
     <>
       <Box>
@@ -44,13 +49,7 @@ function InfoMobile(props: InfoProps) {
           <>
             {' '}
             <Typography variant="body1">{product.name}</Typography>
-            <Typography variant="body1">
-              <PriceCalculator
-                promo={props.promoData}
-                quantity={props.formData.quantity}
-                basePrice={product.price}
-              />
-            </Typography>
+            <Typography variant="body1">{total}</Typography>
           </>
         )}
       </Box>

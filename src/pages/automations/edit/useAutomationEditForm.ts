@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 const initialValues = {
   name: '',
   fb_page_post_id: '',
-  comment_responses: [{ keyword: '', content: '' }],
+  comment_responses: [{ keyword: '', content: '', chat: '' }],
 }
 
 const useAutomationEditForm = (defaultValues = initialValues) => {
@@ -62,6 +62,13 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
                   number: 500,
                 })
               ),
+            chat: Yup.string().max(
+              500,
+              t('ERROR.E000046', {
+                field: t('AUTOMATION.content'),
+                number: 500,
+              })
+            ),
           })
         ),
       }),

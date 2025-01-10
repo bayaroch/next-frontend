@@ -9,9 +9,16 @@ import { AppInitResponse } from '@services/auth.services'
 import { Product, Promo } from '@services/payment.services'
 import { useTranslation } from 'react-i18next'
 import _ from 'lodash'
-import { Box, Divider } from '@mui/material'
-import PriceCalculator from './PriceCalculator'
-import { calculatePrice } from '@utils/helper/common.helper'
+import { Box, Divider, IconButton, Stack } from '@mui/material'
+import { calculatePrice, formatDiscount } from '@utils/helper/common.helper'
+import {
+  Close,
+  CloseOutlined,
+  InfoOutlined,
+  ShoppingCartOutlined,
+} from '@mui/icons-material'
+import InfoModal from '@components/InfoModal'
+import ProductCard from '@components/ProductCard'
 
 export interface InfoProps {
   init?: AppInitResponse
@@ -28,7 +35,7 @@ export default function Info({
 }: InfoProps) {
   const { t } = useTranslation()
   const product: Product | null = _.get(formData, 'product_id', null)
-  const { discountAmount, subtotal, total } = calculatePrice({
+  const { discountAmountText, subtotalText, totalText } = calculatePrice({
     basePrice: product?.price ? product?.price : 0,
     quantity: formData.quantity,
     promo: promoData,
@@ -41,9 +48,34 @@ export default function Info({
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
               {t('PAYMENT.selected_products')}
             </Typography>
-            <Typography variant="h4" gutterBottom>
-              {formData.product_id.name}
-            </Typography>
+            <Stack
+              direction={'row'}
+              spacing={1}
+              sx={{
+                border: '1px solid #ccc',
+                p: 1,
+                borderRadius: 1,
+                position: 'relative',
+              }}
+              alignItems={'center'}
+            >
+              <ShoppingCartOutlined />
+              <InfoModal
+                content={<ProductCard data={product} isShowChoose={false} />}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ fontSize: 22, mb: 0 }}
+                  gutterBottom
+                >
+                  {formData.product_id.name}
+                </Typography>
+              </InfoModal>
+              <IconButton size="small" sx={{ position: 'absolute', right: 8 }}>
+                <Close />
+              </IconButton>
+            </Stack>
+
             {activeStep >= 1 ? (
               <>
                 <ListItem sx={{ py: 1, px: 0 }}>
@@ -76,6 +108,43 @@ export default function Info({
                     {promoData
                       ? promoData.promo_code
                       : t('PAYMENT.promo_not_applied')}
+                    {promoData && (
+                      <Box
+                        component={'span'}
+                        sx={{
+                          ml: 1,
+                          position: 'relative',
+                          top: 3,
+                          '& div': {
+                            display: 'inline-block',
+                          },
+                        }}
+                      >
+                        <InfoModal
+                          content={
+                            <Box sx={{ textAlign: 'center', p: 4 }}>
+                              <Typography sx={{ mb: 2 }}>
+                                {promoData.description}
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                sx={{
+                                  color: 'primary.main',
+                                }}
+                              >
+                                {t('PRODUCT.save')}{' '}
+                                {formatDiscount(
+                                  promoData.discount_type,
+                                  promoData.discount_value
+                                )}
+                              </Typography>
+                            </Box>
+                          }
+                        >
+                          <InfoOutlined fontSize="large" />
+                        </InfoModal>
+                      </Box>
+                    )}
                   </Typography>
                 </ListItem>
 
@@ -87,7 +156,7 @@ export default function Info({
                     primary={t('PRODUCT.sub_total')}
                   />
                   <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                    {subtotal}
+                    {subtotalText}
                   </Typography>
                 </ListItem>
 
@@ -97,7 +166,7 @@ export default function Info({
                     primary={t('PRODUCT.discount')}
                   />
                   <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                    {discountAmount ? `- ${discountAmount}` : ''}
+                    {discountAmountText ? `- ${discountAmountText}` : ''}
                   </Typography>
                 </ListItem>
 
@@ -113,7 +182,7 @@ export default function Info({
                     variant="body1"
                     sx={{ fontWeight: 'medium', fontSize: 22 }}
                   >
-                    {product.price === 0 ? 'Free' : total}
+                    {product.price === 0 ? 'Free' : totalText}
                   </Typography>
                 </ListItem>
               </>

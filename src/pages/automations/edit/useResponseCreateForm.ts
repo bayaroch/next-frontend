@@ -8,6 +8,7 @@ import { CommentResponse } from '@services/automation.services'
 const initialValues = {
   keyword: '',
   content: '',
+  chat: '',
 }
 
 const useResponseCreateForm = (existingResponses: CommentResponse[]) => {
@@ -55,6 +56,13 @@ const useResponseCreateForm = (existingResponses: CommentResponse[]) => {
               number: 500,
             })
           ),
+        chat: Yup.string().max(
+          500,
+          t('ERROR.E000046', {
+            field: t('AUTOMATION.chat'),
+            number: 500,
+          })
+        ),
       }),
     [existingResponses]
   )

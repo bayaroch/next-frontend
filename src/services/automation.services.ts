@@ -5,6 +5,7 @@ import { Post } from './page.services'
 export interface CommentResponse {
   keyword: string
   content: string
+  chat?: string
   attachment?: string | null
 }
 
@@ -19,6 +20,7 @@ export interface Automation {
   updated_at: string
   created_at: string
   is_active: boolean
+  is_private_response?: boolean
 }
 
 export interface CreateAutomationInput {

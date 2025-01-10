@@ -65,3 +65,5 @@ export interface FilterParams {
   orderDir: Direction
   orderBy: string
 }
+
+export const currency = '₮'

@@ -62,11 +62,15 @@ export const getFileName = (path: string): string => {
 }
 
 import { Promo } from '@services/payment.services'
+import { currency } from '@constants/common.constants'
 
 interface PriceDetails {
   subtotal: number
   discountAmount: number
   total: number
+  subtotalText?: string
+  discountAmountText?: string
+  totalText?: string
 }
 
 interface CalculatePriceParams {
@@ -109,5 +113,15 @@ export const calculatePrice = ({
     subtotal: Number.isFinite(subtotal) ? subtotal : 0,
     discountAmount: Number.isFinite(discountAmount) ? discountAmount : 0,
     total: Number.isFinite(total) ? total : 0,
+    subtotalText: `${subtotal.toLocaleString()} ${currency}`,
+    discountAmountText: `${discountAmount.toLocaleString()} ${currency}`,
+    totalText: `${total.toLocaleString()} ${currency}`,
   }
+}
+
+export const formatDiscount = (type: 'fixed' | 'percentage', value: number) => {
+  if (type === 'fixed') {
+    return `${value.toLocaleString()} ${currency}`
+  }
+  return `${value}%`
 }
