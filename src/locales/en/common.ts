@@ -116,6 +116,11 @@ export default {
     sub_total: 'Sub total',
     discount: 'Discount',
     save: 'Save',
+    is_active: 'Active',
+    identifier: 'Indentfier',
+    identifier_desc:
+      'Unique string enum that defines some products. used in code',
+    recommended: 'Recommended',
   },
   PAYMENT: {
     qpay: 'Qpay',
@@ -128,6 +133,16 @@ export default {
     scan_qr: 'Scan QR code to pay',
     scan_qr_desc:
       'Please scan this QR code with your preferred bank app to  complete the transaction.',
+    complete_page: 'Payment complete',
+    go_to_app: 'Continue to app',
+    checking: 'Checking',
+    waiting: 'Waiting',
+    activating_free_plan:
+      'Activating free plan subscription. Please wait while we process your transaction.',
+    thank_you_order:
+      'Захиалга хийсэнд баярлалаа! Таны төлбөр амжилттай хийгдлээ.',
+    order_number_is: 'Захиалгын дугаар:',
+    product_id_is: 'Бүтээгдэхүүний ID:',
   },
 
   NO_SUBSCRIPTION: {
@@ -201,6 +216,11 @@ export default {
     resume_desc: 'Are you sure you want to activate this automation?',
     delete_title: 'Deleting automation',
     delete_desc: 'Are you sure you want to delete this automation?',
+    chat: 'Messenger response',
+    chat_help: 'Write content what will deliver to direct message',
+    is_private_response: 'Private response',
+    is_private_response_desc:
+      'Private response will not be shown in the comment section',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',

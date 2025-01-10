@@ -8,17 +8,18 @@ import React from 'react'
 
 interface CustomHelperProps extends FormHelperTextProps {
   content?: string
+  showTyping?: boolean
 }
 
 const CustomFormHelperText: React.FC<CustomHelperProps> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { content, ...rest } = props
+  const { content, showTyping = true, ...rest } = props
   const { focused, error } = useFormControl() || {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const helperText = React.useMemo(() => {
     if (focused && !error) {
-      return 'typing ...'
+      return showTyping && 'typing ...'
     }
     // If children is an object, we need to access its value
     return content

@@ -10,6 +10,8 @@ import {
   IconButton,
   Stack,
   TextField,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
@@ -66,6 +68,8 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
         duration_days: data.duration_days,
         description: data.description,
         additional_settings: data.additional_settings || [],
+        is_active: data.is_active,
+        identifier: data.identifier,
       })
     } else if (!open) {
       reset({
@@ -75,6 +79,8 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
         duration_days: 0,
         description: '',
         additional_settings: [],
+        is_active: true,
+        identifier: '',
       })
     }
   }, [open, data, reset])
@@ -128,6 +134,30 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
                     {...field}
                     fullWidth
                     placeholder={t('PRODUCT.name')}
+                  />
+                </FormField>
+              )}
+            />
+
+            <Controller
+              name="is_active"
+              control={control}
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormField
+                  fullWidth
+                  errors={errors.is_active?.message}
+                  label=""
+                  showTyping={false}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={value}
+                        onChange={(e) => onChange(e.target.checked)}
+                        {...field}
+                      />
+                    }
+                    label={t('PRODUCT.is_active')}
                   />
                 </FormField>
               )}
@@ -235,6 +265,25 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
                     }}
                     rows={4}
                     placeholder={t('PRODUCT.description')}
+                  />
+                </FormField>
+              )}
+            />
+
+            <Controller
+              name="identifier"
+              control={control}
+              render={({ field }) => (
+                <FormField
+                  fullWidth
+                  desc={t('PRODUCT.identifier_desc')}
+                  errors={errors.identifier?.message}
+                  label={t('PRODUCT.identifier')}
+                >
+                  <TextField
+                    {...field}
+                    fullWidth
+                    placeholder={t('PRODUCT.identifier')}
                   />
                 </FormField>
               )}

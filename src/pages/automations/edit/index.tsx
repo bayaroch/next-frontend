@@ -21,6 +21,9 @@ import {
   CircularProgress,
   Chip,
   IconButton,
+  FormControlLabel,
+  Checkbox,
+  Divider,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
@@ -80,7 +83,7 @@ const AutomationEditPage: React.FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isDirty, isValid },
     fields,
     reset,
     Controller,
@@ -122,6 +125,7 @@ const AutomationEditPage: React.FC = () => {
           name: automation?.name,
           fb_page_post_id: automation?.fb_page_post_id,
           comment_responses: automation?.comment_responses,
+          is_private_response: automation?.is_private_response,
         },
         { keepDirtyValues: false }
       )
@@ -394,6 +398,41 @@ const AutomationEditPage: React.FC = () => {
               )}
             />
           </Box>
+          <Controller
+            name="is_private_response"
+            control={control}
+            render={({ field: { value, onChange, ...field } }) => (
+              <FormField
+                fullWidth
+                errors={errors.is_private_response?.message}
+                label={t('AUTOMATION.is_private_response')}
+                desc={t('AUTOMATION.is_private_response_desc')}
+                showTyping={false}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => onChange(e.target.checked)}
+                      {...field}
+                    />
+                  }
+                  label={t('PRODUCT.is_active')}
+                />
+              </FormField>
+            )}
+          />
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            disabled={!isValid || isUpdating || !isDirty}
+            loading={isUpdating}
+            sx={{ mb: 2 }}
+            color="primary"
+          >
+            {t('SYSCOMMON.save')}
+          </LoadingButton>
+          <Divider sx={{ mb: 2 }} />
           <Stack
             direction={'row'}
             width={'100%'}
@@ -483,6 +522,42 @@ const AutomationEditPage: React.FC = () => {
                             inputRef={ref}
                             minRows={4}
                             placeholder={t('AUTOMATION.content')}
+                            slotProps={{
+                              input: {
+                                sx: {
+                                  padding: '8px',
+                                  height: '100%',
+                                  overflow: 'auto',
+                                  maxHeight: '100px',
+                                },
+                              },
+                            }}
+                          />
+                        </FormField>
+                      )}
+                    />
+
+                    <Controller
+                      name={`comment_responses.${index}.chat`}
+                      control={control}
+                      render={({ field: { ref, ...rest } }: FieldValues) => (
+                        <FormField
+                          label={t('AUTOMATION.chat')}
+                          fullWidth
+                          required
+                          helpContent={t('AUTOMATION.chat_hhelp')}
+                          errors={
+                            errors?.comment_responses?.[index]?.chat?.message
+                          }
+                        >
+                          <TextField
+                            {...rest}
+                            multiline
+                            fullWidth
+                            variant="outlined"
+                            inputRef={ref}
+                            minRows={4}
+                            placeholder={t('AUTOMATION.chat')}
                             slotProps={{
                               input: {
                                 sx: {

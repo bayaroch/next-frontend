@@ -67,3 +67,8 @@ export interface FilterParams {
 }
 
 export const currency = '₮'
+
+export enum Identifier {
+  FREE_PRODUCT = 'free_product',
+  RECOMMENDED = 'recommended',
+}

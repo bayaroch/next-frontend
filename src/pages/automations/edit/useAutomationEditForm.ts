@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 const initialValues = {
   name: '',
   fb_page_post_id: '',
+  is_private_response: false,
   comment_responses: [{ keyword: '', content: '', chat: '' }],
 }
 
@@ -28,6 +29,7 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
         fb_page_post_id: Yup.string().required(
           t('ERROR.E000001', { field: t('AUTOMATION.post') })
         ),
+        is_private_response: Yup.boolean(),
         comment_responses: Yup.array().of(
           Yup.object().shape({
             keyword: Yup.string()

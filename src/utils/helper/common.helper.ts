@@ -63,6 +63,7 @@ export const getFileName = (path: string): string => {
 
 import { Promo } from '@services/payment.services'
 import { currency } from '@constants/common.constants'
+import { formatValue } from 'react-currency-input-field'
 
 interface PriceDetails {
   subtotal: number
@@ -124,4 +125,14 @@ export const formatDiscount = (type: 'fixed' | 'percentage', value: number) => {
     return `${value.toLocaleString()} ${currency}`
   }
   return `${value}%`
+}
+
+// make this helper
+export const formatPrice = (price: number) => {
+  return formatValue({
+    value: price.toString(),
+    groupSeparator: ',',
+    decimalSeparator: '.',
+    suffix: currency,
+  })
 }

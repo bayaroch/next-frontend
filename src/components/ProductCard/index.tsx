@@ -10,6 +10,10 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded'
 import { Product } from '@services/payment.services'
 import { useTranslation } from 'react-i18next'
 import _ from 'lodash'
+import { formatPrice } from '@utils/helper/common.helper'
+import { Identifier } from '@constants/common.constants'
+import { Chip } from '@mui/material'
+import { AutoAwesome } from '@mui/icons-material'
 
 interface ProductCardProps {
   data: Product
@@ -26,12 +30,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { name, price, description, additional_settings, duration_days } = data
 
-  const isRecommended = _.get(data, 'additional_settings.is_recommended', false)
+  const isRecommended = _.get(data, 'identifier') === Identifier.RECOMMENDED
 
   const { t } = useTranslation()
 
   return (
     <Card
+      elevation={2}
       onClick={() => onClick && onClick(data)}
       sx={[
         {
@@ -43,7 +48,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         },
         isRecommended &&
           ((theme) => ({
-            border: 'none',
             background:
               'radial-gradient(circle at 50% 0%, hsl(220, 20%, 35%), hsl(220, 30%, 6%))',
             boxShadow: `0 8px 12px hsla(220, 20%, 42%, 0.2)`,
@@ -52,6 +56,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 'radial-gradient(circle at 50% 0%, hsl(220, 20%, 20%), hsl(220, 30%, 16%))',
               boxShadow: `0 8px 12px hsla(0, 0%, 0%, 0.8)`,
             }),
+            border: selected
+              ? `1px solid ${theme.palette.primary.main}`
+              : '1px solid #ccc',
           })),
       ]}
     >
@@ -71,9 +78,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Typography component="h3" variant="h6">
             {name}
           </Typography>
-          {/* {isRecommended && (
-            <Chip icon={<AutoAwesomeIcon />} label={subheader} />
-          )} */}
+          {isRecommended && (
+            <Chip icon={<AutoAwesome />} label={t('PRODUCT.recommended')} />
+          )}
         </Box>
         <Box
           sx={[
@@ -85,14 +92,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           ]}
         >
           <Typography component="h3" sx={{ mb: 1 }} variant="h2">
-            {price}₮
+            {price === 0 ? 'free' : `${formatPrice(price)}`}
           </Typography>
         </Box>
-        <Box>
+        <Box sx={[isRecommended ? { color: 'grey.50' } : { color: null }]}>
           {t('PRODUCT.duration_days')}: {duration_days}
         </Box>
         <Divider sx={{ my: 1, opacity: 0.8, borderColor: 'divider' }} />
-        <Box>{description}</Box>
+        <Box sx={[isRecommended ? { color: 'grey.50' } : { color: null }]}>
+          {description}
+        </Box>
         <Divider sx={{ my: 1, opacity: 0.8, borderColor: 'divider' }} />
         {additional_settings.map((line: { key: string; value: string }) => (
           <Box

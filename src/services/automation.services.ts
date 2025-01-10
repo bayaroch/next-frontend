@@ -26,12 +26,14 @@ export interface Automation {
 export interface CreateAutomationInput {
   name: string
   fb_page_post_id: string
+  is_private_response?: boolean
   comment_responses?: CommentResponse[]
 }
 
 export interface UpdateAutomationInput {
   name?: string
   fb_page_post_id?: string
+  is_private_response?: boolean
   comment_responses?: CommentResponse[]
 }
 

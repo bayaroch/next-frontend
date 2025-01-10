@@ -11,6 +11,8 @@ const initialValues = {
   duration_days: 0,
   description: '',
   additional_settings: [{ key: '', value: '' }],
+  is_active: true,
+  identifier: '',
 }
 
 const useProductCreateForm = () => {
@@ -101,6 +103,10 @@ const useProductCreateForm = () => {
             ),
           })
         ),
+        is_active: Yup.boolean().required(
+          t('ERROR.E000001', { field: t('PRODUCT.is_active') })
+        ),
+        identifier: Yup.string(),
       }),
     [t]
   )

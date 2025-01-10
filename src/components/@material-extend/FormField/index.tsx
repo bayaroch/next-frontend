@@ -41,6 +41,7 @@ interface FormFieldProps extends FormControlProps {
   formLabelProps?: FormLabelProps
   helpContent?: React.ReactNode
   disabled?: boolean
+  showTyping?: boolean
 }
 
 const FormField: React.FC<FormFieldProps> = (props) => {
@@ -53,6 +54,7 @@ const FormField: React.FC<FormFieldProps> = (props) => {
     required,
     helpContent,
     disabled,
+    showTyping,
     ...rest
   } = props
 
@@ -139,7 +141,7 @@ const FormField: React.FC<FormFieldProps> = (props) => {
       </Typography>
       <Box>{children}</Box>
       <Box sx={{ height: 11 }}>
-        <CustomFormHelperText content={errors} />
+        <CustomFormHelperText content={errors} showTyping={showTyping} />
       </Box>
     </FormControl>
   )

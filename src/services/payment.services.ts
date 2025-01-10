@@ -9,6 +9,8 @@ export type Product = {
   duration_days: number
   description: string
   additional_settings?: any
+  is_active: boolean
+  identifier: string
 }
 
 export type ProductionListResponse = any
@@ -19,6 +21,8 @@ export type CreateProductParams = {
   duration_days: number
   description: string
   additional_settings?: any
+  is_active: boolean
+  identifier: string
 }
 
 export type CreateTransactionParams = {

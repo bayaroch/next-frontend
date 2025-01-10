@@ -44,7 +44,7 @@ export default function Info({
     <React.Fragment>
       {product && (
         <>
-          <List disablePadding>
+          <List disablePadding sx={{ width: '100%' }}>
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
               {t('PAYMENT.selected_products')}
             </Typography>
@@ -56,6 +56,7 @@ export default function Info({
                 p: 1,
                 borderRadius: 1,
                 position: 'relative',
+                width: '100%',
               }}
               alignItems={'center'}
             >
@@ -69,6 +70,12 @@ export default function Info({
                   gutterBottom
                 >
                   {formData.product_id.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: '#eee', fontSize: 11 }}
+                >
+                  # {product.product_id}
                 </Typography>
               </InfoModal>
               <IconButton size="small" sx={{ position: 'absolute', right: 8 }}>

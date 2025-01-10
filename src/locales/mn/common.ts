@@ -115,6 +115,10 @@ export default {
     sub_total: 'Бүтээгдэхүүний үнэ',
     discount: 'Хөнгөлөлт',
     save: 'Хэмнэлт',
+    is_active: 'Active',
+    identifier: 'Онцгой утга',
+    identifier_desc: 'Зарим нэг онцгой бүтээгдэхүүнийг ялгаж таних',
+    recommended: 'Тохиромжтой',
   },
   PAYMENT: {
     qpay: 'Qpay',
@@ -126,6 +130,15 @@ export default {
     promo_not_applied: 'Промо код оруулаагүй байна.',
     scan_qr: 'QR код уншуулан төлбөрөө төлнө үү',
     scan_qr_desc: 'Хүссэн банкны аппаараа QPay-ээр төлбөрөө хийнэ үү',
+    complete_page: 'Төлөгдсөн',
+    go_to_app: 'Апп руу үргэлжлүүлэх',
+    checking: 'Шалгаж байна',
+    waiting: 'Түр хүлээнэ үү',
+    activating_free_plan:
+      'Үнэгүй багц идэвхжүүлж байна. Гүйлгээ хийгдэх хүртэл түр хүлээнэ үү.',
+    thank_you_order: 'Таны захиалга амжилттай .',
+    order_number_is: 'Захиалгын дугаар',
+    product_id_is: 'Бүтээгдэхүүний ID',
   },
   NO_SUBSCRIPTION: {
     title: 'Идэвхтэй багц байхгүй байна',
@@ -196,6 +209,11 @@ export default {
     delete_title: 'Устгах',
     delete_desc: 'Та энэ мэдээллээ устгахдаа итгэлтэй байна уу?',
     delete: 'Устгах',
+    chat: 'Мэссэнжэрийн хариулт',
+    chat_help: 'Мэссэнжэрээр очих зурвасаа оруулаарай',
+    is_private_response: 'Зөвхөн мэссэж',
+    is_private_response_desc:
+      'Зөвхөн мэссэж гэж сонговол мэссэжээр л хариу очно.',
   },
   FORM_DESC: {
     automation_name: 'Автоматжуулалтын нэр',
