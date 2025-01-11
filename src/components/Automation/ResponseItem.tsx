@@ -11,6 +11,8 @@ import {
 } from '@mui/material'
 import { CommentResponse } from '@services/automation.services'
 import React from 'react'
+import _ from 'lodash'
+import { t } from 'i18next'
 
 export interface ResponseField extends CommentResponse {
   id: string
@@ -60,10 +62,26 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
         </ListItemIcon>
         <ListItemText
           primary={
-            <Chip color="primary" size={'small'} label={response.keyword} />
+            <Chip
+              color="primary"
+              size={'small'}
+              label={response.keyword}
+              sx={{ mb: 1 }}
+            />
           }
-          secondary={response.content}
-          secondaryTypographyProps={{ noWrap: true }}
+          secondary={
+            <Stack spacing={1} direction={'row'}>
+              {!_.isEmpty(response.content) && (
+                <Chip label={t('AUTOMATION.content')} size={'small'} />
+              )}
+              {!_.isEmpty(response.chat) && (
+                <Chip label={t('AUTOMATION.chat')} size={'small'} />
+              )}
+              {!_.isEmpty(response.attachment) && (
+                <Chip label={t('AUTOMATION.attachement')} size={'small'} />
+              )}
+            </Stack>
+          }
         />
       </ListItem>
     </Paper>

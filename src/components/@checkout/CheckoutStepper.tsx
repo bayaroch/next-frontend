@@ -21,7 +21,7 @@ const CheckoutStepper: React.FC<CheckoutStepperProps> = ({
           ? { sm: 'flex', md: 'none' }
           : { xs: 'none', md: 'flex' },
         width: '100%',
-        height: 40,
+        height: 'auto',
       }}
     >
       {steps.map((label) => (

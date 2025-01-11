@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '@layouts/Shared/Header/LanguageSwitcher'
 import { Languages } from '@constants/common.constants'
+import SitemarkIcon from '@components/@public/SitemarkIcon'
 
 interface CheckoutLayoutProps {
   children: React.ReactNode
@@ -34,19 +35,14 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
     <Grid
       container
       sx={{
-        pt: 8,
         height: {
           xs: '100%',
           sm: 'calc(100dvh - var(--template-frame-height, 0px))',
         },
-        mt: {
-          xs: 4,
-          sm: 0,
-        },
       }}
     >
       <Grid
-        size={{ sm: 12, md: 4, lg: 4 }}
+        size={{ sm: 12, md: 12, lg: 4 }}
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
@@ -54,13 +50,16 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
           borderRight: { sm: 'none', md: '1px solid' },
           borderColor: { sm: 'none', md: 'divider' },
           alignItems: 'start',
+          justifyContent: 'center',
           position: 'relative',
-          pt: 16,
-          px: { sm: 2, xs: 2, md: 2, lg: 10 },
+          pt: 0,
+          pb: 14,
+          px: { sm: 2, xs: 2, md: 2, lg: 4 },
           gap: 4,
         }}
       >
-        {infoComponent}
+        <SitemarkIcon />
+        <Box sx={{ width: '100%' }}>{infoComponent}</Box>
         <Button
           variant="text"
           onClick={logout}
@@ -70,17 +69,16 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
         </Button>
       </Grid>
       <Grid
-        size={{ sm: 12, md: 8, lg: 8 }}
+        size={{ sm: 12, md: 12, lg: 8 }}
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
           maxWidth: '100%',
           width: '100%',
-          backgroundColor: { xs: 'transparent', sm: 'background.default' },
-          alignItems: 'start',
-          pt: { xs: 0, sm: 0, md: 14 },
-          px: { xs: 2, sm: 10 },
+          pt: { xs: 0, sm: 0, md: 6 },
+          px: { xs: 2, sm: 4, md: 4, lg: 4, xl: 8 },
           gap: { xs: 4, md: 8 },
+          position: 'relative',
+          height: '100%',
+          minHeight: '100vh',
         }}
       >
         <Stack
@@ -115,7 +113,14 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             />
           </Box>
         </Stack>
-        <Card sx={{ display: { xs: 'flex', md: 'none' }, width: '100%' }}>
+        <Card
+          sx={{
+            display: { xs: 'flex', md: 'none' },
+            width: '100%',
+            mt: 8,
+            mb: 2,
+          }}
+        >
           <CardContent
             sx={{
               display: 'flex',
@@ -127,7 +132,18 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             {infoMobileComponent}
           </CardContent>
         </Card>
-        {children}
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          {children}
+        </Box>
       </Grid>
     </Grid>
   )

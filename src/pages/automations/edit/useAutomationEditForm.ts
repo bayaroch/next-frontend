@@ -48,22 +48,13 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
                   number: 20,
                 })
               ),
-            content: Yup.string()
-              .required(t('ERROR.E000001', { field: t('AUTOMATION.content') }))
-              .min(
-                2,
-                t('ERROR.E000047', {
-                  field: t('AUTOMATION.content'),
-                  number: 2,
-                })
-              )
-              .max(
-                500,
-                t('ERROR.E000046', {
-                  field: t('AUTOMATION.content'),
-                  number: 500,
-                })
-              ),
+            content: Yup.string().max(
+              500,
+              t('ERROR.E000046', {
+                field: t('AUTOMATION.content'),
+                number: 500,
+              })
+            ),
             chat: Yup.string().max(
               500,
               t('ERROR.E000046', {

@@ -22,13 +22,16 @@ const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 3, sm: 6 },
-        mt: 4,
       }}
     >
       <Grid
         container
         spacing={3}
-        sx={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}
+        sx={{
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          width: '100%',
+        }}
       >
         {data?.data.map((tier: Product) => (
           <Grid size={{ xs: 12, sm: 12, md: 12, lg: 4 }} key={tier.name}>

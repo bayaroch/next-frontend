@@ -187,6 +187,7 @@ const AutomationEditPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEdit = (index: number, data: any) => {
     handleSubmit(onSubmit)()
+    setFocused(null)
   }
 
   const handleCheckResponse = (field: ResponseField) => {
@@ -467,6 +468,7 @@ const AutomationEditPage: React.FC = () => {
           </Stack>
           {_.orderBy(fields, ['keyword'], ['asc']).map((field, index) => {
             const isActive = focused?.active === field.id
+            const correctIndex = fields.findIndex((f) => f.id === field.id)
             return isActive ? (
               <Card
                 key={field.id}
@@ -475,7 +477,7 @@ const AutomationEditPage: React.FC = () => {
                 <Box sx={{ width: '100%' }}>
                   <Grid sx={{ width: '100%' }} spacing={2} container>
                     <Controller
-                      name={`comment_responses.${index}.keyword`}
+                      name={`comment_responses.${correctIndex}.keyword`}
                       control={control}
                       render={({ field: { ref, ...rest } }: FieldValues) => (
                         <FormField
@@ -484,14 +486,16 @@ const AutomationEditPage: React.FC = () => {
                           helpContent={t('AUTOMATION.keyword_help')}
                           fullWidth
                           errors={
-                            errors?.comment_responses?.[index]?.keyword?.message
+                            errors?.comment_responses?.[correctIndex]?.keyword
+                              ?.message
                           }
                         >
                           <OutlinedInput
                             {...rest}
                             fullWidth
                             error={
-                              !!errors?.comment_responses?.[index]?.keyword
+                              !!errors?.comment_responses?.[correctIndex]
+                                ?.keyword
                             }
                             inputRef={ref}
                             placeholder={t('AUTOMATION.keyword')}
@@ -502,7 +506,7 @@ const AutomationEditPage: React.FC = () => {
                     />
 
                     <Controller
-                      name={`comment_responses.${index}.content`}
+                      name={`comment_responses.${correctIndex}.content`}
                       control={control}
                       render={({ field: { ref, ...rest } }: FieldValues) => (
                         <FormField
@@ -511,7 +515,8 @@ const AutomationEditPage: React.FC = () => {
                           required
                           helpContent={t('AUTOMATION.content_help')}
                           errors={
-                            errors?.comment_responses?.[index]?.content?.message
+                            errors?.comment_responses?.[correctIndex]?.content
+                              ?.message
                           }
                         >
                           <TextField
@@ -538,16 +543,18 @@ const AutomationEditPage: React.FC = () => {
                     />
 
                     <Controller
-                      name={`comment_responses.${index}.chat`}
+                      name={`comment_responses.${correctIndex}.chat`}
                       control={control}
                       render={({ field: { ref, ...rest } }: FieldValues) => (
                         <FormField
                           label={t('AUTOMATION.chat')}
+                          sx={{ mt: 1 }}
                           fullWidth
                           required
                           helpContent={t('AUTOMATION.chat_hhelp')}
                           errors={
-                            errors?.comment_responses?.[index]?.chat?.message
+                            errors?.comment_responses?.[correctIndex]?.chat
+                              ?.message
                           }
                         >
                           <TextField
@@ -583,7 +590,7 @@ const AutomationEditPage: React.FC = () => {
                       size="small"
                       variant="outlined"
                       onClick={() => {
-                        setValue('comment_responses', focused.fields, {
+                        setValue('comment_responses', focused!.fields, {
                           shouldValidate: true,
                         })
                         setFocused(null)
@@ -607,8 +614,8 @@ const AutomationEditPage: React.FC = () => {
                 isChecked={selectedResponses.includes(field.keyword)}
                 onCheck={handleCheckResponse}
                 key={field.id}
-                onEdit={() => {
-                  setFocused({ active: field.id, fields: fields })
+                onEdit={(response) => {
+                  setFocused({ active: response.id, fields: [...fields] })
                 }}
                 response={field}
               />

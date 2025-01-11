@@ -91,7 +91,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             isRecommended ? { color: 'grey.50' } : { color: null },
           ]}
         >
-          <Typography component="h3" sx={{ mb: 1 }} variant="h2">
+          <Typography component="h4" sx={{ mb: 1 }} variant="h3">
             {price === 0 ? 'free' : `${formatPrice(price)}`}
           </Typography>
         </Box>

@@ -138,7 +138,7 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
         }}
       >
         <Chip
-          label={`${data.comment_responses.length > 1 ? data.comment_responses.length : 'No'} responses`}
+          label={`${data.comment_responses.length > 0 ? data.comment_responses.length : 'No'} responses`}
           size="small"
           color="primary"
           variant={data.comment_responses.length > 0 ? 'filled' : 'outlined'}

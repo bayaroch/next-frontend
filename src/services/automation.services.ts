@@ -4,7 +4,7 @@ import { Post } from './page.services'
 
 export interface CommentResponse {
   keyword: string
-  content: string
+  content?: string
   chat?: string
   attachment?: string | null
 }

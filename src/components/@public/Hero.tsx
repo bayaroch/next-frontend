@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
@@ -109,17 +110,18 @@ export default function Hero() {
         >
           {t('HOME.slogan_two')}
         </Typography>
-
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            minWidth: 'fit-content',
-            mb: { xs: 4, sm: 6 },
-          }}
-        >
-          {t('HOME.start_now')}
-        </Button>
+        <Link to="/login">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              minWidth: 'fit-content',
+              mb: { xs: 4, sm: 6 },
+            }}
+          >
+            {t('HOME.start_now')}
+          </Button>
+        </Link>
 
         <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
           <Grid size={{ xs: 12, sm: 12, md: 7 }}>

@@ -1,8 +1,10 @@
 import React from 'react'
-import { Stack, Typography, Button } from '@mui/material'
+import { Stack, Typography, Button, Box, Paper, Divider } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CheckResponse } from '@services/payment.services'
 import { useQueryClient } from 'react-query'
+import { StyledNavigationBox } from '@containers/Checkout'
+import { CheckCircleOutline } from '@mui/icons-material'
 
 interface PaymentCompleteProps {
   data: CheckResponse
@@ -11,30 +13,54 @@ interface PaymentCompleteProps {
 const PaymentComplete: React.FC<PaymentCompleteProps> = ({ data }) => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
-  // Assuming CheckResponse has a property for order number.
-  // Adjust this based on your actual data structure
-  const orderNumber = data.transaction?.transaction_id || '' // Fallback to a default if not available
-  const productNumber = data.transaction?.product_id || '' // Fallback to a default if not available
+  const { transaction } = data
 
   return (
-    <Stack spacing={2} useFlexGap>
-      <Typography variant="h1">📦</Typography>
+    <Stack spacing={3} alignItems="center">
+      <CheckCircleOutline sx={{ color: 'success.main', fontSize: 54 }} />
       <Typography variant="h5">{t('PAYMENT.thank_you_order')}</Typography>
-      <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-        {t('PAYMENT.order_number_is')}#{orderNumber}.
-      </Typography>
-      <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-        {t('PAYMENT.product_id_is')}#{productNumber}.
-      </Typography>
-      <Button
-        variant="contained"
-        onClick={() => {
-          queryClient.invalidateQueries('appInit')
-        }}
-        sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
-      >
-        {t('PAYMENT.go_to_app')}
-      </Button>
+      <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 400 }}>
+        <Stack spacing={2}>
+          <Typography variant="h6" gutterBottom>
+            {t('PAYMENT.order_details')}
+          </Typography>
+          <Divider />
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2" color="text.secondary">
+              {t('PAYMENT.order_number_is')}
+            </Typography>
+            <Typography variant="body2">
+              {transaction?.transaction_id}
+            </Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2" color="text.secondary">
+              {t('PAYMENT.product_id_is')}
+            </Typography>
+            <Typography variant="body2">{transaction?.product_id}</Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2" color="text.secondary">
+              {t('PRODUCT.total_price')}
+            </Typography>
+            <Typography variant="body2" fontWeight="bold">
+              {transaction?.final_amount.toFixed(2)}
+            </Typography>
+          </Box>
+        </Stack>
+      </Paper>
+      <StyledNavigationBox>
+        <Box />
+        <Button
+          variant="contained"
+          onClick={() => {
+            queryClient.invalidateQueries('appInit')
+          }}
+          sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
+        >
+          {t('PAYMENT.go_to_app')}
+        </Button>
+      </StyledNavigationBox>
     </Stack>
   )
 }

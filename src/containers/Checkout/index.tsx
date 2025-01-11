@@ -27,7 +27,15 @@ import { useAuth } from '@global/AuthContext'
 import useProductForm from './usePurchaseForm'
 import { useWatch } from 'react-hook-form'
 import FormField from '@components/@material-extend/FormField'
-import { FormControl, MenuItem, OutlinedInput, Select } from '@mui/material'
+import {
+  FormControl,
+  MenuItem,
+  OutlinedInput,
+  Paper,
+  PaperProps,
+  Select,
+  styled,
+} from '@mui/material'
 import _ from 'lodash'
 import { useToast } from '@components/ToastProvider'
 import { LoadingButton } from '@mui/lab'
@@ -36,6 +44,19 @@ import CheckoutLayout from '@components/@checkout/CheckoutLayout'
 import QRCodeComponent from '@components/@checkout/QrCodeComponent'
 import CheckoutStepper from '@components/@checkout/CheckoutStepper'
 import PaymentComplete from '@components/@checkout/PaymentComplete'
+import { Identifier } from '@constants/common.constants'
+
+export const StyledNavigationBox = styled(Paper)<PaperProps>(() => ({
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: 16,
+  borderRadius: 0,
+  borderTop: '1px solid #ccc',
+}))
 
 export default function Checkout() {
   const { t } = useTranslation()
@@ -174,6 +195,11 @@ export default function Checkout() {
     name: 'product_id',
   })
   const formData = useWatch({ control })
+  const product: Product | undefined = _.get(
+    formData,
+    'product_id',
+    undefined
+  ) as any
 
   const handlePromo = () => {
     const promo = formData.promo_code
@@ -207,92 +233,101 @@ export default function Checkout() {
   }
 
   const renderForm = () => {
+    const isFreeProduct = product?.identifier === Identifier.FREE_PRODUCT
+
     return (
       <>
-        <Box sx={{ width: '100%', maxWidth: 500, margin: '0 auto' }}>
-          <Stack spacing={3}>
-            <Controller
-              name="product_id"
-              control={control}
-              render={({ field }) => (
-                <FormField fullWidth label={t('PRODUCT.name')}>
-                  <OutlinedInput
-                    {...field}
-                    fullWidth
-                    disabled
-                    value={_.get(selectedProduct, 'name', '')}
-                  />
-                </FormField>
-              )}
-            />
-            <Controller
-              name="quantity"
-              control={control}
-              render={({ field }) => (
-                <FormField
-                  fullWidth
-                  errors={errors?.quantity?.message}
-                  label={t('PRODUCT.quantity')}
-                  required
-                >
-                  <OutlinedInput
-                    {...field}
-                    fullWidth
-                    type="number"
-                    placeholder={t('PRODUCT.quantity')}
-                  />
-                </FormField>
-              )}
-            />
-            <Controller
-              name="payment_method"
-              control={control}
-              render={({ field }) => (
-                <FormField
-                  fullWidth
-                  errors={errors?.payment_method?.message}
-                  label={t('PRODUCT.payment_method')}
-                  required
-                >
-                  <FormControl fullWidth>
-                    <Select {...field}>
-                      <MenuItem value="Qpay">{t('PAYMENT.qpay')}</MenuItem>
-                    </Select>
-                  </FormControl>
-                </FormField>
-              )}
-            />
-            <FormField
-              label={t('PRODUCT.promo_code')}
-              fullWidth
-              errors={errors.promo_code?.message}
-            >
+        <form
+          id="create-transaction"
+          style={{ width: '100%' }}
+          onSubmit={handleSubmit(handleFormSubmit)}
+        >
+          <Box sx={{ width: '100%', maxWidth: 500, margin: '0 auto' }}>
+            <Stack spacing={3}>
               <Controller
-                name="promo_code"
+                name="product_id"
                 control={control}
                 render={({ field }) => (
-                  <Stack direction={'row'} spacing={2}>
+                  <FormField fullWidth label={t('PRODUCT.name')}>
                     <OutlinedInput
                       {...field}
-                      disabled={promoData !== null}
                       fullWidth
-                      placeholder={t('PRODUCT.promo_code')}
+                      readOnly
+                      value={_.get(selectedProduct, 'name', '')}
                     />
-                    <LoadingButton
-                      variant="contained"
-                      color="primary"
-                      disabled={promoData !== null}
-                      loading={promoCheckMutation.isLoading}
-                      onClick={() => handlePromo()}
-                    >
-                      {t('PRODUCT.apply')}
-                    </LoadingButton>
-                  </Stack>
+                  </FormField>
                 )}
               />
-            </FormField>
-          </Stack>
-        </Box>
+              <Controller
+                name="quantity"
+                control={control}
+                render={({ field }) => (
+                  <FormField
+                    fullWidth
+                    errors={errors?.quantity?.message}
+                    label={t('PRODUCT.quantity')}
+                    required
+                  >
+                    <OutlinedInput
+                      {...field}
+                      fullWidth
+                      readOnly={isFreeProduct}
+                      type="number"
+                      placeholder={t('PRODUCT.quantity')}
+                    />
+                  </FormField>
+                )}
+              />
+              <Controller
+                name="payment_method"
+                control={control}
+                render={({ field }) => (
+                  <FormField
+                    fullWidth
+                    errors={errors?.payment_method?.message}
+                    label={t('PRODUCT.payment_method')}
+                    required
+                  >
+                    <FormControl fullWidth>
+                      <Select readOnly {...field}>
+                        <MenuItem value="Qpay">{t('PAYMENT.qpay')}</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </FormField>
+                )}
+              />
+              <FormField
+                label={t('PRODUCT.promo_code')}
+                fullWidth
+                errors={errors.promo_code?.message}
+              >
+                <Controller
+                  name="promo_code"
+                  control={control}
+                  render={({ field }) => (
+                    <Stack direction={'row'} spacing={2}>
+                      <OutlinedInput
+                        {...field}
+                        disabled={promoData !== null || isFreeProduct}
+                        fullWidth
+                        placeholder={t('PRODUCT.promo_code')}
+                      />
+                      <LoadingButton
+                        variant="contained"
+                        color="primary"
+                        disabled={promoData !== null || isFreeProduct}
+                        loading={promoCheckMutation.isLoading}
+                        onClick={() => handlePromo()}
+                      >
+                        {t('PRODUCT.apply')}
+                      </LoadingButton>
+                    </Stack>
+                  )}
+                />
+              </FormField>
+            </Stack>
+          </Box>
+        </form>
       </>
     )
   }
@@ -311,7 +346,8 @@ export default function Checkout() {
                   : setValue('product_id', item)
               }
             />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <StyledNavigationBox>
+              <Box />
               <LoadingButton
                 variant="contained"
                 endIcon={<ChevronRightRoundedIcon />}
@@ -321,16 +357,14 @@ export default function Checkout() {
               >
                 {t('SYSCOMMON.next')}
               </LoadingButton>
-            </Box>
+            </StyledNavigationBox>
           </>
         )
       case 1:
         return (
           <>
             {renderForm()}
-            <Box
-              sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
-            >
+            <StyledNavigationBox>
               <Button
                 startIcon={<ChevronLeftRoundedIcon />}
                 onClick={handleBack}
@@ -344,11 +378,10 @@ export default function Checkout() {
                 onClick={handleNext}
                 disabled={!isValid}
                 loading={createTransactionMutation.isLoading}
-                sx={{ width: { xs: '100%', sm: 'fit-content' } }}
               >
                 {t('SYSCOMMON.place_order')}
               </LoadingButton>
-            </Box>
+            </StyledNavigationBox>
           </>
         )
       case 2:
@@ -358,9 +391,7 @@ export default function Checkout() {
               isChecking={checkTransactionMutation.isLoading}
               transactionResponse={transactionResponse}
             />
-            <Box
-              sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
-            >
+            <StyledNavigationBox>
               <Button
                 startIcon={<ChevronLeftRoundedIcon />}
                 onClick={handleBack}
@@ -369,7 +400,7 @@ export default function Checkout() {
                 {t('SYSCOMMON.previous')}
               </Button>
               <Box></Box>
-            </Box>
+            </StyledNavigationBox>
           </Box>
         )
       case 3:
@@ -418,37 +449,40 @@ export default function Checkout() {
       lang={lang}
       changeLanguage={changeLanguage}
     >
-      <form
-        id="create-transaction"
-        style={{ width: '100%' }}
-        onSubmit={handleSubmit(handleFormSubmit)}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          height: '100%',
+          width: '100%',
+        }}
       >
+        <CheckoutStepper
+          steps={steps}
+          activeStep={activeStep}
+          isMobile={false}
+        />
+        <CheckoutStepper
+          steps={steps}
+          activeStep={activeStep}
+          isMobile={true}
+        />
         <Box
           sx={{
+            minHeight: 500,
             display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
             width: '100%',
-            maxWidth: { sm: '100%', md: 1000 },
-            maxHeight: '720px',
-            gap: { xs: 5, md: 'none' },
-            mt: 2,
+            justifyContent: 'center',
+            alignItems: 'center',
+            pt: 2,
+            pb: 2,
           }}
         >
-          <CheckoutStepper
-            steps={steps}
-            activeStep={activeStep}
-            isMobile={false}
-          />
-          <CheckoutStepper
-            steps={steps}
-            activeStep={activeStep}
-            isMobile={true}
-          />
-
-          <React.Fragment>{getStepContent(activeStep)}</React.Fragment>
+          {getStepContent(activeStep)}
         </Box>
-      </form>
+      </Box>
       {/* Your form and other content */}
     </CheckoutLayout>
   )

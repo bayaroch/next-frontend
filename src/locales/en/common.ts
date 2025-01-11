@@ -139,10 +139,10 @@ export default {
     waiting: 'Waiting',
     activating_free_plan:
       'Activating free plan subscription. Please wait while we process your transaction.',
-    thank_you_order:
-      'Захиалга хийсэнд баярлалаа! Таны төлбөр амжилттай хийгдлээ.',
-    order_number_is: 'Захиалгын дугаар:',
-    product_id_is: 'Бүтээгдэхүүний ID:',
+    thank_you_order: 'Thank you for your order!',
+    order_number_is: 'Order Id:',
+    product_id_is: 'Product Id:',
+    order_details: 'Order Details',
   },
 
   NO_SUBSCRIPTION: {
@@ -175,7 +175,7 @@ export default {
     start_now: 'Start now',
     contact: 'Contact Us',
     description:
-      'Kommai is an AI-driven automated reply solution that takes your Facebook page communication to the next level. Our intelligent system selects the most appropriate response from your pre-created answers and replies to each comment without your intervention. This saves your time and resources while increasing customer satisfaction. With simple steps of connecting to Facebook, selecting your pages, and creating automations, you can get started in minutes. With Kommai, your business is always on, 24/7.',
+      'Kommai is an AI-driven automated reply solution that takes your Facebook page communication to the next level. Our intelligent system selects the most appropriate response from your pre-created answers and replies to each comment without your intervention. This saves your time and resources while increasing customer satisfaction. With simple steps of connecting to Facebook, selecting your pages, and creating automations, you can get started in minutes. ',
   },
   SURVEY: {
     company_type: 'What type of company do you work for?',
@@ -218,9 +218,9 @@ export default {
     delete_desc: 'Are you sure you want to delete this automation?',
     chat: 'Messenger response',
     chat_help: 'Write content what will deliver to direct message',
-    is_private_response: 'Private response',
+    is_private_response: 'Private reply',
     is_private_response_desc:
-      'Private response will not be shown in the comment section',
+      'Comment respose will not be shown in the comment section.',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',

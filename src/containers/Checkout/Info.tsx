@@ -73,9 +73,9 @@ export default function Info({
                 </Typography>
                 <Typography
                   variant="body2"
-                  sx={{ color: '#eee', fontSize: 11 }}
+                  sx={{ color: '#666', fontSize: 10 }}
                 >
-                  # {product.product_id}
+                  #{product.product_id}
                 </Typography>
               </InfoModal>
               <IconButton size="small" sx={{ position: 'absolute', right: 8 }}>
@@ -88,7 +88,7 @@ export default function Info({
                 <ListItem sx={{ py: 1, px: 0 }}>
                   <ListItemText
                     sx={{ mr: 2 }}
-                    primary={t('PRODUCT.amount')}
+                    primary={t('PRODUCT.quantity')}
                     secondary={''}
                   />
                   <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
