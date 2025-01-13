@@ -122,7 +122,7 @@ export default {
       'Unique string enum that defines some products. used in code',
     recommended: 'Recommended',
     selected: 'Selected',
-    already_used: 'Already used',
+    already_used: 'Unavailable',
   },
   PAYMENT: {
     qpay: 'Qpay',

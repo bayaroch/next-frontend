@@ -120,7 +120,7 @@ export default {
     identifier_desc: 'Зарим нэг онцгой бүтээгдэхүүнийг ялгаж таних',
     recommended: 'Тохиромжтой',
     selected: 'Сонгосон',
-    already_used: 'Ашиглагдсан',
+    already_used: 'Ашиглах боломжгүй',
   },
   PAYMENT: {
     qpay: 'Qpay',
