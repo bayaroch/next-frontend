@@ -119,6 +119,8 @@ export default {
     identifier: 'Онцгой утга',
     identifier_desc: 'Зарим нэг онцгой бүтээгдэхүүнийг ялгаж таних',
     recommended: 'Тохиромжтой',
+    selected: 'Сонгосон',
+    already_used: 'Ашиглагдсан',
   },
   PAYMENT: {
     qpay: 'Qpay',
@@ -140,6 +142,7 @@ export default {
     order_number_is: 'Захиалгын дугаар',
     product_id_is: 'Бүтээгдэхүүний ID',
     order_details: 'Захиалгын дэлгэрэнгүй',
+    free: 'Free',
   },
   NO_SUBSCRIPTION: {
     title: 'Идэвхтэй багц байхгүй байна',

@@ -121,6 +121,8 @@ export default {
     identifier_desc:
       'Unique string enum that defines some products. used in code',
     recommended: 'Recommended',
+    selected: 'Selected',
+    already_used: 'Already used',
   },
   PAYMENT: {
     qpay: 'Qpay',
@@ -143,6 +145,7 @@ export default {
     order_number_is: 'Order Id:',
     product_id_is: 'Product Id:',
     order_details: 'Order Details',
+    free: 'Free',
   },
 
   NO_SUBSCRIPTION: {

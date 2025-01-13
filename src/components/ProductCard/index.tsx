@@ -13,13 +13,14 @@ import _ from 'lodash'
 import { formatPrice } from '@utils/helper/common.helper'
 import { Identifier } from '@constants/common.constants'
 import { Chip } from '@mui/material'
-import { AutoAwesome } from '@mui/icons-material'
+import { AutoAwesome, NotInterestedOutlined } from '@mui/icons-material'
 
 interface ProductCardProps {
   data: Product
   onClick?: (data: Product) => void
   selected?: boolean
   isShowChoose?: boolean
+  disabled?: boolean
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -27,6 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onClick,
   selected,
   isShowChoose = true,
+  disabled = false,
 }) => {
   const { name, price, description, additional_settings, duration_days } = data
 
@@ -37,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Card
       elevation={2}
-      onClick={() => onClick && onClick(data)}
+      onClick={() => onClick && !disabled && onClick(data)}
       sx={[
         {
           p: 2,
@@ -80,6 +82,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </Typography>
           {isRecommended && (
             <Chip icon={<AutoAwesome />} label={t('PRODUCT.recommended')} />
+          )}
+          {disabled && (
+            <Chip
+              icon={<NotInterestedOutlined />}
+              label={t('PRODUCT.already_used')}
+            />
           )}
         </Box>
         <Box
@@ -133,10 +141,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </Box>
         ))}
       </CardContent>
-      {isShowChoose && (
+      {isShowChoose && !disabled && (
         <CardActions>
-          <Button fullWidth variant={'outlined'} color={'primary'}>
-            {t('PRODUCT.choose')}
+          <Button
+            fullWidth
+            disabled={selected}
+            variant={'outlined'}
+            color={'primary'}
+          >
+            {selected ? t('PRODUCT.selected') : t('PRODUCT.choose')}
           </Button>
         </CardActions>
       )}

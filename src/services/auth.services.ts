@@ -1,5 +1,6 @@
 import { URI } from '@constants/uri.constants'
 import { api } from './api'
+import { Product } from './payment.services'
 
 export interface LoginPayload {
   fb_access_token: string
@@ -57,13 +58,16 @@ export interface AppInitResponse {
   user_info: UserInput
   connected_pages: ConnectedPage[]
   subscription?: {
-    product_id?: string
+    product?: Omit<
+      Product,
+      'product_id' | 'is_active' | 'created_at' | 'updated_at'
+    >
     status?: SubStatus
     start_at?: Date
     end_at?: Date
     remaining_token?: number
-    free_plan_available?: boolean
   }
+  free_plan_available?: boolean
 }
 
 export interface SurveyFields {

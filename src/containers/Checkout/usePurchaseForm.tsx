@@ -4,9 +4,15 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+export enum PAYMENT_METHOD {
+  QPAY = 'Qpay',
+  BANK = 'Bank',
+  FREE = 'Free',
+}
+
 export const initialValues = {
   product_id: null,
-  payment_method: 'Qpay',
+  payment_method: PAYMENT_METHOD.QPAY,
   quantity: 1,
   promo_code: '',
 }

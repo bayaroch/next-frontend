@@ -115,7 +115,7 @@ export const calculatePrice = ({
     discountAmount: Number.isFinite(discountAmount) ? discountAmount : 0,
     total: Number.isFinite(total) ? total : 0,
     subtotalText: `${subtotal.toLocaleString()} ${currency}`,
-    discountAmountText: `${discountAmount.toLocaleString()} ${currency}`,
+    discountAmountText: `${discountAmount > 0 ? '-' : ''} ${discountAmount.toLocaleString()} ${currency}`,
     totalText: `${total.toLocaleString()} ${currency}`,
   }
 }

@@ -24,7 +24,7 @@ import {
 import { useMutation, useQuery } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@global/AuthContext'
-import useProductForm from './usePurchaseForm'
+import useProductForm, { PAYMENT_METHOD } from './usePurchaseForm'
 import { useWatch } from 'react-hook-form'
 import FormField from '@components/@material-extend/FormField'
 import {
@@ -201,6 +201,14 @@ export default function Checkout() {
     undefined
   ) as any
 
+  const isFreeProduct = product?.identifier === Identifier.FREE_PRODUCT
+
+  React.useEffect(() => {
+    if (isFreeProduct) {
+      setValue('payment_method', PAYMENT_METHOD.FREE)
+    }
+  }, [isFreeProduct])
+
   const handlePromo = () => {
     const promo = formData.promo_code
     if (!_.isEmpty(promo) && promo) {
@@ -233,8 +241,6 @@ export default function Checkout() {
   }
 
   const renderForm = () => {
-    const isFreeProduct = product?.identifier === Identifier.FREE_PRODUCT
-
     return (
       <>
         <form
@@ -291,6 +297,7 @@ export default function Checkout() {
                     <FormControl fullWidth>
                       <Select readOnly {...field}>
                         <MenuItem value="Qpay">{t('PAYMENT.qpay')}</MenuItem>
+                        <MenuItem value="Free">{t('PAYMENT.free')}</MenuItem>
                       </Select>
                     </FormControl>
                   </FormField>

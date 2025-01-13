@@ -78,9 +78,6 @@ export default function Info({
                   #{product.product_id}
                 </Typography>
               </InfoModal>
-              <IconButton size="small" sx={{ position: 'absolute', right: 8 }}>
-                <Close />
-              </IconButton>
             </Stack>
 
             {activeStep >= 1 ? (
@@ -173,7 +170,7 @@ export default function Info({
                     primary={t('PRODUCT.discount')}
                   />
                   <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                    {discountAmountText ? `- ${discountAmountText}` : ''}
+                    {discountAmountText}
                   </Typography>
                 </ListItem>
 
