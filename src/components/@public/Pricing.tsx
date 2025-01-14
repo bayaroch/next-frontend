@@ -39,7 +39,8 @@ const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
       >
         {data?.data.map((tier: Product) => {
           const isFreeProduct = tier?.identifier === Identifier.FREE_PRODUCT
-          const isDisabled = isFreeProduct && !init?.free_plan_available
+          const isDisabled =
+            isFreeProduct && !init?.user_info.free_plan_available
           return (
             <>
               <Grid size={{ xs: 12, sm: 12, md: 12, lg: 4 }} key={tier.name}>

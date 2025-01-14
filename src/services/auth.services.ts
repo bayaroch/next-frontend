@@ -27,6 +27,7 @@ export interface UserInput {
   survey_responses: {
     [key: string]: any
   }
+  free_plan_available?: boolean
 }
 
 export interface ConnectedPage {
@@ -67,7 +68,6 @@ export interface AppInitResponse {
     end_at?: Date
     remaining_token?: number
   }
-  free_plan_available?: boolean
 }
 
 export interface SurveyFields {
