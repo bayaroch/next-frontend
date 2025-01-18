@@ -61,7 +61,9 @@ export default function Footer() {
             }}
           >
             <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
-              <SitemarkIcon />
+              <Box>
+                <SitemarkIcon />
+              </Box>
               <Typography variant="body2" sx={{ mb: 2 }}>
                 {t('HOME.slogan_two')}
               </Typography>

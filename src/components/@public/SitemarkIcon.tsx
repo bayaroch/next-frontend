@@ -3,7 +3,7 @@ import SvgIcon from '@mui/material/SvgIcon'
 
 export default function SitemarkIcon({ isBeta = true }: { isBeta?: boolean }) {
   return (
-    <Box sx={{ position: 'relative', width: 'auto' }}>
+    <Box sx={{ position: 'relative', width: 'auto', display: 'inline-block' }}>
       <SvgIcon sx={{ height: 34, width: 'auto' }}>
         <svg
           version="1.1"
@@ -65,8 +65,8 @@ export default function SitemarkIcon({ isBeta = true }: { isBeta?: boolean }) {
           sx={{
             position: 'absolute',
             top: -3,
-            right: -14,
-            width: 36,
+            right: -8,
+            width: 30,
             height: 10,
             bgcolor: 'primary.main',
             borderRadius: 10,
