@@ -88,7 +88,8 @@ export default function Footer() {
             </MuiLink>
             <MuiLink
               component={Link}
-              to="/blog"
+              to="https://medium.com/@kommaiapp"
+              target="_blank"
               color="text.secondary"
               variant="body2"
             >

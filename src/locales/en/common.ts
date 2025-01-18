@@ -183,6 +183,7 @@ export default {
     wiki_how: 'Wiki',
     feedback: 'Feedback',
     bug_report: 'Bug report',
+    support: 'Support',
   },
   SURVEY: {
     company_type: 'What type of company do you work for?',

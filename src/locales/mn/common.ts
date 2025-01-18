@@ -176,6 +176,7 @@ export default {
     wiki_how: 'Вики',
     feedback: 'Санал сэтгэгдэл',
     bug_report: 'Алдаа мэдэгдэх',
+    support: 'Тусламж',
   },
   SURVEY: {
     company_type: 'Та ямар төрлийн компанид ажилладаг вэ?',
