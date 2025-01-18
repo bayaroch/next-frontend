@@ -9,6 +9,8 @@ import { styled } from '@mui/material/styles'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import Animated from '@components/Animated'
+import { useInView } from '@react-spring/web'
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
@@ -33,10 +35,13 @@ const StyledBox = styled('div')(({ theme }) => ({
 
 export default function Hero() {
   const { t } = useTranslation()
+  const [ref, inView] = useInView({ once: true })
   return (
     <Box
       id="hero"
+      ref={ref}
       sx={(theme) => ({
+        minHeight: '100vh',
         width: '100%',
         backgroundRepeat: 'no-repeat',
         backgroundImage:
@@ -67,83 +72,102 @@ export default function Hero() {
           pb: { xs: 4, sm: 8, md: 12 },
         }}
       >
-        <Typography
-          component="h1"
-          sx={{
-            fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
-            textAlign: 'center',
-            fontWeight: 500,
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: { xs: 1, sm: 2 },
-            mb: { xs: 1, sm: 1 },
-            mt: { sm: 4, md: 2 },
-          }}
-        >
-          <span>{t('HOME.ai')}</span>
-          <Typography
-            component="span"
-            sx={(theme) => ({
-              fontSize: 'inherit',
-              color: 'primary.main',
-              fontWeight: 500,
-              ...theme.applyStyles('dark', {
-                color: 'primary.light',
-              }),
-            })}
-          >
-            {t('HOME.slogan_one')}
-          </Typography>
-        </Typography>
-
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: 'center',
-            color: 'text.secondary',
-            width: '100%',
-            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
-            maxWidth: { sm: '100%', md: '80%' },
-            mb: { xs: 3, sm: 4 },
-          }}
-        >
-          {t('HOME.slogan_two')}
-        </Typography>
-        <Link to="/login">
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              minWidth: 'fit-content',
-              mb: { xs: 2, sm: 4 },
-            }}
-          >
-            {t('HOME.start_now')}
-          </Button>
-        </Link>
-
-        <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
-          <Grid size={{ xs: 12, sm: 12, md: 8 }}>
-            <StyledBox id="image" />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 4 }}>
-            <Box>
+        {inView && (
+          <>
+            <Animated order={1}>
               <Typography
-                variant="body1"
+                component="h1"
                 sx={{
-                  fontSize: 16,
-                  mt: { xs: 2, md: 15 },
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
+                  textAlign: 'center',
+                  fontWeight: 500,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  gap: { xs: 1, sm: 2 },
+                  mb: { xs: 1, sm: 1 },
+                  mt: { sm: 4, md: 2 },
                 }}
               >
-                <WpBox
-                  lineCount={8}
-                  id={ContentPages.description[`${i18next.language as lang}`]}
-                />
+                <span>{t('HOME.ai')}</span>
+                <Typography
+                  component="span"
+                  sx={(theme) => ({
+                    fontSize: 'inherit',
+                    color: 'primary.main',
+                    fontWeight: 500,
+                    ...theme.applyStyles('dark', {
+                      color: 'primary.light',
+                    }),
+                  })}
+                >
+                  {t('HOME.slogan_one')}
+                </Typography>
               </Typography>
-            </Box>
-          </Grid>
-        </Grid>
+            </Animated>
+
+            <Animated order={2}>
+              <Typography
+                variant="h4"
+                sx={{
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                  width: '100%',
+                  fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
+                  maxWidth: { sm: '100%', md: '80%' },
+                  mb: { xs: 3, sm: 4 },
+                }}
+              >
+                {t('HOME.slogan_two')}
+              </Typography>
+            </Animated>
+
+            <Animated order={3}>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    minWidth: 'fit-content',
+                    mb: { xs: 2, sm: 4 },
+                  }}
+                >
+                  {t('HOME.start_now')}
+                </Button>
+              </Link>
+            </Animated>
+
+            <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
+              <Grid size={{ xs: 12, sm: 12, md: 8 }}>
+                <Animated order={4}>
+                  <StyledBox id="image" />
+                </Animated>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 4 }}>
+                <Animated order={5}>
+                  <Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: 16,
+                        mt: { xs: 2, md: 15 },
+                      }}
+                    >
+                      <WpBox
+                        lineCount={8}
+                        id={
+                          ContentPages.description[
+                            `${i18next.language as lang}`
+                          ]
+                        }
+                      />
+                    </Typography>
+                  </Box>
+                </Animated>
+              </Grid>
+            </Grid>
+          </>
+        )}
       </Container>
     </Box>
   )
