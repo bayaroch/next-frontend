@@ -78,6 +78,22 @@ export interface Post {
   //add other graph api fields icon comments likes
 }
 
+export interface ResponseToGraphApi {
+  keyword: string
+  content: string
+}
+
+export interface CommentJobHistoryItem {
+  page_id: string
+  sort_key: string
+  comment_id: string
+  comment: string
+  response_to_graph_api: ResponseToGraphApi | null
+  job_status: string
+  is_sent: boolean
+  error_type: string
+}
+
 export interface GetPostsResponse {
   data: Post[]
 }
@@ -85,6 +101,10 @@ export interface GetPostsResponse {
 export interface GetPostsParams {
   pageId: string
   perPage?: string
+}
+
+export type CommentJobHistoryResponse = {
+  data: CommentJobHistoryItem[]
 }
 
 export const GetPostsService = async (
@@ -122,5 +142,22 @@ export const PageSwitchService = async (
   payload: PageConnetPayload
 ): Promise<any> => {
   const { data } = await api.post<any>(URI.SWITCH, payload)
+  return data
+}
+
+export type HistoryParams = {
+  payload: { start_at: string; end_at: string }
+  pageId: string
+}
+
+export const PageJobHistoryService = async (
+  params: HistoryParams
+): Promise<CommentJobHistoryResponse> => {
+  const { data } = await api.get<CommentJobHistoryResponse>(
+    `${URI.PAGE}/${params.pageId}/comment-job-history`,
+    {
+      params: params.payload,
+    }
+  )
   return data
 }

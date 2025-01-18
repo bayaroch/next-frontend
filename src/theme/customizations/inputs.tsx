@@ -23,6 +23,15 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
+  MuiInputLabel: {
+    styleOverrides: {
+      root: {
+        background: '#fff',
+        paddingLeft: 4,
+        paddingRight: 4,
+      },
+    },
+  },
   MuiTableCell: {
     styleOverrides: {
       root: {
@@ -438,6 +447,13 @@ export const inputsCustomizations: Components<Theme> = {
         border: `1px solid ${(theme.vars || theme).palette.divider}`,
         backgroundColor: (theme.vars || theme).palette.background.default,
         transition: 'border 120ms ease-in',
+        '& .MuiIconButton-root': {
+          border: '0 none',
+          background: 'transparent',
+          '&:hover': {
+            background: 'transparent',
+          },
+        },
         '&:hover': {
           borderColor: gray[400],
         },

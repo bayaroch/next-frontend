@@ -12,6 +12,7 @@ import {
   PeopleOutline,
   ProductionQuantityLimitsOutlined,
   QuickreplyOutlined,
+  ReportOutlined,
   SettingsOutlined,
 } from '@mui/icons-material'
 import { Link, matchPath, useLocation } from 'react-router-dom'
@@ -86,7 +87,14 @@ const secondaryListItems: MenuItemType[] = [
   {
     text: 'SYSCOMMON.feedback',
     icon: <HelpOutlineRounded />,
-    to: '/feedback',
+    to: 'https://forms.gle/AVB5X3WMkRfALrjf8',
+    isExact: true,
+    allowedRoles: [ROLE.USER, ROLE.ADMIN, ROLE.SELLER],
+  },
+  {
+    text: 'HOME.bug_report',
+    icon: <ReportOutlined />,
+    to: '#',
     isExact: true,
     allowedRoles: [ROLE.USER, ROLE.ADMIN, ROLE.SELLER],
   },

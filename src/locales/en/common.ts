@@ -74,6 +74,13 @@ export default {
     are_you_partner: 'Are you partner? ',
     previous: ' Previous',
     place_order: 'Place order',
+    charts: 'Data',
+    no_chart: 'We need more data to analysis',
+    is_sent: 'Is sent',
+    comment: 'Comment',
+    error: 'Error',
+    end_date: 'End date',
+    start_date: 'Start date',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',

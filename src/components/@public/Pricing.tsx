@@ -22,11 +22,8 @@ const Pricing: React.FC<PricingProps> = ({
   selected,
   isShowChoose,
 }) => {
-  const { init } = useAuth()
+  const { init, isLoggedIn } = useAuth()
   const [ref, inView] = useInView({ once: true })
-
-  // eslint-disable-next-line no-console
-  console.log(inView)
 
   return (
     <Container
@@ -51,7 +48,7 @@ const Pricing: React.FC<PricingProps> = ({
         {data?.data.map((tier: Product, index: number) => {
           const isFreeProduct = tier?.identifier === Identifier.FREE_PRODUCT
           const isDisabled =
-            isFreeProduct && !init?.user_info.free_plan_available
+            isFreeProduct && !init?.user_info.free_plan_available && isLoggedIn
           return (
             <Grid size={{ xs: 12, sm: 12, md: 12, lg: 4 }} key={tier.name}>
               {inView && (

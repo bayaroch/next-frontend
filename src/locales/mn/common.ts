@@ -72,6 +72,13 @@ export default {
     are_you_partner: 'Та түншээр нэвтрэх үү? ',
     previous: 'Өмнөх',
     place_order: 'Захиалга үүсгэх',
+    charts: 'Дата',
+    no_chart: 'Түр хүлээгээрэй илүү их мэдээлэл хэрэгтэй',
+    is_sent: 'Илгээгдсэн',
+    comment: 'Сэтгэгдэл',
+    error: 'Алдаа',
+    end_date: 'Дуусах огноо',
+    start_date: 'Эхлэх огноо',
   },
   LOGIN: {
     welcomeTitle: 'Тавтай морил',

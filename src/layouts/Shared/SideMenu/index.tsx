@@ -67,7 +67,13 @@ const SideMenu: React.FC<SideMenuProps> = ({ initData, onLogout }) => {
       }}
     >
       <Box sx={{ pt: 1, pb: 0.5, px: 2, borderBottom: '1px solid #e1e5ea' }}>
-        <Link to="/">
+        <Link
+          to="/"
+          style={{
+            width: 'auto',
+            display: 'inline-block',
+          }}
+        >
           <SitemarkIcon />
         </Link>
       </Box>
