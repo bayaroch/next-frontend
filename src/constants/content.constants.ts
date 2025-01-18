@@ -16,4 +16,8 @@ export const ContentPages = {
     [`${lang.en}`]: '37',
     [`${lang.mn}`]: '39',
   },
+  about: {
+    [`${lang.en}`]: '1',
+    [`${lang.mn}`]: '55',
+  },
 }

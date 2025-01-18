@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Card
-      elevation={2}
+      elevation={3}
       onClick={() => onClick && !disabled && onClick(data)}
       sx={[
         {
@@ -46,7 +46,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: 4,
-          border: selected ? `1px solid #555` : '1px solid #ccc',
+          border: selected ? `1px solid #555` : '1px solid transparent',
+          boxShadow: 1,
         },
         isRecommended &&
           ((theme) => ({
@@ -136,7 +137,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               component={'span'}
               sx={[isRecommended ? { color: 'grey.50' } : { color: null }]}
             >
-              {line.value}
+              {t(`FEATURES.${line.value}`)}
             </Typography>
           </Box>
         ))}

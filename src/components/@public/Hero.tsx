@@ -22,7 +22,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   backgroundPosition: 'center', // Center the background
   backgroundRepeat: 'no-repeat',
   [theme.breakpoints.up('sm')]: {
-    height: 600,
+    height: 500,
     marginTop: theme.spacing(4),
   },
   ...theme.applyStyles('dark', {
@@ -63,7 +63,7 @@ export default function Hero() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          pt: { xs: 12, sm: 12, md: 24 },
+          pt: { xs: 12, sm: 12, md: 20 },
           pb: { xs: 4, sm: 8, md: 12 },
         }}
       >
@@ -116,7 +116,7 @@ export default function Hero() {
             color="primary"
             sx={{
               minWidth: 'fit-content',
-              mb: { xs: 4, sm: 6 },
+              mb: { xs: 2, sm: 4 },
             }}
           >
             {t('HOME.start_now')}
@@ -124,10 +124,10 @@ export default function Hero() {
         </Link>
 
         <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
-          <Grid size={{ xs: 12, sm: 12, md: 7 }}>
+          <Grid size={{ xs: 12, sm: 12, md: 8 }}>
             <StyledBox id="image" />
           </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 5 }}>
+          <Grid size={{ xs: 12, sm: 12, md: 4 }}>
             <Box>
               <Typography
                 variant="body1"

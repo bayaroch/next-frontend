@@ -1,15 +1,14 @@
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import { Link as MuiLink } from '@mui/material'
 import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import SitemarkIcon from './SitemarkIcon'
 import { Link } from 'react-router-dom'
-import { Facebook, Instagram } from '@mui/icons-material'
+import { Facebook, Instagram, YouTube } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
+import DiscordIcon from './DiscordIcon'
 
 function Copyright() {
   return (
@@ -25,6 +24,7 @@ function Copyright() {
 }
 
 export default function Footer() {
+  const { t } = useTranslation()
   return (
     <Box
       sx={{
@@ -62,80 +62,12 @@ export default function Footer() {
           >
             <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
               <SitemarkIcon />
-              <Typography
-                variant="body2"
-                gutterBottom
-                sx={{ fontWeight: 600, mt: 2 }}
-              >
-                Join the newsletter
-              </Typography>
               <Typography variant="body2" sx={{ mb: 2 }}>
-                Subscribe for weekly updates. No spams ever!
+                {t('HOME.slogan_two')}
               </Typography>
-              <InputLabel htmlFor="email-newsletter">Email</InputLabel>
-              <Stack direction="row" spacing={1} useFlexGap>
-                <TextField
-                  id="email-newsletter"
-                  hiddenLabel
-                  size="small"
-                  variant="outlined"
-                  fullWidth
-                  aria-label="Enter your email address"
-                  placeholder="Your email address"
-                  slotProps={{
-                    htmlInput: {
-                      autoComplete: 'off',
-                      'aria-label': 'Enter your email address',
-                    },
-                  }}
-                  sx={{ width: '250px' }}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  sx={{ flexShrink: 0 }}
-                >
-                  Subscribe
-                </Button>
-              </Stack>
             </Box>
           </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-              flexDirection: 'column',
-              gap: 1,
-            }}
-          >
-            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-              Product
-            </Typography>
-            <MuiLink
-              component={Link}
-              to="/#features"
-              color="text.secondary"
-              variant="body2"
-            >
-              Features
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              to="/#pricing"
-              color="text.secondary"
-              variant="body2"
-            >
-              Pricing
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              to="/#faq"
-              color="text.secondary"
-              variant="body2"
-            >
-              FAQs
-            </MuiLink>
-          </Box>
+
           <Box
             sx={{
               display: { xs: 'none', sm: 'flex' },
@@ -152,7 +84,7 @@ export default function Footer() {
               color="text.secondary"
               variant="body2"
             >
-              About us
+              {t('HOME.about')}
             </MuiLink>
             <MuiLink
               component={Link}
@@ -160,7 +92,7 @@ export default function Footer() {
               color="text.secondary"
               variant="body2"
             >
-              Blog
+              {t('HOME.blog')}
             </MuiLink>
           </Box>
           <Box
@@ -171,7 +103,7 @@ export default function Footer() {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-              Legal
+              {t('HOME.support')}
             </Typography>
             <MuiLink
               component={Link}
@@ -179,23 +111,34 @@ export default function Footer() {
               color="text.secondary"
               variant="body2"
             >
-              Terms
+              {t('HOME.wiki_how')}
             </MuiLink>
             <MuiLink
               component={Link}
-              to="/privacy"
+              to="https://forms.gle/AVB5X3WMkRfALrjf8"
               color="text.secondary"
+              target="_blank"
               variant="body2"
             >
-              Privacy
+              {t('HOME.feedback')}
             </MuiLink>
             <MuiLink
               component={Link}
-              to="/contact"
+              to="#"
+              color="text.secondary"
+              target="_blank"
+              variant="body2"
+            >
+              {t('HOME.bug_report')}
+            </MuiLink>
+            <MuiLink
+              component={Link}
+              to="https://forms.gle/oobKiwZW8sdkriE59"
+              target="_blank"
               color="text.secondary"
               variant="body2"
             >
-              Contact
+              {t('HOME.contact')}
             </MuiLink>
           </Box>
         </Box>
@@ -216,7 +159,7 @@ export default function Footer() {
               color="text.secondary"
               variant="body2"
             >
-              Privacy Policy
+              {t('HOME.privacy')}
             </MuiLink>
             <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
               &nbsp;•&nbsp;
@@ -227,7 +170,7 @@ export default function Footer() {
               color="text.secondary"
               variant="body2"
             >
-              Terms of Service
+              {t('HOME.terms')}
             </MuiLink>
             <Copyright />
           </div>
@@ -240,8 +183,9 @@ export default function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="#"
-              aria-label="GitHub"
+              href="https://www.facebook.com/kommaiapp"
+              aria-label="Facebook"
+              target="_blank"
               sx={{ alignSelf: 'center' }}
             >
               <Facebook />
@@ -249,11 +193,32 @@ export default function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="#"
-              aria-label="X"
+              target="_blank"
+              href="https://www.instagram.com/kommaiapp/"
+              aria-label="Instagram"
               sx={{ alignSelf: 'center' }}
             >
               <Instagram />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              target="_blank"
+              size="small"
+              href="https://www.youtube.com/@kommai"
+              aria-label="Youtube"
+              sx={{ alignSelf: 'center' }}
+            >
+              <YouTube />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              size="small"
+              target="_blank"
+              href="https://discord.gg/guzTcsPW"
+              aria-label="Discord"
+              sx={{ alignSelf: 'center' }}
+            >
+              <DiscordIcon />
             </IconButton>
           </Stack>
         </Box>

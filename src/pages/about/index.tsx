@@ -40,7 +40,7 @@ const AboutPage = () => {
           <Box className="content">
             <WpBox
               lineCount={14}
-              id={ContentPages.privacy[`${i18next.language as lang}`]}
+              id={ContentPages.about[`${i18next.language as lang}`]}
             />
           </Box>
         </Box>

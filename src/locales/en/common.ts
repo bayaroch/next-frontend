@@ -179,6 +179,10 @@ export default {
     contact: 'Contact Us',
     description:
       'Kommai is an AI-driven automated reply solution that takes your Facebook page communication to the next level. Our intelligent system selects the most appropriate response from your pre-created answers and replies to each comment without your intervention. This saves your time and resources while increasing customer satisfaction. With simple steps of connecting to Facebook, selecting your pages, and creating automations, you can get started in minutes. ',
+    blog: 'Blog',
+    wiki_how: 'Wiki',
+    feedback: 'Feedback',
+    bug_report: 'Bug report',
   },
   SURVEY: {
     company_type: 'What type of company do you work for?',
@@ -247,6 +251,11 @@ export default {
     dashboard: 'Dashboard',
     sellers: 'Sellers',
     products: 'Products',
+  },
+  FEATURES: {
+    auto_replier: 'Comment replier',
+    private_replies: 'Private replier',
+    like_reply: 'Like comment',
   },
 
   ERROR: {

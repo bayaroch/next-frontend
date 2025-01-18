@@ -10,11 +10,17 @@ import { Identifier } from '@constants/common.constants'
 
 interface PricingProps {
   data: ProductionListResponse
-  onChoose: (data: Product) => void
+  onChoose?: (data: Product) => void
   selected?: Product | null
+  isShowChoose?: boolean
 }
 
-const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
+const Pricing: React.FC<PricingProps> = ({
+  data,
+  onChoose,
+  selected,
+  isShowChoose,
+}) => {
   const { init } = useAuth()
 
   return (
@@ -47,7 +53,8 @@ const Pricing: React.FC<PricingProps> = ({ data, onChoose, selected }) => {
                 <ProductCard
                   selected={selected?.product_id === tier.product_id}
                   data={tier}
-                  onClick={(item: Product) => onChoose(item)}
+                  isShowChoose={isShowChoose}
+                  onClick={(item: Product) => onChoose && onChoose(item)}
                   disabled={isDisabled}
                 />
               </Grid>
