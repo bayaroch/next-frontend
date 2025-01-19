@@ -47,6 +47,8 @@ const LoginPage: React.FC = () => {
   })
 
   const handleFacebookLogin = async (response: any) => {
+    // eslint-disable-next-line no-console
+    console.log('fb-res', response)
     if (response.accessToken) {
       mutation.mutate({ fb_access_token: response.accessToken })
     }
