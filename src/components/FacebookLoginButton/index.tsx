@@ -1,18 +1,14 @@
 import { FacebookIcon } from '@components/@public/CustomIcons'
 import { LoadingButton } from '@mui/lab'
 import React from 'react'
-import {
-  ReactFacebookLoginInfo,
-  ReactFacebookFailureResponse,
-} from 'react-facebook-login'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin, {
+  SuccessResponse,
+} from '@greatsumini/react-facebook-login'
 import { useTranslation } from 'react-i18next'
 
 interface FacebookLoginButtonProps {
   isLoading: boolean
-  onLogin: (
-    response: ReactFacebookLoginInfo | ReactFacebookFailureResponse
-  ) => void
+  onLogin: (response: SuccessResponse) => void
 }
 
 const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
@@ -23,13 +19,16 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
   return (
     <FacebookLogin
       appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
-      autoLoad={false}
       fields="name,email,picture"
+      initParams={{
+        version: 'v16.0',
+        xfbml: true,
+      }}
+      loginOptions={{ auth_type: 'rerequest' }}
       scope="email,pages_show_list,business_management,pages_read_user_content,pages_manage_engagement,pages_manage_metadata,pages_read_engagement"
-      callback={onLogin}
+      onSuccess={onLogin}
       // eslint-disable-next-line no-console
-      onFailure={(err) => console.log('fb-error', err)}
-      authType="rerequest"
+      onFail={(err) => console.log('fb-error', err)}
       render={(renderProps) => (
         <LoadingButton
           fullWidth
