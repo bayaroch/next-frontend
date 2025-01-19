@@ -27,6 +27,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       fields="name,email,picture"
       scope="email,pages_show_list,business_management,pages_read_user_content,pages_manage_engagement,pages_manage_metadata"
       callback={onLogin}
+      authType="rerequest"
       render={(renderProps) => (
         <LoadingButton
           fullWidth
