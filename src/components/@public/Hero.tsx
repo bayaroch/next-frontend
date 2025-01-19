@@ -23,6 +23,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   backgroundSize: 'contain', // Changed to contain to prevent cropping
   backgroundPosition: 'center', // Center the background
   backgroundRepeat: 'no-repeat',
+  position: 'relative',
   [theme.breakpoints.up('sm')]: {
     height: 500,
     marginTop: theme.spacing(4),
@@ -140,7 +141,62 @@ export default function Hero() {
             <Grid container spacing={{ xs: 2, md: 4 }} alignItems="center">
               <Grid size={{ xs: 12, sm: 12, md: 8 }}>
                 <Animated order={4}>
-                  <StyledBox id="image" />
+                  <StyledBox id="image">
+                    <Box
+                      sx={{
+                        height: '80px',
+                        width: '80px',
+                        background: '#fff',
+                        position: 'absolute',
+                        left: '57.5%',
+                        right: '0',
+                        top: '37.5%',
+                        bottom: '0',
+                        borderRadius: '50%',
+                        display: 'grid',
+                        placeItems: 'center',
+                        fontSize: '50px',
+                        color: '#ffffff',
+                        boxShadow: 1,
+                        '&:before': {
+                          content: '""',
+                          position: 'absolute',
+                          height: '100%',
+                          width: '100%',
+                          backgroundColor: '#8a82fb',
+                          borderRadius: '50%',
+                          zIndex: '-1',
+                          opacity: '0.7',
+                          animation: 'pulse 2s ease-out infinite',
+                        },
+                        '&:after': {
+                          content: '""',
+                          position: 'absolute',
+                          height: '100%',
+                          width: '100%',
+                          backgroundColor: '#8a82fb',
+                          borderRadius: '50%',
+                          zIndex: '-1',
+                          opacity: '0.7',
+                          animation: 'pulse 2s 1s ease-out infinite',
+                        },
+                        //include keyframe
+                        '@keyframes pulse': {
+                          '100%': {
+                            transform: 'scale(2.5)',
+                            opacity: 0,
+                          },
+                        },
+                      }}
+                    >
+                      <Box
+                        component="img"
+                        src="/images/logo.png"
+                        width="50px"
+                        height="auto"
+                      />
+                    </Box>
+                  </StyledBox>
                 </Animated>
               </Grid>
               <Grid size={{ xs: 12, sm: 12, md: 4 }}>

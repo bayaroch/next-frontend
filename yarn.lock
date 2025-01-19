@@ -11533,7 +11533,6 @@ __metadata:
     react-div-100vh: "npm:^0.7.0"
     react-dom: "npm:^18.3.1"
     react-dropzone: "npm:^14.2.3"
-    react-facebook-login: "npm:^4.1.1"
     react-file-icon: "npm:^1.3.0"
     react-ga4: "npm:^2.1.0"
     react-google-forms-hooks: "npm:^1.2.4"
@@ -14469,15 +14468,6 @@ __metadata:
   version: 6.0.11
   resolution: "react-error-overlay@npm:6.0.11"
   checksum: 8fc93942976e0c704274aec87dbc8e21f62a2cc78d1c93f9bcfff9f7494b00c60f7a2f0bd48d832bcd3190627c0255a1df907373f61f820371373a65ec4b2d64
-  languageName: node
-  linkType: hard
-
-"react-facebook-login@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "react-facebook-login@npm:4.1.1"
-  peerDependencies:
-    react: ^16.0.0
-  checksum: 790512acdb3216e3e4bfb9493c4fe09efff90020a7cc899fe5281ba92b6e26d78a131eee187635375e1e33f63aa68a6f66b2a8bcef0ca007d412dba454dd6a27
   languageName: node
   linkType: hard
 
