@@ -8,12 +8,11 @@ import Stack from '@mui/material/Stack'
 import {
   DashboardOutlined,
   HelpOutlineRounded,
-  InfoOutlined,
   PeopleOutline,
   ProductionQuantityLimitsOutlined,
+  Public,
   QuickreplyOutlined,
   ReportOutlined,
-  SettingsOutlined,
 } from '@mui/icons-material'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -70,16 +69,16 @@ const mainListItems: MenuItemType[] = [
 ]
 
 const secondaryListItems: MenuItemType[] = [
-  {
-    text: 'SYSCOMMON.settings',
-    icon: <SettingsOutlined />,
-    to: '/settings',
-    isExact: true,
-    allowedRoles: [ROLE.USER],
-  },
+  //   {
+  //     text: 'SYSCOMMON.settings',
+  //     icon: <SettingsOutlined />,
+  //     to: '/settings',
+  //     isExact: true,
+  //     allowedRoles: [ROLE.USER],
+  //   },
   {
     text: 'SYSCOMMON.home_page',
-    icon: <InfoOutlined />,
+    icon: <Public />,
     to: '/home',
     isExact: true,
     allowedRoles: [ROLE.USER, ROLE.ADMIN, ROLE.SELLER],
