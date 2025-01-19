@@ -11,6 +11,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded'
 import MenuButton from '../MenuButton'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
@@ -66,7 +67,14 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ onLogout }) => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>{t('SYSCOMMON.profile')}</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link
+            style={{ textDecoration: 'none', color: 'inherit' }}
+            to="profile"
+          >
+            {t('SYSCOMMON.profile')}
+          </Link>
+        </MenuItem>
         <MenuItem onClick={handleClose}>{t('SYSCOMMON.account')}</MenuItem>
         <Divider />
         <MenuItem

@@ -64,10 +64,20 @@ const PublicHeader: React.FC<{
               <Sitemark />
             </Link>
 
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, pl: 2 }}>
               {homeMenuItems.map((item, index) => (
                 <Link key={index} to={item.link}>
-                  <Button variant="text" color="info" size="small">
+                  <Button
+                    variant="text"
+                    color="info"
+                    size="small"
+                    sx={{
+                      '&:hover': {
+                        background: 'inherit',
+                        color: (theme) => theme.palette.primary.main,
+                      },
+                    }}
+                  >
                     {t(item.label)}
                   </Button>
                 </Link>

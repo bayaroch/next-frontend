@@ -94,7 +94,7 @@ const secondaryListItems: MenuItemType[] = [
   {
     text: 'HOME.bug_report',
     icon: <ReportOutlined />,
-    to: '#',
+    to: 'https://docs.google.com/forms/d/e/1FAIpQLScsECS-3lq2PukcB5qemMM2t4ybGtaRmEYCovKS5buNJj--bw/viewform',
     isExact: true,
     allowedRoles: [ROLE.USER, ROLE.ADMIN, ROLE.SELLER],
   },
@@ -118,31 +118,36 @@ const MenuContent: React.FC<MenuContentProps> = ({ onClick }) => {
       <RoleWrapper
         key={item.to}
         allowedRoles={item.allowedRoles}
-        render={({ isDisabled, isConfirmedSeller }) => (
-          <ListItem
-            component={Link}
-            to={item.to}
-            disablePadding
-            sx={{ display: 'block', color: 'inherit' }}
-            onClick={() => onClick && onClick()}
-          >
-            <ListItemButton
-              sx={{
-                '&.Mui-selected': {
-                  color: (theme) => theme.palette.primary.main,
-                },
-              }}
-              selected={isSelected}
-              disabled={
-                isDisabled ||
-                (item.allowedRoles.includes(ROLE.SELLER) && !isConfirmedSeller)
-              }
+        render={({ isConfirmedSeller }) => {
+          // Only consider seller confirmation for seller-specific items
+          const shouldCheckSellerConfirmation =
+            item.allowedRoles.length === 1 &&
+            item.allowedRoles.includes(ROLE.SELLER)
+
+          return (
+            <ListItem
+              component={Link}
+              to={item.to}
+              disablePadding
+              sx={{ display: 'block', color: 'inherit' }}
+              onClick={() => onClick?.()}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={t(item.text)} />
-            </ListItemButton>
-          </ListItem>
-        )}
+              <ListItemButton
+                sx={{
+                  color: '#555',
+                  '&.Mui-selected': {
+                    color: (theme) => theme.palette.primary.main,
+                  },
+                }}
+                selected={isSelected}
+                disabled={shouldCheckSellerConfirmation && !isConfirmedSeller}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={t(item.text)} />
+              </ListItemButton>
+            </ListItem>
+          )
+        }}
       />
     )
   }

@@ -81,6 +81,11 @@ export default {
     error: 'Error',
     end_date: 'End date',
     start_date: 'Start date',
+    page_name: 'Page Name',
+    created_at: 'Created at',
+    sent: 'Sent',
+    failed: 'Failed',
+    completed: 'Completed',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -254,6 +259,7 @@ export default {
     connect: 'Connect',
     admin: 'Admin',
     products: 'Products',
+    profile: 'Profile',
   },
   ADMIN: {
     dashboard: 'Dashboard',

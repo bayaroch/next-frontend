@@ -36,6 +36,7 @@ import ProtectedOutlet from '@containers/ProtectedOutlet'
 import PartnerPage from '@pages/partner'
 import PendingPage from '@pages/pending'
 import Checkout from '@containers/Checkout'
+import ProfilePage from '@pages/profile'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
@@ -234,6 +235,15 @@ function App() {
                   element={
                     <Suspense fallback={<PageLoader />}>
                       <Connect />
+                    </Suspense>
+                  }
+                />
+
+                <Route
+                  path="profile"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <ProfilePage />
                     </Suspense>
                   }
                 />

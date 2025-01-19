@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Grid2 as Grid, Typography } from '@mui/material'
+import { Box, Button, Grid2 as Grid, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import _ from 'lodash'
@@ -13,6 +13,7 @@ import {
 } from 'recharts'
 import { useAuth } from '@global/AuthContext'
 import {
+  CommentJobHistoryItem,
   CommentJobHistoryResponse,
   PageJobHistoryService,
 } from '@services/page.services'
@@ -21,12 +22,18 @@ import ExtendedTable, {
   Column,
 } from '@components/@material-extend/ExtendedTable'
 import { useNavigate } from 'react-router-dom'
-import { BarChartOutlined, DashboardOutlined } from '@mui/icons-material'
+import {
+  BarChartOutlined,
+  CheckOutlined,
+  DashboardOutlined,
+  WarningOutlined,
+} from '@mui/icons-material'
 import DataLoading from '@components/DataLoading'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
+import moment from 'moment'
 
 const DashboardPage: React.FC = () => {
   const { t } = useTranslation()
@@ -50,14 +57,28 @@ const DashboardPage: React.FC = () => {
   )
 
   const columns: Column[] = [
-    { label: 'ID', sortField: 'comment_id', sortable: false },
-    { label: t('SYSCOMMON.comment'), sortField: 'comment', sortable: false },
-    { label: t('SYSCOMMON.status'), sortField: 'job_status', sortable: false },
-    { label: t('SYSCOMMON.is_sent'), sortField: 'is_sent', sortable: false },
     {
-      label: t('SYSCOMMON.error'),
-      sortField: 'error_type',
+      label: t('SYSCOMMON.page_name'),
+      sortField: 'comment_id',
       sortable: false,
+      width: 200,
+    },
+    {
+      label: t('SYSCOMMON.comment'),
+      sortField: 'comment',
+      sortable: false,
+      width: 'auto',
+    },
+    {
+      label: t('SYSCOMMON.status'),
+      sortField: 'job_status',
+      sortable: false,
+      width: 120,
+    },
+    {
+      label: t('SYSCOMMON.created_at'),
+      sortable: false,
+      width: 180,
     },
   ]
 
@@ -70,13 +91,34 @@ const DashboardPage: React.FC = () => {
     }
   }
 
-  const renderRow = (item: any, index: number) => (
+  const renderRow = (item: CommentJobHistoryItem, index: number) => (
     <TableRow key={index}>
-      <TableCell>{item.comment_id}</TableCell>
+      <TableCell>
+        <Typography component={'span'} noWrap>
+          {item?.page_name}
+        </Typography>
+      </TableCell>
       <TableCell>{item.comment}</TableCell>
-      <TableCell>{item.job_status}</TableCell>
-      <TableCell>{item.is_sent ? 'Yes' : 'No'}</TableCell>
-      <TableCell>{item.error_type}</TableCell>
+      <TableCell>
+        {item.is_sent ? (
+          <Stack direction={'row'}>
+            <Box component={'span'} sx={{ pr: 1 }}>
+              <CheckOutlined sx={{ fontSize: 10, color: 'success.main' }} />
+            </Box>
+            {t('SYSCOMMON.completed')}
+          </Stack>
+        ) : (
+          <Stack direction={'row'}>
+            <Box component={'span'} sx={{ pr: 1 }}>
+              <WarningOutlined sx={{ fontSize: 10, color: 'warning.main' }} />
+            </Box>
+            {t('SYSCOMMON.failed')}
+          </Stack>
+        )}
+      </TableCell>
+      <TableCell>
+        {moment(item.created_at).format('YYYY-MM-DD hh:mm')}
+      </TableCell>
     </TableRow>
   )
 
@@ -86,7 +128,12 @@ const DashboardPage: React.FC = () => {
     return Object.entries(statusCount).map(([name, value]) => ({ name, value }))
   }, [data])
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+  const COLORS = [
+    '#8B5FEF', // Primary color from theme
+    '#3BD2A2', // Success color from theme
+    '#F39711', // Warning color from theme
+    '#2EB5C9', // Info color from theme
+  ]
 
   const navigate = useNavigate()
 
@@ -114,7 +161,7 @@ const DashboardPage: React.FC = () => {
         </Grid>
       </LocalizationProvider>
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, sm: 12, md: 8 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 9 }}>
           {data && (
             <ExtendedTable
               columns={columns}
@@ -139,8 +186,8 @@ const DashboardPage: React.FC = () => {
             />
           )}
         </Grid>
-        <Grid size={{ xs: 12, sm: 12, md: 4 }}>
-          <Box sx={{ height: 270, width: '100%', boxShadow: 2 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 3 }}>
+          <Box sx={{ height: 170, width: '100%', boxShadow: 2, p: 1 }}>
             <DataLoading
               resource={t('SYSCOMMON.charts')}
               emptyDesc={t('SYSCOMMON.no_chart')}
@@ -156,7 +203,7 @@ const DashboardPage: React.FC = () => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={80}
+                    outerRadius={60}
                     fill="#8884d8"
                     dataKey="value"
                   >

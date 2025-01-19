@@ -30,6 +30,13 @@ export interface UserInput {
   free_plan_available?: boolean
 }
 
+//extend UserInput
+
+export interface Profile extends UserInput {
+  connected_pages: ConnectedPage[]
+  subscription: Subscription
+}
+
 export interface ConnectedPage {
   fb_page_id: string
   fb_name: string
@@ -40,6 +47,17 @@ export enum SubStatus {
   ACTIVE = 'active',
   CANCEL = 'cancel',
   EXPIRED = 'expired',
+}
+
+export interface Subscription {
+  product?: Omit<
+    Product,
+    'product_id' | 'is_active' | 'created_at' | 'updated_at'
+  >
+  status?: SubStatus
+  start_at?: Date
+  end_at?: Date
+  remaining_token?: number
 }
 
 export interface AppInitResponse {
@@ -110,5 +128,11 @@ export const surveyUpdateService = async (
     `${URI.SURVEY.replace(/:id/gi, params.id.toString())}`,
     params.params
   )
+  return data
+}
+
+// create new get service with path auth/profile and no params
+export const getProfileService = async (): Promise<Profile> => {
+  const { data } = await api.get<Profile>(URI.PROFILE)
   return data
 }

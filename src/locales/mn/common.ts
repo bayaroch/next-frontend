@@ -79,6 +79,11 @@ export default {
     error: 'Алдаа',
     end_date: 'Дуусах огноо',
     start_date: 'Эхлэх огноо',
+    page_name: 'Фб хуудас',
+    created_at: 'Үүссэн огноо',
+    sent: 'Илгээсэн',
+    failed: 'Амжилтгүй',
+    completed: 'Дууссан',
   },
   LOGIN: {
     welcomeTitle: 'Тавтай морил',
@@ -247,6 +252,7 @@ export default {
     connect: 'Холболт',
     admin: 'Админ',
     products: 'Бүтээгдэхүүн',
+    profile: 'Профайл',
   },
   ADMIN: {
     dashboard: 'Эхлэл',

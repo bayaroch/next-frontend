@@ -78,7 +78,7 @@ export default function Footer() {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-              Company
+              {t('HOME.company')}
             </Typography>
             <MuiLink
               component={Link}
@@ -127,7 +127,7 @@ export default function Footer() {
             </MuiLink>
             <MuiLink
               component={Link}
-              to="#"
+              to="https://docs.google.com/forms/d/e/1FAIpQLScsECS-3lq2PukcB5qemMM2t4ybGtaRmEYCovKS5buNJj--bw/viewform"
               color="text.secondary"
               target="_blank"
               variant="body2"

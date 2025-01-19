@@ -83,15 +83,24 @@ export interface ResponseToGraphApi {
   content: string
 }
 
+export enum JobStatus {
+  pending = 'pending',
+  pre_process = 'pre_process_error',
+  process_error = 'process_error',
+  completed = 'completed',
+}
+
 export interface CommentJobHistoryItem {
-  page_id: string
-  sort_key: string
+  page_id?: string
   comment_id: string
   comment: string
   response_to_graph_api: ResponseToGraphApi | null
   job_status: string
   is_sent: boolean
-  error_type: string
+  error_type: JobStatus
+  updated_at: string
+  page_name?: string
+  created_at: string
 }
 
 export interface GetPostsResponse {
