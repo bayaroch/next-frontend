@@ -21,7 +21,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
       fields="name,email,picture"
       initParams={{
-        version: 'v16.0',
+        version: 'v21.0',
         xfbml: true,
       }}
       loginOptions={{ auth_type: 'rerequest' }}
