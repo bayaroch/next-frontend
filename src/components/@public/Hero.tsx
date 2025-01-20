@@ -144,15 +144,16 @@ export default function Hero() {
                   <StyledBox id="image">
                     <Box
                       sx={{
-                        height: '80px',
-                        width: '80px',
+                        width: 'auto',
+                        height: '14%',
                         background: '#fff',
                         position: 'absolute',
-                        left: '57.5%',
+                        left: '58.2%',
                         right: '0',
-                        top: '37.5%',
+                        top: '38.5%',
                         bottom: '0',
                         borderRadius: '50%',
+                        aspectRatio: '1 / 1',
                         display: 'grid',
                         placeItems: 'center',
                         fontSize: '50px',
@@ -192,7 +193,7 @@ export default function Hero() {
                       <Box
                         component="img"
                         src="/images/logo.png"
-                        width="50px"
+                        width="60%"
                         height="auto"
                       />
                     </Box>
