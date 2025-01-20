@@ -187,7 +187,7 @@ const DashboardPage: React.FC = () => {
           )}
         </Grid>
         <Grid size={{ xs: 12, sm: 12, md: 3 }}>
-          <Box sx={{ height: 170, width: '100%', boxShadow: 2, p: 1 }}>
+          <Box sx={{ height: 240, width: '100%', boxShadow: 2, p: 1 }}>
             <DataLoading
               resource={t('SYSCOMMON.charts')}
               emptyDesc={t('SYSCOMMON.no_chart')}
