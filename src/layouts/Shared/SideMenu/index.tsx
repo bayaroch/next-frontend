@@ -110,7 +110,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ initData, onLogout }) => {
         <Avatar
           sizes="small"
           alt={user?.first_name}
-          src={undefined}
+          src={`https://graph.facebook.com/${user?.fb_id}/picture?type=large`}
           sx={{ width: 36, height: 36 }}
         />
         {user && (

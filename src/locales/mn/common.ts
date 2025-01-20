@@ -84,6 +84,7 @@ export default {
     sent: 'Илгээсэн',
     failed: 'Амжилтгүй',
     completed: 'Дууссан',
+    valid_until: 'Хүчинтэй хугацаа',
   },
   LOGIN: {
     welcomeTitle: 'Тавтай морил',
@@ -264,6 +265,15 @@ export default {
     private_replies: 'Private мэссэж',
     like_reply: 'Сэтгэгдэл лайк хийх',
   },
+  PROFILE: {
+    profile: 'Профайл',
+    edit_profile: 'Профайл шинэчлэх',
+    first_name: 'Нэр',
+    last_name: 'Овог',
+    email: 'Имэйл',
+    phone_number: 'Утасны дугаар',
+  },
+
   ERROR: {
     E000001: '{{field}} оруулах',
     E000002: 'Утга оруулах шаардлагатай',

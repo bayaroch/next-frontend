@@ -16,6 +16,7 @@ export const URI = {
   GOOGLE_LOGIN: '/auth/google/login',
   PROMO: '/promo',
   PROFILE: '/auth/profile',
+  USER: '/user',
 }
 
 export const excludeURI = [URI.LOGIN]

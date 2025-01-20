@@ -22,6 +22,8 @@ export interface UserInput {
   exp: number
   fb_id: number
   role: ROLE
+  phone_number?: string
+  last_name?: string
   iat: number
   is_seller_confirmed: boolean
   survey_responses: {

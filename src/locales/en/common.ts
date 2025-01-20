@@ -86,6 +86,7 @@ export default {
     sent: 'Sent',
     failed: 'Failed',
     completed: 'Completed',
+    valid_until: 'Valid until',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -270,6 +271,14 @@ export default {
     auto_replier: 'Comment replier',
     private_replies: 'Private replier',
     like_reply: 'Like comment',
+  },
+  PROFILE: {
+    profile: 'Profile',
+    edit_profile: 'Edit profile',
+    first_name: 'First name',
+    last_name: 'Last name',
+    email: 'Email',
+    phone_number: 'Phone',
   },
 
   ERROR: {
