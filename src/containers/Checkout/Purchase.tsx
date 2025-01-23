@@ -430,14 +430,16 @@ export default function Purchase() {
 
   return (
     <Box sx={{ position: 'relative', p: 2 }}>
-      <Card sx={{ padding: 2, mb: 4, boxShadow: 2 }}>
-        <Info
-          activeStep={activeStep}
-          formData={formData}
-          init={init}
-          promoData={promoData}
-        />
-      </Card>
+      {activeStep === 1 && (
+        <Card sx={{ padding: 2, mb: 4, boxShadow: 2 }}>
+          <Info
+            activeStep={activeStep}
+            formData={formData}
+            init={init}
+            promoData={promoData}
+          />
+        </Card>
+      )}
       <Box
         sx={{
           display: 'flex',
