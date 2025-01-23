@@ -37,6 +37,8 @@ import PartnerPage from '@pages/partner'
 import PendingPage from '@pages/pending'
 import Checkout from '@containers/Checkout'
 import ProfilePage from '@pages/profile'
+import ProfileSubPage from '@pages/profile/ProfileSubPage'
+import AccountTransactions from '@pages/profile/AccountTransactions'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
@@ -239,14 +241,32 @@ function App() {
                   }
                 />
 
-                <Route
-                  path="profile"
-                  element={
-                    <Suspense fallback={<PageLoader />}>
-                      <ProfilePage />
-                    </Suspense>
-                  }
-                />
+                <Route path="profile">
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <ProfilePage />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="subscriptions"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <ProfileSubPage />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="transactions"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <AccountTransactions />
+                      </Suspense>
+                    }
+                  />
+                </Route>
 
                 {/* Project Route Pack Start */}
               </Route>

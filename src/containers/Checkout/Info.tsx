@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
 
 import List from '@mui/material/List'
@@ -9,16 +8,12 @@ import { AppInitResponse } from '@services/auth.services'
 import { Product, Promo } from '@services/payment.services'
 import { useTranslation } from 'react-i18next'
 import _ from 'lodash'
-import { Box, Divider, IconButton, Stack } from '@mui/material'
+import { Box, Divider, Stack } from '@mui/material'
 import { calculatePrice, formatDiscount } from '@utils/helper/common.helper'
-import {
-  Close,
-  CloseOutlined,
-  InfoOutlined,
-  ShoppingCartOutlined,
-} from '@mui/icons-material'
+import { InfoOutlined, ShoppingCartOutlined } from '@mui/icons-material'
 import InfoModal from '@components/InfoModal'
 import ProductCard from '@components/ProductCard'
+import { useMemo } from 'react'
 
 export interface InfoProps {
   init?: AppInitResponse
@@ -27,19 +22,27 @@ export interface InfoProps {
   activeStep: number
 }
 
-export default function Info({
-  init,
-  formData,
-  promoData,
-  activeStep,
-}: InfoProps) {
+export default function Info({ formData, promoData, activeStep }: InfoProps) {
   const { t } = useTranslation()
   const product: Product | null = _.get(formData, 'product_id', null)
-  const { discountAmountText, subtotalText, totalText } = calculatePrice({
-    basePrice: product?.price ? product?.price : 0,
-    quantity: formData.quantity,
-    promo: promoData,
-  })
+
+  const { discountAmountText, subtotalText, totalText } = useMemo(() => {
+    return calculatePrice({
+      basePrice: product?.price ?? 0,
+      quantity: Number(formData.quantity),
+      promo: promoData,
+    })
+  }, [product, formData.quantity, promoData])
+
+  // eslint-disable-next-line no-console
+  console.log(
+    'quantity',
+    formData.quantity,
+    discountAmountText,
+    subtotalText,
+    totalText
+  )
+
   return (
     <React.Fragment>
       {product && (

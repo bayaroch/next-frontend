@@ -51,5 +51,5 @@
     "src/locales/en/common.ts",
     "src/locales/mn/common.ts",
     "src/theme/customizations/inputs.tsx"
-  ]
+, "src/pages/profile/ProfileSubPagetsx"  ]
 }

@@ -87,6 +87,8 @@ export default {
     failed: 'Failed',
     completed: 'Completed',
     valid_until: 'Valid until',
+    transactions: 'Transactions',
+    subscriptions: 'Subscriptions',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -261,6 +263,8 @@ export default {
     admin: 'Admin',
     products: 'Products',
     profile: 'Profile',
+    transactions: 'Transactions',
+    subscriptions: 'Subscriptions',
   },
   ADMIN: {
     dashboard: 'Dashboard',

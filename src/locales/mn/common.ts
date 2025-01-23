@@ -85,6 +85,8 @@ export default {
     failed: 'Амжилтгүй',
     completed: 'Дууссан',
     valid_until: 'Хүчинтэй хугацаа',
+    transactions: 'Гүйлгээ',
+    subscriptions: 'Багцууд',
   },
   LOGIN: {
     welcomeTitle: 'Тавтай морил',
@@ -254,6 +256,8 @@ export default {
     admin: 'Админ',
     products: 'Бүтээгдэхүүн',
     profile: 'Профайл',
+    transactions: 'Гүйлгээ',
+    subscriptions: 'Багцууд',
   },
   ADMIN: {
     dashboard: 'Эхлэл',

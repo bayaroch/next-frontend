@@ -85,39 +85,62 @@ export const calculatePrice = ({
   quantity = 1,
   promo,
 }: CalculatePriceParams): PriceDetails => {
+  // Ensure quantity is a number
+  const parsedQuantity = Number(quantity)
+
   // Handle invalid inputs
-  if (!Number.isFinite(basePrice) || !Number.isFinite(quantity)) {
+  if (
+    !Number.isFinite(basePrice) ||
+    !Number.isFinite(parsedQuantity) ||
+    parsedQuantity <= 0
+  ) {
     return {
       subtotal: 0,
       discountAmount: 0,
       total: 0,
+      subtotalText: '',
+      discountAmountText: '',
+      totalText: '',
     }
   }
 
   // Calculate subtotal
-  const subtotal = basePrice * quantity
+  const subtotal = basePrice * parsedQuantity
 
   // Calculate discount if promo exists and is valid
   let discountAmount = 0
   if (promo && Number.isFinite(promo.discount_value)) {
-    discountAmount =
-      promo.discount_type === 'fixed'
-        ? promo.discount_value
-        : (subtotal * promo.discount_value) / 100
+    if (promo.discount_type === 'fixed') {
+      // For fixed discounts, apply the discount to each item
+      discountAmount = Math.min(promo.discount_value * parsedQuantity, subtotal)
+    } else {
+      // For percentage discounts, apply to the subtotal
+      discountAmount = (subtotal * promo.discount_value) / 100
+    }
   }
+
+  // Ensure discount doesn't exceed subtotal
+  discountAmount = Math.min(discountAmount, subtotal)
 
   // Calculate final total
   const total = Math.max(0, subtotal - discountAmount)
 
-  // Return all price details
-  return {
-    subtotal: Number.isFinite(subtotal) ? subtotal : 0,
-    discountAmount: Number.isFinite(discountAmount) ? discountAmount : 0,
-    total: Number.isFinite(total) ? total : 0,
-    subtotalText: `${subtotal.toLocaleString()} ${currency}`,
-    discountAmountText: `${discountAmount > 0 ? '-' : ''} ${discountAmount.toLocaleString()} ${currency}`,
-    totalText: `${total.toLocaleString()} ${currency}`,
+  // Helper function to format currency
+  const formatCurrency = (value: number) =>
+    `${value.toLocaleString()} ${currency}`.trim()
+
+  // Prepare return object
+  const result = {
+    subtotal,
+    discountAmount,
+    total,
+    subtotalText: formatCurrency(subtotal),
+    discountAmountText:
+      discountAmount > 0 ? `- ${formatCurrency(discountAmount)}` : '',
+    totalText: formatCurrency(total),
   }
+
+  return result
 }
 
 export const formatDiscount = (type: 'fixed' | 'percentage', value: number) => {
