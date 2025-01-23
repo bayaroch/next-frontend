@@ -132,9 +132,3 @@ export const surveyUpdateService = async (
   )
   return data
 }
-
-// create new get service with path auth/profile and no params
-export const getProfileService = async (): Promise<Profile> => {
-  const { data } = await api.get<Profile>(URI.PROFILE)
-  return data
-}

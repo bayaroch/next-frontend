@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useMutation, useQuery } from 'react-query'
-import { getProfileService, Profile, SubStatus } from '@services/auth.services'
+import { Profile, SubStatus } from '@services/auth.services'
 import {
   AccessTime,
   EditOutlined,
@@ -30,7 +30,11 @@ import { LoadingButton } from '@mui/lab'
 import FormField from '@components/@material-extend/FormField'
 import useProfileForm from './useProfileForm'
 import { Controller } from 'react-hook-form'
-import { ProfileParams, updateProfileService } from '@services/user.services'
+import {
+  getProfileService,
+  ProfileParams,
+  updateProfileService,
+} from '@services/user.services'
 import { useToast } from '@components/ToastProvider'
 
 const ProfilePage = () => {

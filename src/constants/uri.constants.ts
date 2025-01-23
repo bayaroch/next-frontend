@@ -15,7 +15,7 @@ export const URI = {
   TRANSACTION: '/user/transaction',
   GOOGLE_LOGIN: '/auth/google/login',
   PROMO: '/promo',
-  PROFILE: '/auth/profile',
+  PROFILE: '/user/profile',
   USER: '/user',
 }
 
