@@ -30,7 +30,7 @@ import { ConnectedPage } from '@services/auth.services'
 import _ from 'lodash'
 import Grid from '@mui/material/Grid2'
 import useAutomationEditForm from './useAutomationEditForm'
-import { FieldValues } from 'react-hook-form'
+import { FieldValues, useWatch } from 'react-hook-form'
 import {
   Add,
   CommentOutlined,
@@ -50,6 +50,8 @@ import { useToast } from '@components/ToastProvider'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import { useConfirm } from '@components/Confirm'
 import DataLoading from '@components/DataLoading'
+import { IOSSwitch } from '@components/@material-extend/IOSSwitch'
+import { useAuth } from '@global/AuthContext'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -61,6 +63,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }))
 
 const AutomationEditPage: React.FC = () => {
+  const { init } = useAuth()
   const [open, setOpen] = useState(false)
   const [selectedResponses, setSelectedResponses] = useState<string[]>([])
   const handleOpen = () => setOpen(true)
@@ -92,6 +95,12 @@ const AutomationEditPage: React.FC = () => {
     // remove,
   } = useAutomationEditForm()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+  const currentGlobal = _.get(init, 'page_info.is_global_automation_exists')
+
+  const isGlobal = useWatch({ control, name: 'is_global' })
+
+  const isGlobalEditable = _.isEmpty(currentGlobal)
 
   // Assume you have pageId from somewhere (e.g., from URL params or context)
   const pageId = connectedPages.find(
@@ -126,6 +135,8 @@ const AutomationEditPage: React.FC = () => {
           fb_page_post_id: automation?.fb_page_post_id,
           comment_responses: automation?.comment_responses,
           is_private_response: automation?.is_private_response,
+          is_global: automation?.is_global,
+          ignore_global: automation?.ignore_global,
         },
         { keepDirtyValues: false }
       )
@@ -366,6 +377,81 @@ const AutomationEditPage: React.FC = () => {
                 </FormField>
               </Box>
             </Stack>
+
+            <Box sx={{ width: '100%', mb: 2 }}>
+              <Controller
+                name="is_global"
+                control={control}
+                render={({ field }: FieldValues) => (
+                  <FormField
+                    fullWidth
+                    hidden={!isGlobalEditable}
+                    disabled={!isGlobalEditable}
+                    showTyping={false}
+                    errors={errors?.is_global && errors.is_global.message}
+                    label={t('AUTOMATION.is_global')}
+                    desc={t('FORM_DESC.is_global')}
+                    required
+                  >
+                    <Box sx={{ ml: 1 }}>
+                      <FormControlLabel
+                        control={
+                          <IOSSwitch
+                            checked={field.value === true}
+                            onChange={(e) =>
+                              field.onChange(e.target.checked ? true : false)
+                            }
+                          />
+                        }
+                        label={
+                          field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
+                        }
+                      />
+                    </Box>
+                  </FormField>
+                )}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                width: '100%',
+                mb: 2,
+                display: !isGlobal ? 'block' : 'none',
+              }}
+            >
+              <Controller
+                name="ignore_global"
+                control={control}
+                render={({ field }: FieldValues) => (
+                  <FormField
+                    fullWidth
+                    hidden={!isGlobalEditable}
+                    showTyping={false}
+                    errors={errors?.is_global && errors.is_global.message}
+                    label={t('AUTOMATION.ignore_global')}
+                    desc={t('FORM_DESC.ignore_global')}
+                    required
+                  >
+                    <Box sx={{ ml: 1 }}>
+                      <FormControlLabel
+                        control={
+                          <IOSSwitch
+                            checked={field.value === true}
+                            onChange={(e) =>
+                              field.onChange(e.target.checked ? true : false)
+                            }
+                          />
+                        }
+                        label={
+                          field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
+                        }
+                      />
+                    </Box>
+                  </FormField>
+                )}
+              />
+            </Box>
 
             <Controller
               name="fb_page_post_id"

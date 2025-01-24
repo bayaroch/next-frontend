@@ -21,13 +21,17 @@ export interface Automation {
   created_at: string
   is_active: boolean
   is_private_response?: boolean
+  is_global?: boolean
+  ignore_global?: boolean
 }
 
 export interface CreateAutomationInput {
   name: string
   fb_page_post_id: string
   is_private_response?: boolean
+  is_global?: boolean
   comment_responses?: CommentResponse[]
+  ignore_global?: boolean
 }
 
 export interface UpdateAutomationInput {
@@ -46,7 +50,7 @@ export interface AutomationListResponse {
 }
 
 export interface AutomationDetailResponse {
-  data: { automation: Automation; fb_detail: Post }
+  data: { automation: Automation; fb_detail: Post | null }
 }
 
 export interface AutomationCreateResponse {

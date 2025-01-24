@@ -9,6 +9,8 @@ const initialValues = {
   fb_page_post_id: '',
   is_private_response: false,
   comment_responses: [{ keyword: '', content: '', chat: '' }],
+  ignore_global: false,
+  is_global: false,
 }
 
 const useAutomationEditForm = (defaultValues = initialValues) => {
@@ -30,6 +32,10 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
           t('ERROR.E000001', { field: t('AUTOMATION.post') })
         ),
         is_private_response: Yup.boolean(),
+        is_global: Yup.boolean().required(
+          t('ERROR.E000001', { field: t('AUTOMATION.is_global') })
+        ),
+        ignore_global: Yup.boolean(),
         comment_responses: Yup.array().of(
           Yup.object().shape({
             keyword: Yup.string()

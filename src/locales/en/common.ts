@@ -244,6 +244,10 @@ export default {
     is_private_response: 'Private reply',
     is_private_response_desc:
       'Comment respose will not be shown in the comment section.',
+    is_global: 'Global automation',
+    is_global_alert: 'This automation set to global.',
+    ignore_global: 'Ignore Global Automation Settings',
+    is_global_exists: 'Global automation exist',
   },
   FORM_DESC: {
     automation_name: 'Automation Name',
@@ -254,6 +258,10 @@ export default {
     duration_days:
       'The number of days the product will be available. After the duration, the product will be automatically deactivated.',
     additional_settings: 'Feature list or some other additional options',
+    is_global:
+      'If you enable this option, the automation will be available for all posts',
+    ignore_global:
+      'When checked, this option overrides any global automation configurations for this specific post.',
   },
   ROUTES: {
     dashboard: 'Dashhboard',
@@ -283,6 +291,11 @@ export default {
     last_name: 'Last name',
     email: 'Email',
     phone_number: 'Phone',
+  },
+  TOASTS: {
+    success_automation: 'Automation created successfully',
+    success_update_automation: 'Automation updated successfully',
+    success_delete_automation: 'Automation deleted successfully',
   },
 
   ERROR: {

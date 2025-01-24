@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useMemo, useCallback } from 'react'
 import {
   Box,
@@ -13,16 +14,21 @@ import {
   TextField,
   Stack,
   Paper,
+  FormControlLabel,
+  Alert,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { Post } from '@services/page.services'
-import { FieldValues } from 'react-hook-form'
+import { FieldValues, useWatch } from 'react-hook-form'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import useAutomationCreateForm from './useAutomationCreateForm'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import DataLoading from '@components/DataLoading'
 import FormField from '@components/@material-extend/FormField'
+import { useAuth } from '@global/AuthContext'
+import { LoadingButton } from '@mui/lab'
+import { IOSSwitch } from '@components/@material-extend/IOSSwitch'
 
 interface CreateAutomationDialogProps {
   open: boolean
@@ -30,8 +36,13 @@ interface CreateAutomationDialogProps {
   posts?: {
     data: Post[]
   }
-  onSubmit: (data: { name: string; fb_page_post_id: string }) => void
+  onSubmit: (data: {
+    name: string
+    fb_page_post_id: string
+    is_global: boolean
+  }) => void
   isLoading: boolean
+  isCreateLoading: boolean
 }
 
 const StyledDialogContent = styled(DialogContent)({
@@ -86,10 +97,16 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   posts,
   onSubmit,
   isLoading,
+  isCreateLoading,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const { Controller, methods } = useAutomationCreateForm()
+  const { init } = useAuth()
+
+  const isGlobalExist = !_.isEmpty(
+    _.get(init, 'page_info.is_global_automation_exists')
+  )
 
   const isLoadingPosts = !posts && isLoading
 
@@ -120,6 +137,7 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
     onSubmit({
       name: data.name,
       fb_page_post_id: data.fb_page_post_id?.id,
+      is_global: data.is_global,
     })
   }
 
@@ -146,6 +164,15 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
       debouncedSetSearch.cancel()
     }
   }, [debouncedSetSearch])
+
+  const isGlobal = useWatch({
+    control,
+    name: 'is_global',
+    defaultValue: false, // Set a default value
+  })
+
+  // eslint-disable-next-line no-console
+  console.log(typeof isGlobal)
 
   return (
     <Dialog
@@ -175,6 +202,7 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
             <CloseIcon />
           </IconButton>
         </StyledDialogTitle>
+
         <StyledDialogContent>
           <Box sx={{ width: '100%', mb: 2 }}>
             <Controller
@@ -201,7 +229,44 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
               )}
             />
           </Box>
-
+          <Box sx={{ width: '100%', mb: 2 }}>
+            <Controller
+              name="is_global"
+              control={control}
+              render={({ field }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  disabled={isGlobalExist}
+                  showTyping={false}
+                  errors={errors?.is_global && errors.is_global.message}
+                  label={t('AUTOMATION.is_global')}
+                  desc={t('FORM_DESC.is_global')}
+                  required
+                >
+                  <Box sx={{ ml: 1 }}>
+                    <FormControlLabel
+                      control={
+                        <IOSSwitch
+                          checked={field.value === true}
+                          onChange={(e) =>
+                            field.onChange(e.target.checked ? true : false)
+                          }
+                        />
+                      }
+                      label={
+                        field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
+                      }
+                    />
+                  </Box>
+                </FormField>
+              )}
+            />
+            {isGlobalExist && (
+              <Alert severity="info" variant="outlined">
+                {t('AUTOMATION.is_global_exists')}
+              </Alert>
+            )}
+          </Box>
           <Box>
             <Stack
               direction={'row'}
@@ -219,37 +284,45 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
               />
             </Stack>
           </Box>
-
-          <ScrollableBox>
-            <Controller
-              name="fb_page_post_id"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  {posts &&
-                    filteredAndOrderedPosts.map((p) => (
-                      <AutomationPostItem
-                        key={p.id}
-                        data={p}
-                        active={p.id === _.get(value, 'id', null)}
-                        onSelect={(v) => onChange(v)}
-                      />
-                    ))}
-                  {isLoadingPosts && (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: '200px',
-                        position: 'relative',
-                      }}
-                    >
-                      <DataLoading isLoading={isLoadingPosts} />
-                    </Box>
-                  )}
-                </>
-              )}
-            />
-          </ScrollableBox>
+          {isGlobal !== undefined && Boolean(isGlobal) !== true ? (
+            <ScrollableBox>
+              <Controller
+                name="fb_page_post_id"
+                disabled={isGlobal}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    {posts &&
+                      filteredAndOrderedPosts.map((p) => (
+                        <AutomationPostItem
+                          key={p.id}
+                          data={p}
+                          active={p.id === _.get(value, 'id', null)}
+                          onSelect={(v) => onChange(v)}
+                        />
+                      ))}
+                    {isLoadingPosts && (
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: '200px',
+                          position: 'relative',
+                        }}
+                      >
+                        <DataLoading isLoading={isLoadingPosts} />
+                      </Box>
+                    )}
+                  </>
+                )}
+              />
+            </ScrollableBox>
+          ) : (
+            <Box sx={{ mt: 1 }}>
+              <Alert severity="info" variant="outlined">
+                {t('AUTOMATION.is_global_alert')}
+              </Alert>
+            </Box>
+          )}
         </StyledDialogContent>
         <DialogActions
           sx={{
@@ -260,14 +333,15 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
           }}
         >
           <Button onClick={onClose}> {t('SYSCOMMON.cancel')}</Button>
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
             type="submit"
             disabled={!isValid}
+            loading={isCreateLoading}
           >
             {t('SYSCOMMON.create')}
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </form>
     </Dialog>

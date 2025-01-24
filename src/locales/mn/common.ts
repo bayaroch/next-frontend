@@ -238,6 +238,11 @@ export default {
     is_private_response: 'Зөвхөн мэссэж',
     is_private_response_desc:
       'Зөвхөн мэссэж гэж сонговол мэссэжээр л хариу очно.',
+    is_global: 'Global автоматжуулалт',
+    is_global_alert:
+      'Global автоматжуулалт тохиргоотой учраас пост сонгох шаардлагагүй',
+    ignore_global: 'Global тохиргоог ашиглахгүй',
+    is_global_exists: 'Global автоматжуулалт тохируулагдсан',
   },
   FORM_DESC: {
     automation_name: 'Автоматжуулалтын нэр',
@@ -247,6 +252,9 @@ export default {
     automation_status: 'Автоматжуулалтын төлөв',
     duration_days: 'Бүтээгдэхүүний хүчинтэй байх хугацаа (өдрөөр)',
     additional_settings: 'Бүтээгдэхүүний онцлогууд болон бусад тохиргоонууд',
+    is_global: 'Хэрэв тийм гэж сонговол пэйжний бүх постод хамааралтай',
+    ignore_global:
+      'Хэрэв тийм гэж сонговол глобал тохиргоо хамааралгүй. энэ автоматжуулалтын тохиргоог хариултууд дангаараа ажиллана',
   },
   ROUTES: {
     dashboard: 'Эхлэл',
@@ -276,6 +284,12 @@ export default {
     last_name: 'Овог',
     email: 'Имэйл',
     phone_number: 'Утасны дугаар',
+  },
+
+  TOASTS: {
+    success_automation: 'Автоматжуулалт амжилттай үүсгэгдлээ',
+    success_update_automation: 'Автоматжуулалт амжилттай шинэчлэгдлээ',
+    success_delete_automation: 'Автоматжуулалт амжилттай устгагдлаа',
   },
 
   ERROR: {

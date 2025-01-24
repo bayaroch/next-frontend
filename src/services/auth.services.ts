@@ -72,6 +72,7 @@ export interface AppInitResponse {
     fb_cover_image: string
     fb_fan_count: number
     fb_followers_count: number
+    is_global_automation_exists?: string
   } | null
   rate_limits: {
     page_rate_limit: number

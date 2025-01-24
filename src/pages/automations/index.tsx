@@ -160,13 +160,14 @@ const AutomationListPage: React.FC = () => {
   }
 
   const handleSubmit = (data: any) => {
-    if (pageId && data.fb_page_post_id) {
+    if (pageId) {
       createAutomationMutation.mutate(
         {
           pageId,
           input: {
             name: data.name,
             fb_page_post_id: data.fb_page_post_id,
+            is_global: data.is_global === true ? true : undefined,
           },
         },
         {
@@ -240,6 +241,7 @@ const AutomationListPage: React.FC = () => {
       <CreateAutomationDialog
         open={open}
         isLoading={isLoadingPosts}
+        isCreateLoading={createAutomationMutation.isLoading}
         onClose={() => setOpen(false)}
         posts={posts}
         onSubmit={handleSubmit}

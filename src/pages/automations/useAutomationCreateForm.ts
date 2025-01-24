@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 const initialValues = {
   name: '',
   fb_page_post_id: null,
+  is_global: false,
 }
 
 const useAutomationCreateForm = () => {
@@ -34,19 +35,29 @@ const useAutomationCreateForm = () => {
               number: 100,
             })
           ),
-        fb_page_post_id: Yup.object()
-          .required(
-            t('ERROR.E000001', {
-              field: t('AUTOMATION.post'),
-            })
-          )
-          .nullable(),
+
+        is_global: Yup.boolean().required(
+          t('ERROR.E000001', {
+            field: t('AUTOMATION.is_global'),
+          })
+        ),
+
+        fb_page_post_id: Yup.object().when('is_global', {
+          is: false,
+          then: (schema) =>
+            schema.required(
+              t('ERROR.E000001', {
+                field: t('AUTOMATION.select_post'),
+              })
+            ),
+          otherwise: (schema) => schema.nullable(),
+        }),
       }),
     []
   )
 
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema) as any,
     defaultValues: initialValues,
     mode: 'onChange',
   })
