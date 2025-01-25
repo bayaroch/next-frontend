@@ -23,6 +23,11 @@ export interface Automation {
   is_private_response?: boolean
   is_global?: boolean
   ignore_global?: boolean
+  instant_response: {
+    chat: string
+    content: string
+  }
+  only_instant?: boolean
 }
 
 export interface CreateAutomationInput {
@@ -38,7 +43,13 @@ export interface UpdateAutomationInput {
   name?: string
   fb_page_post_id?: string
   is_private_response?: boolean
+  instant_response?: {
+    chat: string
+    content: string
+  }
+  instant_only?: boolean
   comment_responses?: CommentResponse[]
+  is_active?: boolean
 }
 
 export interface AutomationListResponse {

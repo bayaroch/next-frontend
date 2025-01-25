@@ -14,7 +14,6 @@ import {
   Card as MuiCard,
   OutlinedInput,
   styled,
-  Typography,
   Stack,
   TextField,
   Paper,
@@ -22,8 +21,7 @@ import {
   Chip,
   IconButton,
   FormControlLabel,
-  Checkbox,
-  Divider,
+  Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ConnectedPage } from '@services/auth.services'
@@ -52,6 +50,8 @@ import { useConfirm } from '@components/Confirm'
 import DataLoading from '@components/DataLoading'
 import { IOSSwitch } from '@components/@material-extend/IOSSwitch'
 import { useAuth } from '@global/AuthContext'
+import { Identifier } from '@constants/common.constants'
+import AutomationFlow from '@containers/AutomationFlow'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -98,9 +98,20 @@ const AutomationEditPage: React.FC = () => {
 
   const currentGlobal = _.get(init, 'page_info.is_global_automation_exists')
 
-  const isGlobal = useWatch({ control, name: 'is_global' })
+  const formData = useWatch({ control })
+
+  const { is_global, only_instant, ignore_global, is_private_response } =
+    formData
+
+  const isGlobal = is_global
+  const instantOnly = only_instant
 
   const isGlobalEditable = _.isEmpty(currentGlobal)
+
+  const isAiActive =
+    _.get(initData, 'subscription.product.identifier') ===
+      Identifier.AI_PRODUCT &&
+    _.get(initData, 'subscription.status') === 'active'
 
   // Assume you have pageId from somewhere (e.g., from URL params or context)
   const pageId = connectedPages.find(
@@ -137,6 +148,8 @@ const AutomationEditPage: React.FC = () => {
           is_private_response: automation?.is_private_response,
           is_global: automation?.is_global,
           ignore_global: automation?.ignore_global,
+          only_instant: automation?.only_instant,
+          instant_response: automation?.instant_response,
         },
         { keepDirtyValues: false }
       )
@@ -173,27 +186,6 @@ const AutomationEditPage: React.FC = () => {
     append(data)
     handleSubmit(onSubmit)()
   }
-
-  // useEffect(() => {
-  //   if (dirtyFields.name && isValid && !errors?.name) {
-  //     handleSubmit(onSubmit)()
-  //   }
-  // }, [dirtyFields.name, isValid, errors?.name])
-  // const handleRemove = (index: number) => {
-  //   confirm({
-  //     title: t('SYSCOMMON.delete_title'),
-  //     description: t('SYSCOMMON.delete_desc'),
-  //     additional_confirmation: 'delete',
-  //   })
-  //     .then(() => {
-  //       remove(index)
-  //       handleSubmit(onSubmit)()
-  //     })
-  //     .catch(() => {
-  //       // eslint-disable-next-line no-console
-  //       console.log('Cancel')
-  //     })
-  // }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEdit = (index: number, data: any) => {
@@ -290,8 +282,30 @@ const AutomationEditPage: React.FC = () => {
           <Box
             component={Paper}
             elevation={2}
-            sx={{ padding: 2, width: '100%', background: '#fff', mb: 4 }}
+            sx={{
+              padding: 2,
+              width: '100%',
+              background: '#fff',
+              mb: 4,
+              position: 'relative',
+            }}
           >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: -20,
+                height: 20,
+                left: 10,
+                px: 2,
+                borderRadius: 1,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                color: '#fff',
+                background: (theme) => theme.palette.primary.main,
+              }}
+            >
+              {t('AUTOMATION.general_info')}
+            </Box>
             <Stack
               spacing={2}
               direction={'row'}
@@ -337,6 +351,7 @@ const AutomationEditPage: React.FC = () => {
                   </FormField>
                 )}
               />
+
               <Box sx={{ width: 150 }}>
                 <FormField
                   label={t('SYSCOMMON.status')}
@@ -378,81 +393,6 @@ const AutomationEditPage: React.FC = () => {
               </Box>
             </Stack>
 
-            <Box sx={{ width: '100%', mb: 2 }}>
-              <Controller
-                name="is_global"
-                control={control}
-                render={({ field }: FieldValues) => (
-                  <FormField
-                    fullWidth
-                    hidden={!isGlobalEditable}
-                    disabled={!isGlobalEditable}
-                    showTyping={false}
-                    errors={errors?.is_global && errors.is_global.message}
-                    label={t('AUTOMATION.is_global')}
-                    desc={t('FORM_DESC.is_global')}
-                    required
-                  >
-                    <Box sx={{ ml: 1 }}>
-                      <FormControlLabel
-                        control={
-                          <IOSSwitch
-                            checked={field.value === true}
-                            onChange={(e) =>
-                              field.onChange(e.target.checked ? true : false)
-                            }
-                          />
-                        }
-                        label={
-                          field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
-                        }
-                      />
-                    </Box>
-                  </FormField>
-                )}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                width: '100%',
-                mb: 2,
-                display: !isGlobal ? 'block' : 'none',
-              }}
-            >
-              <Controller
-                name="ignore_global"
-                control={control}
-                render={({ field }: FieldValues) => (
-                  <FormField
-                    fullWidth
-                    hidden={!isGlobalEditable}
-                    showTyping={false}
-                    errors={errors?.is_global && errors.is_global.message}
-                    label={t('AUTOMATION.ignore_global')}
-                    desc={t('FORM_DESC.ignore_global')}
-                    required
-                  >
-                    <Box sx={{ ml: 1 }}>
-                      <FormControlLabel
-                        control={
-                          <IOSSwitch
-                            checked={field.value === true}
-                            onChange={(e) =>
-                              field.onChange(e.target.checked ? true : false)
-                            }
-                          />
-                        }
-                        label={
-                          field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
-                        }
-                      />
-                    </Box>
-                  </FormField>
-                )}
-              />
-            </Box>
-
             <Controller
               name="fb_page_post_id"
               control={control}
@@ -485,245 +425,574 @@ const AutomationEditPage: React.FC = () => {
               )}
             />
           </Box>
-          <Controller
-            name="is_private_response"
-            control={control}
-            render={({ field: { value, onChange, ...field } }) => (
-              <FormField
-                fullWidth
-                errors={errors.is_private_response?.message}
-                label={t('AUTOMATION.is_private_response')}
-                desc={t('AUTOMATION.is_private_response_desc')}
-                showTyping={false}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={value}
-                      onChange={(e) => onChange(e.target.checked)}
-                      {...field}
-                    />
-                  }
-                  label={t('PRODUCT.is_active')}
-                />
-              </FormField>
-            )}
-          />
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            disabled={!isValid || isUpdating || !isDirty}
-            loading={isUpdating}
-            sx={{ mb: 2 }}
-            color="primary"
+
+          <Box
+            component={Paper}
+            elevation={2}
+            sx={{
+              padding: 2,
+              width: '100%',
+              background: '#fff',
+              mb: 4,
+              position: 'relative',
+              height: 400,
+              pb: 2,
+            }}
           >
-            {t('SYSCOMMON.save')}
-          </LoadingButton>
-          <Divider sx={{ mb: 2 }} />
-          <Stack
-            direction={'row'}
-            width={'100%'}
-            mb={2}
-            justifyContent={'space-between'}
-          >
-            <Typography variant="h6">
-              {t('AUTOMATION.comment_responses')}
-            </Typography>
-            <Stack direction="row" spacing={2}>
-              {selectedResponses.length > 0 && (
-                <Button
-                  variant="outlined"
-                  size="small"
-                  color="error"
-                  onClick={handleDeleteMultiple}
-                  startIcon={<Delete />}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: -20,
+                height: 20,
+                left: 10,
+                px: 2,
+                borderRadius: 1,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                color: '#fff',
+                background: (theme) => theme.palette.primary.main,
+              }}
+            >
+              {t('AUTOMATION.flow_builder')}
+            </Box>
+
+            <Grid container spacing={2} sx={{ height: '100%' }}>
+              <Grid size={{ xs: 12, md: 3 }}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    mb: 2,
+                    display: !isGlobal && isAiActive ? 'block' : 'none',
+                  }}
                 >
-                  {t('SYSCOMMON.delete')} ({selectedResponses.length})
-                </Button>
-              )}
-              <Button
-                variant="contained"
-                size="small"
-                color={'primary'}
-                onClick={handleOpen}
-                endIcon={<Add />}
-              >
-                {t('SYSCOMMON.add')}
-              </Button>
-            </Stack>
-          </Stack>
-          {_.orderBy(fields, ['keyword'], ['asc']).map((field, index) => {
-            const isActive = focused?.active === field.id
-            const correctIndex = fields.findIndex((f) => f.id === field.id)
-            return isActive ? (
-              <Card
-                key={field.id}
-                sx={{ position: 'relative', mb: 1, p: 2, background: '#fff' }}
-              >
-                <Box sx={{ width: '100%' }}>
-                  <Grid sx={{ width: '100%' }} spacing={2} container>
-                    <Controller
-                      name={`comment_responses.${correctIndex}.keyword`}
-                      control={control}
-                      render={({ field: { ref, ...rest } }: FieldValues) => (
-                        <FormField
-                          label={t('AUTOMATION.keyword')}
-                          required
-                          helpContent={t('AUTOMATION.keyword_help')}
-                          fullWidth
-                          errors={
-                            errors?.comment_responses?.[correctIndex]?.keyword
-                              ?.message
-                          }
-                        >
-                          <OutlinedInput
-                            {...rest}
-                            fullWidth
-                            error={
-                              !!errors?.comment_responses?.[correctIndex]
-                                ?.keyword
+                  <Controller
+                    name="ignore_global"
+                    control={control}
+                    render={({ field }: FieldValues) => (
+                      <FormField
+                        fullWidth
+                        hidden={!isGlobalEditable}
+                        showTyping={false}
+                        errors={errors?.is_global && errors.is_global.message}
+                        label={t('AUTOMATION.ignore_global')}
+                        desc={t('FORM_DESC.ignore_global')}
+                        required
+                      >
+                        <Box sx={{ ml: 1 }}>
+                          <FormControlLabel
+                            control={
+                              <IOSSwitch
+                                checked={field.value === true}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    e.target.checked ? true : false
+                                  )
+                                }
+                              />
                             }
-                            inputRef={ref}
-                            placeholder={t('AUTOMATION.keyword')}
-                            required
+                            label={
+                              field.value
+                                ? t('SYSCOMMON.yes')
+                                : t('SYSCOMMON.no')
+                            }
                           />
-                        </FormField>
-                      )}
-                    />
+                        </Box>
+                      </FormField>
+                    )}
+                  />
+                </Box>
 
-                    <Controller
-                      name={`comment_responses.${correctIndex}.content`}
-                      control={control}
-                      render={({ field: { ref, ...rest } }: FieldValues) => (
-                        <FormField
-                          label={t('AUTOMATION.content')}
-                          fullWidth
-                          required
-                          helpContent={t('AUTOMATION.content_help')}
-                          errors={
-                            errors?.comment_responses?.[correctIndex]?.content
-                              ?.message
-                          }
-                        >
-                          <TextField
-                            {...rest}
-                            multiline
-                            fullWidth
-                            variant="outlined"
-                            inputRef={ref}
-                            minRows={4}
-                            placeholder={t('AUTOMATION.content')}
-                            slotProps={{
-                              input: {
-                                sx: {
-                                  padding: '8px',
-                                  height: '100%',
-                                  overflow: 'auto',
-                                  maxHeight: '100px',
-                                },
-                              },
-                            }}
+                <Box
+                  sx={{
+                    width: '100%',
+                    mb: 2,
+                    display: isAiActive ? 'block' : 'none',
+                  }}
+                >
+                  <Controller
+                    name="only_instant"
+                    control={control}
+                    render={({ field }: FieldValues) => (
+                      <FormField
+                        fullWidth
+                        hidden={!isGlobalEditable}
+                        showTyping={false}
+                        errors={errors?.is_global && errors.is_global.message}
+                        label={t('AUTOMATION.only_instant')}
+                        desc={t('FORM_DESC.only_instant')}
+                        required
+                      >
+                        <Box sx={{ ml: 1 }}>
+                          <FormControlLabel
+                            control={
+                              <IOSSwitch
+                                checked={field.value === true}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    e.target.checked ? true : false
+                                  )
+                                }
+                              />
+                            }
+                            label={
+                              field.value
+                                ? t('SYSCOMMON.yes')
+                                : t('SYSCOMMON.no')
+                            }
                           />
-                        </FormField>
-                      )}
-                    />
+                        </Box>
+                      </FormField>
+                    )}
+                  />
+                </Box>
 
-                    <Controller
-                      name={`comment_responses.${correctIndex}.chat`}
-                      control={control}
-                      render={({ field: { ref, ...rest } }: FieldValues) => (
-                        <FormField
-                          label={t('AUTOMATION.chat')}
-                          sx={{ mt: 1 }}
-                          fullWidth
-                          required
-                          helpContent={t('AUTOMATION.chat_hhelp')}
-                          errors={
-                            errors?.comment_responses?.[correctIndex]?.chat
-                              ?.message
-                          }
-                        >
-                          <TextField
-                            {...rest}
-                            multiline
-                            fullWidth
-                            variant="outlined"
-                            inputRef={ref}
-                            minRows={4}
-                            placeholder={t('AUTOMATION.chat')}
-                            slotProps={{
-                              input: {
-                                sx: {
-                                  padding: '8px',
-                                  height: '100%',
-                                  overflow: 'auto',
-                                  maxHeight: '100px',
-                                },
-                              },
-                            }}
+                <Box
+                  sx={{
+                    width: '100%',
+                    mb: 2,
+                  }}
+                >
+                  <Controller
+                    name="is_private_response"
+                    control={control}
+                    render={({ field }: FieldValues) => (
+                      <FormField
+                        fullWidth
+                        hidden={!isGlobalEditable}
+                        showTyping={false}
+                        errors={errors?.is_global && errors.is_global.message}
+                        label={t('AUTOMATION.is_private_response')}
+                        desc={t('AUTOMATION.is_private_response_desc')}
+                        required
+                      >
+                        <Box sx={{ ml: 1 }}>
+                          <FormControlLabel
+                            control={
+                              <IOSSwitch
+                                checked={field.value === true}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    e.target.checked ? true : false
+                                  )
+                                }
+                              />
+                            }
+                            label={
+                              field.value
+                                ? t('SYSCOMMON.yes')
+                                : t('SYSCOMMON.no')
+                            }
                           />
-                        </FormField>
-                      )}
+                        </Box>
+                      </FormField>
+                    )}
+                  />
+                </Box>
+              </Grid>
+              <Grid size={{ xs: 12, md: 9 }}>
+                <Box
+                  className="flow-container"
+                  sx={{
+                    background: '#eee',
+                    height: '100%',
+                    width: '100%',
+                    pb: 2,
+                  }}
+                >
+                  <AutomationFlow
+                    is_global={is_global}
+                    only_instant={only_instant}
+                    is_private_response={is_private_response}
+                    ignore_global={ignore_global}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box
+            sx={{
+              width: '100%',
+              mb: 2,
+              display: isGlobalEditable ? 'block' : 'none',
+            }}
+          >
+            <Controller
+              name="is_global"
+              control={control}
+              render={({ field }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  disabled={!isGlobalEditable}
+                  showTyping={false}
+                  errors={errors?.is_global && errors.is_global.message}
+                  label={t('AUTOMATION.is_global')}
+                  desc={t('FORM_DESC.is_global')}
+                  required
+                >
+                  <Box sx={{ ml: 1 }}>
+                    <FormControlLabel
+                      control={
+                        <IOSSwitch
+                          checked={field.value === true}
+                          onChange={(e) =>
+                            field.onChange(e.target.checked ? true : false)
+                          }
+                        />
+                      }
+                      label={
+                        field.value ? t('SYSCOMMON.yes') : t('SYSCOMMON.no')
+                      }
                     />
-                  </Grid>
-                  <Stack
-                    direction={'row'}
-                    spacing={2}
-                    mt={1}
-                    sx={{ width: '100%', justifyContent: 'flex-end' }}
-                  >
+                  </Box>
+                </FormField>
+              )}
+            />
+          </Box>
+
+          <Box
+            component={Paper}
+            elevation={2}
+            sx={{
+              padding: 2,
+              width: '100%',
+              background: '#fff',
+              mb: 4,
+              position: 'relative',
+              pb: 2,
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: -20,
+                height: 20,
+                left: 10,
+                px: 2,
+                borderRadius: 1,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                color: '#fff',
+                background: (theme) => theme.palette.primary.main,
+              }}
+            >
+              {t('AUTOMATION.comment_responses')}
+            </Box>
+            {isAiActive && !instantOnly && (
+              <>
+                <Stack
+                  direction={'row'}
+                  width={'100%'}
+                  mb={2}
+                  justifyContent={'space-between'}
+                >
+                  <Box>
+                    <Typography variant="h6">
+                      {t('AUTOMATION.responses_ai')}
+                    </Typography>
+                  </Box>
+                  <Stack direction="row" spacing={2}>
+                    {selectedResponses.length > 0 && (
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="error"
+                        onClick={handleDeleteMultiple}
+                        startIcon={<Delete />}
+                      >
+                        {t('SYSCOMMON.delete')} ({selectedResponses.length})
+                      </Button>
+                    )}
                     <Button
+                      variant="contained"
                       size="small"
-                      variant="outlined"
-                      onClick={() => {
-                        setValue('comment_responses', focused!.fields, {
-                          shouldValidate: true,
-                        })
-                        setFocused(null)
+                      color={'primary'}
+                      onClick={handleOpen}
+                      endIcon={<Add />}
+                    >
+                      {t('SYSCOMMON.add')}
+                    </Button>
+                  </Stack>
+                </Stack>
+                {_.orderBy(fields, ['keyword'], ['asc']).map((field, index) => {
+                  const isActive = focused?.active === field.id
+                  const correctIndex = fields.findIndex(
+                    (f) => f.id === field.id
+                  )
+                  return isActive ? (
+                    <Card
+                      key={field.id}
+                      sx={{
+                        position: 'relative',
+                        mb: 1,
+                        p: 2,
+                        background: '#fff',
                       }}
                     >
-                      {t('SYSCOMMON.cancel')}
-                    </Button>
-                    <LoadingButton
-                      loading={isUpdating}
-                      size="small"
-                      variant="contained"
-                      onClick={() => handleEdit(index, field)}
-                    >
-                      {t('SYSCOMMON.save')}
-                    </LoadingButton>
-                  </Stack>
-                </Box>
-              </Card>
-            ) : (
-              <ResponseItem
-                isChecked={selectedResponses.includes(field.keyword)}
-                onCheck={handleCheckResponse}
-                key={field.id}
-                onEdit={(response) => {
-                  setFocused({ active: response.id, fields: [...fields] })
-                }}
-                response={field}
-              />
-            )
-          })}
+                      <Box sx={{ width: '100%' }}>
+                        <Grid sx={{ width: '100%' }} spacing={2} container>
+                          <Controller
+                            name={`comment_responses.${correctIndex}.keyword`}
+                            control={control}
+                            render={({
+                              field: { ref, ...rest },
+                            }: FieldValues) => (
+                              <FormField
+                                label={t('AUTOMATION.keyword')}
+                                required
+                                helpContent={t('AUTOMATION.keyword_help')}
+                                fullWidth
+                                errors={
+                                  errors?.comment_responses?.[correctIndex]
+                                    ?.keyword?.message
+                                }
+                              >
+                                <OutlinedInput
+                                  {...rest}
+                                  fullWidth
+                                  error={
+                                    !!errors?.comment_responses?.[correctIndex]
+                                      ?.keyword
+                                  }
+                                  inputRef={ref}
+                                  placeholder={t('AUTOMATION.keyword')}
+                                  required
+                                />
+                              </FormField>
+                            )}
+                          />
 
-          <DataLoading
-            icon={<CommentOutlined />}
-            isLoading={isLoadingAutomations}
-            resource={t('AUTOMATION.comment_responses')}
-            isEmptyData={automation && _.isEmpty(automation.comment_responses)}
-            emptyAction={
-              <Button
-                variant="outlined"
-                onClick={handleOpen}
-                color="primary"
-                endIcon={<Add />}
-              >
-                {t('SYSCOMMON.add')}
-              </Button>
-            }
-          />
+                          <Controller
+                            name={`comment_responses.${correctIndex}.content`}
+                            control={control}
+                            render={({
+                              field: { ref, ...rest },
+                            }: FieldValues) => (
+                              <FormField
+                                label={t('AUTOMATION.content')}
+                                fullWidth
+                                required
+                                helpContent={t('AUTOMATION.content_help')}
+                                errors={
+                                  errors?.comment_responses?.[correctIndex]
+                                    ?.content?.message
+                                }
+                              >
+                                <TextField
+                                  {...rest}
+                                  multiline
+                                  fullWidth
+                                  variant="outlined"
+                                  inputRef={ref}
+                                  minRows={4}
+                                  placeholder={t('AUTOMATION.content')}
+                                  slotProps={{
+                                    input: {
+                                      sx: {
+                                        padding: '8px',
+                                        height: '100%',
+                                        overflow: 'auto',
+                                        maxHeight: '100px',
+                                      },
+                                    },
+                                  }}
+                                />
+                              </FormField>
+                            )}
+                          />
+
+                          <Controller
+                            name={`comment_responses.${correctIndex}.chat`}
+                            control={control}
+                            render={({
+                              field: { ref, ...rest },
+                            }: FieldValues) => (
+                              <FormField
+                                label={t('AUTOMATION.chat')}
+                                sx={{ mt: 1 }}
+                                fullWidth
+                                required
+                                helpContent={t('AUTOMATION.chat_hhelp')}
+                                errors={
+                                  errors?.comment_responses?.[correctIndex]
+                                    ?.chat?.message
+                                }
+                              >
+                                <TextField
+                                  {...rest}
+                                  multiline
+                                  fullWidth
+                                  variant="outlined"
+                                  inputRef={ref}
+                                  minRows={4}
+                                  placeholder={t('AUTOMATION.chat')}
+                                  slotProps={{
+                                    input: {
+                                      sx: {
+                                        padding: '8px',
+                                        height: '100%',
+                                        overflow: 'auto',
+                                        maxHeight: '100px',
+                                      },
+                                    },
+                                  }}
+                                />
+                              </FormField>
+                            )}
+                          />
+                        </Grid>
+                        <Stack
+                          direction={'row'}
+                          spacing={2}
+                          mt={1}
+                          sx={{ width: '100%', justifyContent: 'flex-end' }}
+                        >
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => {
+                              setValue('comment_responses', focused!.fields, {
+                                shouldValidate: true,
+                              })
+                              setFocused(null)
+                            }}
+                          >
+                            {t('SYSCOMMON.cancel')}
+                          </Button>
+                          <LoadingButton
+                            loading={isUpdating}
+                            size="small"
+                            variant="contained"
+                            onClick={() => handleEdit(index, field)}
+                          >
+                            {t('SYSCOMMON.save')}
+                          </LoadingButton>
+                        </Stack>
+                      </Box>
+                    </Card>
+                  ) : (
+                    <ResponseItem
+                      isChecked={selectedResponses.includes(field.keyword)}
+                      onCheck={handleCheckResponse}
+                      key={field.id}
+                      onEdit={(response) => {
+                        setFocused({ active: response.id, fields: [...fields] })
+                      }}
+                      response={field}
+                    />
+                  )
+                })}
+
+                <DataLoading
+                  icon={<CommentOutlined />}
+                  isLoading={isLoadingAutomations}
+                  resource={t('AUTOMATION.comment_responses')}
+                  isEmptyData={
+                    automation && _.isEmpty(automation.comment_responses)
+                  }
+                  emptyAction={
+                    <Button
+                      variant="outlined"
+                      onClick={handleOpen}
+                      color="primary"
+                      endIcon={<Add />}
+                    >
+                      {t('SYSCOMMON.add')}
+                    </Button>
+                  }
+                />
+              </>
+            )}
+            {!isAiActive ||
+              (isAiActive && instantOnly && (
+                <Box>
+                  <Controller
+                    name={`instant_response.content`}
+                    control={control}
+                    render={({ field: { ref, ...rest } }: FieldValues) => (
+                      <FormField
+                        label={t('AUTOMATION.content')}
+                        fullWidth
+                        required
+                        helpContent={t('AUTOMATION.content_help')}
+                        errors={
+                          errors?.instant_response?.content &&
+                          errors?.instant_response?.content?.message
+                        }
+                      >
+                        <TextField
+                          {...rest}
+                          multiline
+                          fullWidth
+                          variant="outlined"
+                          inputRef={ref}
+                          minRows={4}
+                          placeholder={t('AUTOMATION.content')}
+                          slotProps={{
+                            input: {
+                              sx: {
+                                padding: '8px',
+                                height: '100%',
+                                overflow: 'auto',
+                                maxHeight: '100px',
+                              },
+                            },
+                          }}
+                        />
+                      </FormField>
+                    )}
+                  />
+
+                  <Controller
+                    name={`instant_response.chat`}
+                    control={control}
+                    render={({ field: { ref, ...rest } }: FieldValues) => (
+                      <FormField
+                        label={t('AUTOMATION.chat')}
+                        sx={{ mt: 1 }}
+                        fullWidth
+                        required
+                        helpContent={t('AUTOMATION.chat_help')}
+                        errors={
+                          errors?.instant_response?.chat &&
+                          errors?.instant_response?.chat?.message
+                        }
+                      >
+                        <TextField
+                          {...rest}
+                          multiline
+                          fullWidth
+                          variant="outlined"
+                          inputRef={ref}
+                          minRows={4}
+                          placeholder={t('AUTOMATION.chat')}
+                          slotProps={{
+                            input: {
+                              sx: {
+                                padding: '8px',
+                                height: '100%',
+                                overflow: 'auto',
+                                maxHeight: '100px',
+                              },
+                            },
+                          }}
+                        />
+                      </FormField>
+                    )}
+                  />
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    disabled={!isValid || isUpdating || !isDirty}
+                    loading={isUpdating}
+                    sx={{ mb: 2 }}
+                    color="primary"
+                  >
+                    {t('SYSCOMMON.save')}
+                  </LoadingButton>
+                </Box>
+              ))}
+          </Box>
         </form>
       )}
 

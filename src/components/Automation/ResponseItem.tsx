@@ -6,7 +6,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Paper,
+  Card,
   Stack,
 } from '@mui/material'
 import { CommentResponse } from '@services/automation.services'
@@ -32,7 +32,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   onEdit,
 }) => {
   return (
-    <Paper elevation={2} sx={{ width: '100%', background: '#fff', mb: 1 }}>
+    <Card sx={{ width: '100%', background: '#fff', mb: 1, p: 0 }}>
       <ListItem
         secondaryAction={
           <Stack spacing={1} direction={'row'}>
@@ -84,7 +84,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
           }
         />
       </ListItem>
-    </Paper>
+    </Card>
   )
 }
 

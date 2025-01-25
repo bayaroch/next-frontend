@@ -11,6 +11,11 @@ const initialValues = {
   comment_responses: [{ keyword: '', content: '', chat: '' }],
   ignore_global: false,
   is_global: false,
+  only_instant: false,
+  instant_response: {
+    content: '',
+    chat: '',
+  },
 }
 
 const useAutomationEditForm = (defaultValues = initialValues) => {
@@ -64,12 +69,29 @@ const useAutomationEditForm = (defaultValues = initialValues) => {
             chat: Yup.string().max(
               500,
               t('ERROR.E000046', {
-                field: t('AUTOMATION.content'),
+                field: t('AUTOMATION.chat'),
                 number: 500,
               })
             ),
           })
         ),
+        instant_response: Yup.object().shape({
+          content: Yup.string().max(
+            500,
+            t('ERROR.E000046', {
+              field: t('AUTOMATION.content'),
+              number: 500,
+            })
+          ),
+          chat: Yup.string().max(
+            500,
+            t('ERROR.E000046', {
+              field: t('AUTOMATION.chat'),
+              number: 500,
+            })
+          ),
+        }),
+        only_instant: Yup.boolean(),
       }),
     []
   )

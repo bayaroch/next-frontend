@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { name, price, description, additional_settings, duration_days } = data
 
-  const isRecommended = _.get(data, 'identifier') === Identifier.RECOMMENDED
+  const isRecommended = _.get(data, 'identifier') === Identifier.AI_PRODUCT
 
   const { t } = useTranslation()
 

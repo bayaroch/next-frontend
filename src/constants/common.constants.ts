@@ -70,5 +70,6 @@ export const currency = '₮'
 
 export enum Identifier {
   FREE_PRODUCT = 'free_product',
-  RECOMMENDED = 'recommended',
+  BASIC_PRORUCT = 'basic_product',
+  AI_PRODUCT = 'ai_product',
 }
