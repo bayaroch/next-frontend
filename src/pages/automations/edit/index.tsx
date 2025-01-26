@@ -100,8 +100,13 @@ const AutomationEditPage: React.FC = () => {
 
   const formData = useWatch({ control })
 
-  const { is_global, only_instant, ignore_global, is_private_response } =
-    formData
+  const {
+    is_global,
+    only_instant,
+    ignore_global,
+    is_private_response,
+    comment_responses,
+  } = formData
 
   const isGlobal = is_global
   const instantOnly = only_instant
@@ -110,8 +115,7 @@ const AutomationEditPage: React.FC = () => {
 
   const isAiActive =
     _.get(initData, 'subscription.product.identifier') ===
-      Identifier.AI_PRODUCT &&
-    _.get(initData, 'subscription.status') === 'active'
+      Identifier.AI_PRODUCT && _.get(initData, 'subscription.status') === ''
 
   // Assume you have pageId from somewhere (e.g., from URL params or context)
   const pageId = connectedPages.find(
@@ -393,37 +397,42 @@ const AutomationEditPage: React.FC = () => {
               </Box>
             </Stack>
 
-            <Controller
-              name="fb_page_post_id"
-              control={control}
-              render={({ field: { ref, ...rest } }: FieldValues) => (
-                <>
-                  <FormField
-                    fullWidth
-                    hidden
-                    errors={
-                      errors?.fb_page_post_id && errors.fb_page_post_id.message
-                    }
-                    label={t('AUTOMATION.post')}
-                    desc={t('FORM_DESC.automation_post')}
-                    required
-                  >
-                    <OutlinedInput
-                      {...rest}
-                      hidden
-                      error={!!errors?.fb_page_post_id}
-                      disabled
+            {isGlobal ? (
+              <Chip color="primary" label={t('AUTOMATION.global_automation')} />
+            ) : (
+              <Controller
+                name="fb_page_post_id"
+                control={control}
+                render={({ field: { ref, ...rest } }: FieldValues) => (
+                  <>
+                    <FormField
                       fullWidth
-                      sx={{ display: 'none' }}
-                      inputRef={ref}
-                      placeholder={t('AUTOMATION.post')}
+                      hidden
+                      errors={
+                        errors?.fb_page_post_id &&
+                        errors.fb_page_post_id.message
+                      }
+                      label={t('AUTOMATION.post')}
+                      desc={t('FORM_DESC.automation_post')}
                       required
-                    />
-                  </FormField>
-                  {fbDetail && <AutomationPostItem data={fbDetail} />}
-                </>
-              )}
-            />
+                    >
+                      <OutlinedInput
+                        {...rest}
+                        hidden
+                        error={!!errors?.fb_page_post_id}
+                        disabled
+                        fullWidth
+                        sx={{ display: 'none' }}
+                        inputRef={ref}
+                        placeholder={t('AUTOMATION.post')}
+                        required
+                      />
+                    </FormField>
+                    {fbDetail && <AutomationPostItem data={fbDetail} />}
+                  </>
+                )}
+              />
+            )}
           </Box>
 
           <Box
@@ -435,7 +444,6 @@ const AutomationEditPage: React.FC = () => {
               background: '#fff',
               mb: 4,
               position: 'relative',
-              height: 400,
               pb: 2,
             }}
           >
@@ -457,7 +465,7 @@ const AutomationEditPage: React.FC = () => {
             </Box>
 
             <Grid container spacing={2} sx={{ height: '100%' }}>
-              <Grid size={{ xs: 12, md: 3 }}>
+              <Grid size={{ xs: 12, sm: 12, md: 3, lg: 2 }}>
                 <Box
                   sx={{
                     width: '100%',
@@ -588,8 +596,18 @@ const AutomationEditPage: React.FC = () => {
                     )}
                   />
                 </Box>
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  disabled={!isValid || isUpdating || !isDirty}
+                  loading={isUpdating}
+                  sx={{ mb: 2 }}
+                  color="primary"
+                >
+                  {t('SYSCOMMON.save')}
+                </LoadingButton>
               </Grid>
-              <Grid size={{ xs: 12, md: 9 }}>
+              <Grid size={{ xs: 12, sm: 12, md: 9, lg: 10 }}>
                 <Box
                   className="flow-container"
                   sx={{
@@ -597,13 +615,22 @@ const AutomationEditPage: React.FC = () => {
                     height: '100%',
                     width: '100%',
                     pb: 2,
+                    minHeight: 300,
+                    display: {
+                      xs: 'none',
+                      sm: 'none',
+                      md: 'block',
+                    },
                   }}
                 >
                   <AutomationFlow
                     is_global={is_global}
-                    only_instant={only_instant}
+                    only_instant={only_instant || !isAiActive}
+                    isAiActive={isAiActive}
                     is_private_response={is_private_response}
                     ignore_global={ignore_global}
+                    comment_responses={comment_responses as any}
+                    setValue={(n, v) => setValue(n as any, v)}
                   />
                 </Box>
               </Grid>
@@ -903,95 +930,94 @@ const AutomationEditPage: React.FC = () => {
                 />
               </>
             )}
-            {!isAiActive ||
-              (isAiActive && instantOnly && (
-                <Box>
-                  <Controller
-                    name={`instant_response.content`}
-                    control={control}
-                    render={({ field: { ref, ...rest } }: FieldValues) => (
-                      <FormField
-                        label={t('AUTOMATION.content')}
+            {!isAiActive && (
+              <Box>
+                <Controller
+                  name={`instant_response.content`}
+                  control={control}
+                  render={({ field: { ref, ...rest } }: FieldValues) => (
+                    <FormField
+                      label={t('AUTOMATION.content')}
+                      fullWidth
+                      required
+                      helpContent={t('AUTOMATION.content_help')}
+                      errors={
+                        errors?.instant_response?.content &&
+                        errors?.instant_response?.content?.message
+                      }
+                    >
+                      <TextField
+                        {...rest}
+                        multiline
                         fullWidth
-                        required
-                        helpContent={t('AUTOMATION.content_help')}
-                        errors={
-                          errors?.instant_response?.content &&
-                          errors?.instant_response?.content?.message
-                        }
-                      >
-                        <TextField
-                          {...rest}
-                          multiline
-                          fullWidth
-                          variant="outlined"
-                          inputRef={ref}
-                          minRows={4}
-                          placeholder={t('AUTOMATION.content')}
-                          slotProps={{
-                            input: {
-                              sx: {
-                                padding: '8px',
-                                height: '100%',
-                                overflow: 'auto',
-                                maxHeight: '100px',
-                              },
+                        variant="outlined"
+                        inputRef={ref}
+                        minRows={4}
+                        placeholder={t('AUTOMATION.content')}
+                        slotProps={{
+                          input: {
+                            sx: {
+                              padding: '8px',
+                              height: '100%',
+                              overflow: 'auto',
+                              maxHeight: '100px',
                             },
-                          }}
-                        />
-                      </FormField>
-                    )}
-                  />
+                          },
+                        }}
+                      />
+                    </FormField>
+                  )}
+                />
 
-                  <Controller
-                    name={`instant_response.chat`}
-                    control={control}
-                    render={({ field: { ref, ...rest } }: FieldValues) => (
-                      <FormField
-                        label={t('AUTOMATION.chat')}
-                        sx={{ mt: 1 }}
+                <Controller
+                  name={`instant_response.chat`}
+                  control={control}
+                  render={({ field: { ref, ...rest } }: FieldValues) => (
+                    <FormField
+                      label={t('AUTOMATION.chat')}
+                      sx={{ mt: 1 }}
+                      fullWidth
+                      required
+                      helpContent={t('AUTOMATION.chat_help')}
+                      errors={
+                        errors?.instant_response?.chat &&
+                        errors?.instant_response?.chat?.message
+                      }
+                    >
+                      <TextField
+                        {...rest}
+                        multiline
                         fullWidth
-                        required
-                        helpContent={t('AUTOMATION.chat_help')}
-                        errors={
-                          errors?.instant_response?.chat &&
-                          errors?.instant_response?.chat?.message
-                        }
-                      >
-                        <TextField
-                          {...rest}
-                          multiline
-                          fullWidth
-                          variant="outlined"
-                          inputRef={ref}
-                          minRows={4}
-                          placeholder={t('AUTOMATION.chat')}
-                          slotProps={{
-                            input: {
-                              sx: {
-                                padding: '8px',
-                                height: '100%',
-                                overflow: 'auto',
-                                maxHeight: '100px',
-                              },
+                        variant="outlined"
+                        inputRef={ref}
+                        minRows={4}
+                        placeholder={t('AUTOMATION.chat')}
+                        slotProps={{
+                          input: {
+                            sx: {
+                              padding: '8px',
+                              height: '100%',
+                              overflow: 'auto',
+                              maxHeight: '100px',
                             },
-                          }}
-                        />
-                      </FormField>
-                    )}
-                  />
-                  <LoadingButton
-                    variant="contained"
-                    type="submit"
-                    disabled={!isValid || isUpdating || !isDirty}
-                    loading={isUpdating}
-                    sx={{ mb: 2 }}
-                    color="primary"
-                  >
-                    {t('SYSCOMMON.save')}
-                  </LoadingButton>
-                </Box>
-              ))}
+                          },
+                        }}
+                      />
+                    </FormField>
+                  )}
+                />
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  disabled={!isValid || isUpdating || !isDirty}
+                  loading={isUpdating}
+                  sx={{ mb: 2 }}
+                  color="primary"
+                >
+                  {t('SYSCOMMON.save')}
+                </LoadingButton>
+              </Box>
+            )}
           </Box>
         </form>
       )}
