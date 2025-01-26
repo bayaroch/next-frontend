@@ -410,7 +410,10 @@ export default function Purchase() {
       case 3:
         return (
           checkTransactionMutation?.data && (
-            <PaymentComplete data={checkTransactionMutation?.data} />
+            <PaymentComplete
+              customButton={{ text: t('SYSCOMMON.ok'), link: '/profile' }}
+              data={checkTransactionMutation?.data}
+            />
           )
         )
 

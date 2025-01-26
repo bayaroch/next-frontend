@@ -5,12 +5,20 @@ import { CheckResponse } from '@services/payment.services'
 import { useQueryClient } from 'react-query'
 import { StyledNavigationBox } from '@containers/Checkout'
 import { CheckCircleOutline } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 interface PaymentCompleteProps {
   data: CheckResponse
+  customButton?: {
+    link: string
+    text: string
+  }
 }
 
-const PaymentComplete: React.FC<PaymentCompleteProps> = ({ data }) => {
+const PaymentComplete: React.FC<PaymentCompleteProps> = ({
+  data,
+  customButton,
+}) => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const { transaction } = data
@@ -51,15 +59,29 @@ const PaymentComplete: React.FC<PaymentCompleteProps> = ({ data }) => {
       </Paper>
       <StyledNavigationBox>
         <Box />
-        <Button
-          variant="contained"
-          onClick={() => {
-            queryClient.invalidateQueries('appInit')
-          }}
-          sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
-        >
-          {t('PAYMENT.go_to_app')}
-        </Button>
+        {customButton ? (
+          <Link
+            to={customButton.link}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <Button
+              variant="contained"
+              sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
+            >
+              {customButton.text}
+            </Button>
+          </Link>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={() => {
+              queryClient.invalidateQueries('appInit')
+            }}
+            sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
+          >
+            {t('PAYMENT.go_to_app')}
+          </Button>
+        )}
       </StyledNavigationBox>
     </Stack>
   )
