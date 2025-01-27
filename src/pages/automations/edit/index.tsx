@@ -115,7 +115,8 @@ const AutomationEditPage: React.FC = () => {
 
   const isAiActive =
     _.get(initData, 'subscription.product.identifier') ===
-      Identifier.AI_PRODUCT && _.get(initData, 'subscription.status') === ''
+      Identifier.AI_PRODUCT &&
+    _.get(initData, 'subscription.status') === 'active'
 
   // Assume you have pageId from somewhere (e.g., from URL params or context)
   const pageId = connectedPages.find(
