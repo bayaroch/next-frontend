@@ -75,7 +75,11 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
       </Box>
       <Box sx={{ p: { xs: 1, md: 2 } }}>
         {automation?.is_global ? (
-          <Chip color="primary" label={t('AUTOMATION.global_automation')} />
+          <Chip
+            color="primary"
+            sx={{ mb: 1 }}
+            label={t('AUTOMATION.global_automation')}
+          />
         ) : (
           <Controller
             name="fb_page_post_id"
