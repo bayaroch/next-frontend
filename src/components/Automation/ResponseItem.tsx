@@ -70,7 +70,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
             />
           }
           secondary={
-            <Stack spacing={1} direction={'row'}>
+            <Stack component={'span'} spacing={1} direction={'row'}>
               {!_.isEmpty(response.content) && (
                 <Chip label={t('AUTOMATION.content')} size={'small'} />
               )}

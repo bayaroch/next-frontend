@@ -89,6 +89,7 @@ export default {
     valid_until: 'Valid until',
     transactions: 'Transactions',
     subscriptions: 'Subscriptions',
+    saving: 'Saving...',
   },
   LOGIN: {
     welcomeTitle: 'Welcome to Kommai',
@@ -264,6 +265,7 @@ export default {
     flow_builder: 'Flow builder',
     responses_ai: 'Ai responses',
     global_automation: 'Global automation',
+    instant_response: 'Instant response',
   },
   FORM_DESC: {
     only_instant: 'Replies only single response',

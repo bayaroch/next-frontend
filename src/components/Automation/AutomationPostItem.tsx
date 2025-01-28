@@ -67,16 +67,16 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
       onClick={() => !data?.is_used && onSelect && onSelect(data)}
       sx={{
         pl: 1,
-        mb: 2,
+        mb: 1,
+        border: '1px solid #ddd',
         alignItems: 'flex-start',
-        border: '0 none',
         '&:last-child': {
           borderBottom: '0 none',
         },
         backgroundColor: active
           ? (theme) => theme.palette.primary.main
           : 'white',
-        cursor: data.is_used ? 'inherit' : 'pointer',
+        cursor: data.is_used ? 'inherit ' : 'pointer',
         '&:hover': {
           backgroundColor: active
             ? (theme) => theme.palette.primary.main
@@ -113,8 +113,8 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
             objectFit: 'cover',
             borderRadius: '6px',
             background: '#ccc',
-            width: 100,
-            height: 70,
+            width: 50,
+            height: 50,
             mr: 2,
           }}
           alt={'fb-image'}
@@ -122,8 +122,8 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
       ) : (
         <Avatar
           sx={{
-            width: 100,
-            height: 70,
+            width: 50,
+            height: 50,
             mr: 2,
             borderRadius: '6px',
             backgroundColor: 'action.selected',
@@ -156,12 +156,18 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
           />
           <Typography
             variant="body2"
-            sx={{ fontSize: 10, color: active ? '#eee' : 'inherit' }}
+            sx={{ fontSize: 8, color: active ? '#eee' : 'inherit' }}
           >
             {formattedDate}
           </Typography>
         </Stack>
-        <Box sx={{ height: 45, overflow: 'hidden', pr: 10 }}>
+        <Box
+          sx={{
+            height: 28,
+            overflow: 'hidden',
+            pr: onSelect && !data?.is_used ? 10 : 0,
+          }}
+        >
           <Typography
             variant="subtitle2"
             sx={{
@@ -172,6 +178,8 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
               overflow: 'hidden',
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 2,
+              lineHeight: 1.2,
+              fontSize: 12,
             }}
           >
             {data.message ? data.message : 'No message'}

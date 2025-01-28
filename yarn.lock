@@ -2621,23 +2621,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mrblenny/react-flow-chart@npm:^0.0.14":
-  version: 0.0.14
-  resolution: "@mrblenny/react-flow-chart@npm:0.0.14"
-  dependencies:
-    pathfinding: "npm:^0.4.18"
-    react-draggable: "npm:^4.4.3"
-    react-resize-observer: "npm:^1.1.1"
-    react-zoom-pan-pinch: "npm:^1.6.1"
-    uuid: "npm:^3.3.2"
-  peerDependencies:
-    react: ^16.8.4
-    react-dom: ^16.8.4
-    styled-components: ^5.1.0
-  checksum: 2bdee7efe3d5facec8a34f898b25f8ad1bdf96c658b54ab0d1ce748b6af9c138df79a270490418047f142bbd92b8236cdafeb2a41791357641d37e818146fc69
-  languageName: node
-  linkType: hard
-
 "@mui/base@npm:5.0.0-beta.61":
   version: 5.0.0-beta.61
   resolution: "@mui/base@npm:5.0.0-beta.61"
@@ -6552,13 +6535,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.1.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 34dead8bee24f5e96f6e7937d711978380647e936a22e76380290e35486afd8634966ce300fc4b74a32f3762c7d4c0303f442c3e259f4ce02374eb0c82834f27
-  languageName: node
-  linkType: hard
-
 "clsx@npm:^2.0.0, clsx@npm:^2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
@@ -9994,13 +9970,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"heap@npm:0.2.5":
-  version: 0.2.5
-  resolution: "heap@npm:0.2.5"
-  checksum: 6992caceff57ea3aaa6671506a2ff74ca60af38c72cc722606a7365ebcb8ea536f37efff35a78368f90497083eba7a8161db13abb9193c6e67fedcc3d488de77
-  languageName: node
-  linkType: hard
-
 "history@npm:^5.3.0":
   version: 5.3.0
   resolution: "history@npm:5.3.0"
@@ -11905,7 +11874,6 @@ __metadata:
     "@greatsumini/react-facebook-login": "npm:^3.4.0"
     "@hookform/resolvers": "npm:^3.3.2"
     "@marko19907/string-to-color": "npm:^1.0.0"
-    "@mrblenny/react-flow-chart": "npm:^0.0.14"
     "@mui/icons-material": "npm:^6.1.4"
     "@mui/lab": "npm:6.0.0-beta.14"
     "@mui/material": "npm:^6.1.4"
@@ -13562,15 +13530,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pathfinding@npm:^0.4.18":
-  version: 0.4.18
-  resolution: "pathfinding@npm:0.4.18"
-  dependencies:
-    heap: "npm:0.2.5"
-  checksum: 00ccd2c0b7ff96c00c571ef84b896cceae26533bbf299956fe98ed1ccb2b76cbb46a54a7c10d01434abaf16943c7e2bc84500f2e1e821d1b9337d83a7b71b309
-  languageName: node
-  linkType: hard
-
 "pause-stream@npm:0.0.11":
   version: 0.0.11
   resolution: "pause-stream@npm:0.0.11"
@@ -14888,19 +14847,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-draggable@npm:^4.4.3":
-  version: 4.4.6
-  resolution: "react-draggable@npm:4.4.6"
-  dependencies:
-    clsx: "npm:^1.1.1"
-    prop-types: "npm:^15.8.1"
-  peerDependencies:
-    react: ">= 16.3.0"
-    react-dom: ">= 16.3.0"
-  checksum: 1e8cf47414a8554caa68447e5f27749bc40e1eabb4806e2dadcb39ab081d263f517d6aaec5231677e6b425603037c7e3386d1549898f9ffcc98a86cabafb2b9a
-  languageName: node
-  linkType: hard
-
 "react-dropzone@npm:^14.2.3":
   version: 14.2.10
   resolution: "react-dropzone@npm:14.2.10"
@@ -15121,15 +15067,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-resize-observer@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "react-resize-observer@npm:1.1.1"
-  peerDependencies:
-    react: ">=0.14"
-  checksum: ad849251587e83913a7e4264430d36da6616c8d4198d31a632811cebd719d279e1700542e07783c308fbcd5237c4365ac3796d582f170436df632df0eafd9608
-  languageName: node
-  linkType: hard
-
 "react-router-dom@npm:^6.20.1":
   version: 6.27.0
   resolution: "react-router-dom@npm:6.27.0"
@@ -15247,17 +15184,6 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 2ba754ba748faefa15f87c96dfa700d5525054a0141de8c75763aae6734af0740e77e11261a1e8f4ffc08fd9ab78510122e05c21c2d79066c38bb6861a886c82
-  languageName: node
-  linkType: hard
-
-"react-zoom-pan-pinch@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "react-zoom-pan-pinch@npm:1.6.1"
-  peerDependencies:
-    prop-types: ^15.5.4
-    react: ^15.0.0 || ^16.0.0
-    react-dom: ^15.0.0 || ^16.0.0
-  checksum: b94e38d3c05afeca2ec3521b18501358b3782c0a0acb5d3bccfd7f1c99da85ef953cbab7ae4e35b668b4134ea7d0fb3ef9609db8be56e0905af31c30017a837b
   languageName: node
   linkType: hard
 
@@ -17852,15 +17778,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^3.3.2":
-  version: 3.4.0
-  resolution: "uuid@npm:3.4.0"
-  bin:
-    uuid: ./bin/uuid
-  checksum: 1c13950df865c4f506ebfe0a24023571fa80edf2e62364297a537c80af09c618299797bbf2dbac6b1f8ae5ad182ba474b89db61e0e85839683991f7e08795347
   languageName: node
   linkType: hard
 

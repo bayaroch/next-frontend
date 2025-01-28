@@ -51,7 +51,9 @@ const MainLayout: React.FC<PropsWithChildren> = () => {
             })}
           >
             <Header lang={lang} changeLanguage={changeLanguage} />
-            <Box sx={{ width: '100%', p: { xs: 2, md: 4 } }}>
+            <Box
+              sx={{ width: '100%', p: { xs: 2, md: 4 }, position: 'relative' }}
+            >
               <Outlet />
             </Box>
           </Box>

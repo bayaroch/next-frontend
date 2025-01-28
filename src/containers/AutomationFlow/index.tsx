@@ -18,7 +18,9 @@ import 'reactflow/dist/style.css'
 import './override.css'
 import { NodeItem } from './NodeItem'
 import { useTranslation } from 'react-i18next'
-import { Bolt, BoltOutlined, FacebookOutlined } from '@mui/icons-material'
+import { BoltOutlined, FacebookOutlined } from '@mui/icons-material'
+import { useFormContext } from '@containers/AutoationForms/FormProvider'
+import { FieldValues, useWatch } from 'react-hook-form'
 
 interface CustomNodeData {
   content: ReactNode
@@ -89,32 +91,37 @@ const nodeTypes = {
 }
 
 interface AutomationFlowProps {
+  isAiActive?: boolean
+}
+interface AutomationFormType extends FieldValues {
   is_global?: boolean
-  is_active?: boolean
   only_instant?: boolean
   ignore_global?: boolean
   is_private_response?: boolean
-  setValue?: (name: string, value: any) => void
   comment_responses: any[]
-  isAiActive?: boolean
+
+  // Add other fields as needed
 }
 
-const AutomationFlow: React.FC<AutomationFlowProps> = ({
-  is_global,
-  is_active,
-  only_instant,
-  ignore_global,
-  is_private_response,
-  isAiActive,
-  setValue,
-  comment_responses,
-}) => {
+const AutomationFlow: React.FC<AutomationFlowProps> = ({ isAiActive }) => {
   const { t } = useTranslation()
   const [nodes, setNodes] = useState<Node<CustomNodeData>[]>()
 
   const [edges, setEdges] = useState<Edge<CustomEdgeData>[]>([])
 
-  const responseCount = comment_responses.length
+  const { control, setValue } = useFormContext<AutomationFormType>()
+
+  const formData = useWatch({ control })
+
+  const {
+    is_global,
+    only_instant,
+    ignore_global,
+    is_private_response,
+    comment_responses,
+  } = formData
+
+  const responseCount = comment_responses?.length
 
   const createNodeContent = useCallback(
     () => [
@@ -315,7 +322,6 @@ const AutomationFlow: React.FC<AutomationFlowProps> = ({
     })
   }, [
     is_global,
-    is_active,
     only_instant,
     ignore_global,
     is_private_response,
