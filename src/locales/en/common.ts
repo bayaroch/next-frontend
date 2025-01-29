@@ -266,8 +266,11 @@ export default {
     responses_ai: 'Ai responses',
     global_automation: 'Global automation',
     instant_response: 'Instant response',
+    post_type: 'Post type',
+    reel: 'Reel',
   },
   FORM_DESC: {
+    post_type: 'Choose post type before selecting one from below',
     only_instant: 'Replies only single response',
     automation_name: 'Automation Name',
     automation_post: 'Post connected to this automation',

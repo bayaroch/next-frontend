@@ -105,6 +105,8 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
           >
             {data.name}
           </Typography>
+          {data.is_global && <Chip label={t('AUTOMATION.is_global')} />}
+          {data.post_type && !data.is_global && <Chip label={data.post_type} />}
         </MuiLink>
       </Box>
 

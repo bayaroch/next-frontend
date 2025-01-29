@@ -9,6 +9,11 @@ export interface CommentResponse {
   attachment?: string | null
 }
 
+export enum PostType {
+  REELS = 'reels',
+  POSTS = 'posts',
+}
+
 export interface Automation {
   page_id: string
   sort_key: string
@@ -28,6 +33,7 @@ export interface Automation {
     content: string
   }
   only_instant?: boolean
+  post_type?: PostType
 }
 
 export interface CreateAutomationInput {
@@ -37,6 +43,7 @@ export interface CreateAutomationInput {
   is_global?: boolean
   comment_responses?: CommentResponse[]
   ignore_global?: boolean
+  post_type: PostType
 }
 
 export interface UpdateAutomationInput {

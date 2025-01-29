@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { PostType } from '@services/automation.services'
 import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +9,7 @@ const initialValues = {
   name: '',
   fb_page_post_id: null,
   is_global: false,
+  post_type: PostType.POSTS,
 }
 
 const useAutomationCreateForm = () => {
@@ -52,6 +54,11 @@ const useAutomationCreateForm = () => {
             ),
           otherwise: (schema) => schema.nullable(),
         }),
+        post_type: Yup.string().required(
+          t('ERROR.E000001', {
+            field: t('AUTOMATION.post_type'),
+          })
+        ),
       }),
     []
   )

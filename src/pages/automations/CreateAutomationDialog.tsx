@@ -16,9 +16,11 @@ import {
   Paper,
   FormControlLabel,
   Alert,
+  Radio,
+  RadioGroup,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { Post } from '@services/page.services'
+import { Post, Reel } from '@services/page.services'
 import { FieldValues, useWatch } from 'react-hook-form'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
 import useAutomationCreateForm from './useAutomationCreateForm'
@@ -29,6 +31,16 @@ import FormField from '@components/@material-extend/FormField'
 import { useAuth } from '@global/AuthContext'
 import { LoadingButton } from '@mui/lab'
 import { IOSSwitch } from '@components/@material-extend/IOSSwitch'
+import { PostType } from '@services/automation.services'
+import AutomationReelItem from '@components/Automation/AutomationReelItem'
+
+function isPost(item: any): item is Post {
+  return (item as Post).message !== undefined
+}
+
+function isReel(item: any): item is Reel {
+  return (item as Reel).description !== undefined
+}
 
 interface CreateAutomationDialogProps {
   open: boolean
@@ -36,10 +48,15 @@ interface CreateAutomationDialogProps {
   posts?: {
     data: Post[]
   }
+  reels?: {
+    data: Reel[]
+  }
+  isLoadingReels: boolean
   onSubmit: (data: {
     name: string
     fb_page_post_id: string
     is_global: boolean
+    post_type: PostType
   }) => void
   isLoading: boolean
   isCreateLoading: boolean
@@ -98,6 +115,8 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   onSubmit,
   isLoading,
   isCreateLoading,
+  isLoadingReels,
+  reels,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
@@ -126,6 +145,14 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
     []
   )
 
+  const postType = useWatch({
+    control,
+    name: 'post_type',
+  })
+
+  const isLoadingContent =
+    postType === PostType.POSTS ? isLoadingPosts : isLoadingReels
+
   // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -138,6 +165,7 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
       name: data.name,
       fb_page_post_id: data.fb_page_post_id?.id,
       is_global: data.is_global,
+      post_type: data.post_type,
     })
   }
 
@@ -146,17 +174,25 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
   })
 
   // Memoize filtered and ordered posts
-  const filteredAndOrderedPosts = useMemo(() => {
-    //also filter by is_published true
-    return _.chain(publishedPosts)
-      .filter((post: Post) => {
-        // Handle case where message might be undefined
-        const message = post.message || ''
-        return message.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  const filteredAndOrderedContent = useMemo(() => {
+    const content = postType === PostType.POSTS ? publishedPosts : reels?.data
+
+    return _.chain(content)
+      .filter((item: Post | Reel) => {
+        if (isPost(item)) {
+          return (item.message || '')
+            .toLowerCase()
+            .includes(debouncedSearchTerm.toLowerCase())
+        } else if (isReel(item)) {
+          return (item.description || '')
+            .toLowerCase()
+            .includes(debouncedSearchTerm.toLowerCase())
+        }
+        return false
       })
       .orderBy(['created_time'], ['desc'])
       .value()
-  }, [posts?.data, debouncedSearchTerm])
+  }, [postType, publishedPosts, reels?.data, debouncedSearchTerm])
 
   // Cleanup debounce on unmount
   React.useEffect(() => {
@@ -170,9 +206,6 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
     name: 'is_global',
     defaultValue: false, // Set a default value
   })
-
-  // eslint-disable-next-line no-console
-  console.log(typeof isGlobal)
 
   return (
     <Dialog
@@ -268,6 +301,40 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
             )}
           </Box>
           <Box>
+            <Controller
+              name="post_type"
+              control={control}
+              render={({ field }: FieldValues) => (
+                <FormField
+                  fullWidth
+                  showTyping={false}
+                  errors={errors?.is_global && errors.is_global.message}
+                  label={t('AUTOMATION.post_type')}
+                  desc={t('FORM_DESC.post_type')}
+                  required
+                >
+                  <RadioGroup
+                    row
+                    aria-labelledby="row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    {...field}
+                  >
+                    <FormControlLabel
+                      value={PostType.POSTS}
+                      control={<Radio />}
+                      label={t('AUTOMATION.post')}
+                    />
+                    <FormControlLabel
+                      value={PostType.REELS}
+                      control={<Radio />}
+                      label={t('AUTOMATION.reel')}
+                    />
+                  </RadioGroup>
+                </FormField>
+              )}
+            />
+          </Box>
+          <Box>
             <Stack
               direction={'row'}
               justifyContent={'space-between'}
@@ -292,16 +359,29 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <>
-                    {posts &&
-                      filteredAndOrderedPosts.map((p) => (
-                        <AutomationPostItem
-                          key={p.id}
-                          data={p}
-                          active={p.id === _.get(value, 'id', null)}
-                          onSelect={(v) => onChange(v)}
-                        />
-                      ))}
-                    {isLoadingPosts && (
+                    {filteredAndOrderedContent.map((item: any) => {
+                      if (isPost(item) && postType === PostType.POSTS) {
+                        return (
+                          <AutomationPostItem
+                            key={item.id}
+                            data={item}
+                            active={item.id === _.get(value, 'id', null)}
+                            onSelect={(v) => onChange(v)}
+                          />
+                        )
+                      } else if (isReel(item) && postType === PostType.REELS) {
+                        return (
+                          <AutomationReelItem
+                            key={item.id}
+                            data={item}
+                            active={item.id === _.get(value, 'id', null)}
+                            onSelect={(v) => onChange(v)}
+                          />
+                        )
+                      }
+                      return null
+                    })}
+                    {isLoadingContent && (
                       <Box
                         sx={{
                           width: '100%',
@@ -309,7 +389,7 @@ const CreateAutomationDialog: React.FC<CreateAutomationDialogProps> = ({
                           position: 'relative',
                         }}
                       >
-                        <DataLoading isLoading={isLoadingPosts} />
+                        <DataLoading isLoading={isLoadingContent} />
                       </Box>
                     )}
                   </>

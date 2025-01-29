@@ -12,9 +12,13 @@ import {
 } from '@mui/material'
 import FormField from '@components/@material-extend/FormField'
 import AutomationPostItem from '@components/Automation/AutomationPostItem'
-import { AutomationDetailResponse } from '@services/automation.services'
+import {
+  AutomationDetailResponse,
+  PostType,
+} from '@services/automation.services'
 import { useFormContext } from './FormProvider'
 import { IOSSwitch } from '@components/@material-extend/IOSSwitch'
+import AutomationReelItem from '@components/Automation/AutomationReelItem'
 
 interface AutomationFormType extends FieldValues {
   name: string
@@ -53,6 +57,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
 
   const automation = automationsData?.data.automation
   const fbDetail = automationsData?.data.fb_detail
+  const postType = automation?.post_type
 
   if (isLoadingAutomations) {
     return <CircularProgress />
@@ -87,6 +92,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
             render={({ field }) => (
               <>
                 <FormField
+                  sx={{ position: 'relative' }}
                   fullWidth
                   hidden
                   errors={errors.fb_page_post_id?.message}
@@ -104,8 +110,19 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
                     placeholder={t('AUTOMATION.post')}
                     required
                   />
+                  <Chip
+                    sx={{ position: 'absolute', right: 0, top: 0 }}
+                    color="primary"
+                    label={automation?.post_type}
+                  />
                 </FormField>
-                {fbDetail && <AutomationPostItem data={fbDetail} />}
+
+                {fbDetail && postType === PostType.POSTS && (
+                  <AutomationPostItem data={fbDetail} />
+                )}
+                {fbDetail && postType === PostType.REELS && (
+                  <AutomationReelItem data={fbDetail} />
+                )}
               </>
             )}
           />

@@ -78,6 +78,20 @@ export interface Post {
   //add other graph api fields icon comments likes
 }
 
+export interface Reel {
+  id: string
+  description?: string
+  length?: string
+  created_time: string
+  permalink: string
+  likes?: {
+    summary: { total_count: number; can_like: boolean; has_liked: boolean }
+  }
+  is_published: boolean
+  is_used?: boolean
+  icon?: string
+}
+
 export interface ResponseToGraphApi {
   keyword: string
   content: string
@@ -107,6 +121,10 @@ export interface GetPostsResponse {
   data: Post[]
 }
 
+export interface GetReelsResponse {
+  data: Reel[]
+}
+
 export interface GetPostsParams {
   pageId: string
   perPage?: string
@@ -122,6 +140,19 @@ export const GetPostsService = async (
   const { pageId, perPage = '50' } = params
   const { data } = await api.get<GetPostsResponse>(
     `${URI.PAGE}/${pageId}/post`,
+    {
+      params: { perPage },
+    }
+  )
+  return data
+}
+
+export const GetReelsService = async (
+  params: GetPostsParams
+): Promise<GetReelsResponse> => {
+  const { pageId, perPage = '50' } = params
+  const { data } = await api.get<GetReelsResponse>(
+    `${URI.PAGE}/${pageId}/reel`,
     {
       params: { perPage },
     }

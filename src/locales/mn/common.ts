@@ -218,7 +218,7 @@ export default {
     post: 'Пост',
     comment_responses: 'Сэтгэгдлийн хариултууд',
     keyword: 'Түлхүүр үг',
-    content: 'Агуулга',
+    content: 'Сэтгэгдэл',
     add_response: 'Хариулт нэмэх',
     create_response: 'Хариулт үүсгэх',
     content_help:
@@ -234,7 +234,7 @@ export default {
     delete_title: 'Устгах',
     delete_desc: 'Та энэ мэдээллээ устгахдаа итгэлтэй байна уу?',
     delete: 'Устгах',
-    chat: 'Мэссэнжэрийн хариулт',
+    chat: 'Чат',
     chat_help: 'Мэссэнжэрээр очих зурвасаа оруулаарай',
     is_private_response: 'Зөвхөн мэссэж',
     is_private_response_desc:
@@ -261,8 +261,11 @@ export default {
     responses_ai: 'Хиймэл оюуны хариултууд',
     global_automation: 'Global автоматжуулалт',
     instant_response: 'Шууд хариулт',
+    post_type: 'Төрөл',
+    reel: 'Reel',
   },
   FORM_DESC: {
+    post_type: 'Доод жагсаалтаас сонгохын өмнө төрлөө сонгоно уу',
     only_instant: 'Зөвхөн нэг хариулт',
     automation_name: 'Автоматжуулалтын нэр',
     automation_post: 'Таны холбосон пост',

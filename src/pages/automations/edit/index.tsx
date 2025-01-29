@@ -285,7 +285,7 @@ const AutomationEditPage: React.FC = () => {
                     justifyContent={' space-between'}
                     alignItems={'center'}
                   >
-                    <Box sx={{ width: { xs: 200, sm: 200, md: 200, lg: 500 } }}>
+                    <Box sx={{ width: { xs: 140, sm: 200, md: 200, lg: 500 } }}>
                       {isEditingName ? (
                         <Controller
                           name="name"

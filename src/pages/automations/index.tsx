@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { GetPostsResponse, GetPostsService } from '@services/page.services'
+import {
+  GetPostsResponse,
+  GetPostsService,
+  GetReelsResponse,
+  GetReelsService,
+} from '@services/page.services'
 import {
   Automation,
   AutomationCreateResponse,
@@ -67,6 +72,26 @@ const AutomationListPage: React.FC = () => {
     () => {
       if (!pageId) throw new Error('Page ID is required')
       return GetPostsService({ pageId, perPage: '50' })
+    },
+    {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      enabled: open,
+      onError: (error) => {
+        console.error('Error fetching posts:', error)
+        // Handle the error appropriately
+      },
+    }
+  )
+
+  const { data: reels, isLoading: isLoadingReels } = useQuery<
+    GetReelsResponse,
+    Error
+  >(
+    ['reels', pageId],
+    () => {
+      if (!pageId) throw new Error('Page ID is required')
+      return GetReelsService({ pageId, perPage: '50' })
     },
     {
       retry: 1,
@@ -168,6 +193,7 @@ const AutomationListPage: React.FC = () => {
             name: data.name,
             fb_page_post_id: data.fb_page_post_id,
             is_global: data.is_global === true ? true : undefined,
+            post_type: data.post_type,
           },
         },
         {
@@ -241,6 +267,8 @@ const AutomationListPage: React.FC = () => {
       <CreateAutomationDialog
         open={open}
         isLoading={isLoadingPosts}
+        isLoadingReels={isLoadingReels}
+        reels={reels}
         isCreateLoading={createAutomationMutation.isLoading}
         onClose={() => setOpen(false)}
         posts={posts}

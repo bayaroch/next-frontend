@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   ListItem,
   Box,
@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import moment from 'moment'
-import { Post } from '@services/page.services'
+import { Reel } from '@services/page.services'
 import { ArrowRight } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
 import VideoIcon from '@mui/icons-material/Videocam'
@@ -23,18 +23,17 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 import { t } from 'i18next'
 // import _ from 'lodash'
 
-interface AutomationPostItemProps {
-  data: Post
-  onSelect?: (v: Post) => void
+interface AutomationReelItemProps {
+  data: Reel
+  onSelect?: (v: Reel) => void
   active?: boolean
 }
 
-const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
+const AutomationReelItem: React.FC<AutomationReelItemProps> = ({
   data,
   onSelect,
   active,
 }) => {
-  const [imageError, setImageError] = useState(false)
   const getPostTypeIcon = () => {
     switch (data.icon) {
       case 'https://www.facebook.com/images/icons/post.gif':
@@ -55,9 +54,6 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
     }
   }
 
-  const handleImageError = () => {
-    setImageError(true)
-  }
   const formattedDate = moment(data.created_time).format('YYYY-MM-DD hh:mm')
   return (
     <ListItem
@@ -101,37 +97,18 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
         </>
       }
     >
-      {data.full_picture && !imageError ? (
-        <Avatar
-          imgProps={{
-            loading: 'lazy',
-            onError: handleImageError,
-          }}
-          src={data.full_picture}
-          sx={{
-            position: 'relative',
-            objectFit: 'cover',
-            borderRadius: '6px',
-            background: '#ccc',
-            width: 50,
-            height: 50,
-            mr: 2,
-          }}
-          alt={'fb-image'}
-        />
-      ) : (
-        <Avatar
-          sx={{
-            width: 50,
-            height: 50,
-            mr: 2,
-            borderRadius: '6px',
-            backgroundColor: 'action.selected',
-          }}
-        >
-          {getPostTypeIcon()}
-        </Avatar>
-      )}
+      <Avatar
+        sx={{
+          width: 50,
+          height: 50,
+          mr: 2,
+          borderRadius: '6px',
+          backgroundColor: 'action.selected',
+        }}
+      >
+        {getPostTypeIcon()}
+      </Avatar>
+
       <Box
         sx={{
           display: 'flex',
@@ -156,7 +133,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
           />
           <Typography
             variant="body2"
-            sx={{ fontSize: 9, color: active ? '#eee' : 'inherit' }}
+            sx={{ fontSize: 10, color: active ? '#eee' : 'inherit' }}
           >
             {formattedDate}
           </Typography>
@@ -182,7 +159,7 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
               fontSize: 12,
             }}
           >
-            {data.message ? data.message : 'No message'}
+            {data.description ? data.description : 'No message'}
           </Typography>
         </Box>
       </Box>
@@ -190,4 +167,4 @@ const AutomationPostItem: React.FC<AutomationPostItemProps> = ({
   )
 }
 
-export default AutomationPostItem
+export default AutomationReelItem
