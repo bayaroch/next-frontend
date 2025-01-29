@@ -268,6 +268,7 @@ export default {
     instant_response: 'Instant response',
     post_type: 'Post type',
     reel: 'Reel',
+    ai: 'AI',
   },
   FORM_DESC: {
     post_type: 'Choose post type before selecting one from below',

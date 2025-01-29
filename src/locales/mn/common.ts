@@ -263,6 +263,7 @@ export default {
     instant_response: 'Шууд хариулт',
     post_type: 'Төрөл',
     reel: 'Reel',
+    ai: 'AI',
   },
   FORM_DESC: {
     post_type: 'Доод жагсаалтаас сонгохын өмнө төрлөө сонгоно уу',

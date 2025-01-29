@@ -11,6 +11,7 @@ import {
   useTheme,
   Stack,
   Link as MuiLink,
+  Badge,
 } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
@@ -28,6 +29,7 @@ interface AutomationListItemProps {
   onEdit: (automation: Automation) => void
   onDelete: (automation: Automation) => void
   onSetActive?: (automation: Automation, isActive: boolean) => void
+  isAiActive?: boolean
 }
 
 const AutomationListItem: React.FC<AutomationListItemProps> = ({
@@ -35,11 +37,13 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
   onEdit,
   onDelete,
   onSetActive,
+  isAiActive,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const formattedDate = formatHumanDate(data.updated_at)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isAiResponse = isAiActive && !data.only_instant
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -139,12 +143,19 @@ const AutomationListItem: React.FC<AutomationListItemProps> = ({
           width: isMobile ? '100%' : 'auto',
         }}
       >
-        <Chip
-          label={`${data.comment_responses.length > 0 ? data.comment_responses.length : 'No'} responses`}
-          size="small"
-          color="primary"
-          variant={data.comment_responses.length > 0 ? 'filled' : 'outlined'}
-        />
+        <Badge
+          badgeContent={
+            isAiResponse ? data.comment_responses.length : undefined
+          }
+          color="secondary"
+        >
+          <Chip
+            label={`${isAiResponse ? t('AUTOMATION.ai') : t('AUTOMATION.only_instant')}`}
+            size="small"
+            color="primary"
+            variant={isAiResponse ? 'filled' : 'outlined'}
+          />
+        </Badge>
       </Stack>
 
       {/* Modified Date Column */}

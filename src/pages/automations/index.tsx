@@ -26,6 +26,7 @@ import { Add } from '@mui/icons-material'
 import AutomationListHeader from '@components/Automation/AutomationListHeader'
 import { useToast } from '@components/ToastProvider'
 import DataLoading from '@components/DataLoading'
+import { Identifier } from '@constants/common.constants'
 
 const ITEMS_PER_PAGE = 100 // finish pagination there is error wrong total count
 
@@ -35,6 +36,11 @@ const AutomationListPage: React.FC = () => {
   const queryClient = useQueryClient()
   const initData = queryClient.getQueryData(['appInit'])
   const connectedPages: ConnectedPage[] = _.get(initData, 'connected_pages', [])
+  const isAiActive =
+    _.get(initData, 'subscription.product.identifier') ===
+      Identifier.AI_PRODUCT &&
+    _.get(initData, 'subscription.status') === 'active'
+
   const { showToast } = useToast()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation()
@@ -235,6 +241,7 @@ const AutomationListPage: React.FC = () => {
             }}
           >
             <AutomationListItem
+              isAiActive={isAiActive}
               data={automation}
               onEdit={() => navigate(`/automation/${automation.automation_id}`)}
               onDelete={() => handleDelete(automation)}
