@@ -23,6 +23,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       initParams={{
         version: 'v21.0',
         xfbml: true,
+        cookie: true,
       }}
       loginOptions={{
         auth_type: 'rerequest',
@@ -31,7 +32,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       scope="email,pages_show_list,business_management,pages_read_user_content,pages_manage_engagement,pages_manage_metadata,pages_read_engagement"
       onSuccess={onLogin}
       dialogParams={{
-        response_type: 'code',
+        response_type: 'token',
         redirect_uri: '/',
         state: 'facebookdirect',
       }}
