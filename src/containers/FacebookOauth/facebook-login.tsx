@@ -43,7 +43,7 @@ export default function FacebookLogin(props: FacebookLoginProps) {
     client_id: appId,
   }
   const loginOptions: LoginOptions = {
-    return_scopes: false,
+    return_scopes: true,
     ignoreSdkError: false,
     ...props.loginOptions,
     auth_nonce:
