@@ -22,10 +22,11 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
           version: 'v22.0',
           xfbml: true,
           cookie: true,
+          status: true,
         }}
         loginOptions={{
           auth_type: 'rerequest',
-          config_id: '1508167539877556',
+          config_id: '1179935390403786',
         }}
         onSuccess={onLogin}
         // eslint-disable-next-line no-console
