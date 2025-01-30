@@ -24,8 +24,8 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
           cookie: true,
         }}
         loginOptions={{
-          auth_type: 'reauthorize',
-          config_id: '1179935390403786',
+          auth_type: 'rerequest',
+          config_id: '1508167539877556',
         }}
         onSuccess={onLogin}
         // eslint-disable-next-line no-console

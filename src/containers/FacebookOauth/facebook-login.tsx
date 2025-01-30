@@ -29,8 +29,8 @@ export default function FacebookLogin(props: FacebookLoginProps) {
 
   const initParams: InitParams = {
     version: 'v16.0',
-    xfbml: false,
-    cookie: false,
+    xfbml: true,
+    cookie: true,
     localStorage: true,
     ...props.initParams,
     appId,
