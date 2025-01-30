@@ -28,7 +28,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       }}
       loginOptions={{
         auth_type: 'rerequest',
-        config_id: '1179935390403786',
+        config_id: '3031330113696476',
         auth_nonce: password.randomPassword({
           length: 12,
           characters: [
