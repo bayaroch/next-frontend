@@ -61,12 +61,13 @@ export const FacebookLoginClient = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { ignoreSdkError, ...loginOptions }: LoginOptions
   ) {
-    window.location.href = `https://www.facebook.com/dialog/oauth${objectToParams(
-      {
-        ...dialogParams,
-        ...loginOptions,
-      }
-    )}`
+    const params = {
+      ...loginOptions,
+      ...dialogParams,
+    }
+    // eslint-disable-next-line no-console
+    console.log('Redirect params:', params) // Add this line
+    window.location.href = `https://www.facebook.com/dialog/oauth${objectToParams(params)}`
   },
   login(
     callback: (res: LoginResponse) => void,
