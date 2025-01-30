@@ -29,7 +29,6 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         auth_type: 'rerequest',
         config_id: '1179935390403786',
       }}
-      scope="email,pages_show_list,business_management,pages_read_user_content,pages_manage_engagement,pages_manage_metadata,pages_read_engagement"
       onSuccess={onLogin}
       dialogParams={{
         response_type: 'code',
