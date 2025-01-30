@@ -64,7 +64,7 @@ export const FacebookLoginClient = {
     const params = {
       ...loginOptions,
       ...dialogParams,
-      response_type: 'code',
+      scope: undefined,
       override_default_response_type: true,
     }
     // eslint-disable-next-line no-console
@@ -81,7 +81,6 @@ export const FacebookLoginClient = {
       this.getFB()?.login(callback, {
         config_id: loginOptions.config_id,
         ...loginOptions,
-        response_type: 'code',
         override_default_response_type: true,
       })
     } catch (e) {

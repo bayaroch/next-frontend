@@ -27,15 +27,9 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
           auth_type: 'rerequest',
           config_id: '1179935390403786',
         }}
-        dialogParams={{
-          response_type: 'code',
-          redirect_uri: '/',
-          state: 'facebookdirect',
-        }}
         onSuccess={onLogin}
         // eslint-disable-next-line no-console
         onFail={(err) => console.log('fb-error', err)}
-        scope="email,public_profile"
         render={(renderProps) => (
           <LoadingButton
             fullWidth

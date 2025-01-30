@@ -51,7 +51,6 @@ export default function FacebookLogin(props: FacebookLoginProps) {
       typeof props.loginOptions?.auth_nonce === 'function'
         ? props.loginOptions.auth_nonce()
         : props.loginOptions?.auth_nonce,
-    scope,
   }
 
   useEffect(() => {

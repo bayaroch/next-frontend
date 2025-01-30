@@ -79,8 +79,6 @@ export type LoginOptions = {
    * Use 'rerequest' when re-requesting a declined permission. */
   auth_type?: 'rerequest' | 'reauthenticate' | 'reauthorize'
 
-  scope: string
-
   /** Facebook login for business uses config_id instead of scope - won't work without this - reference: https://developers.facebook.com/docs/facebook-login/facebook-login-for-business/  */
   config_id?: string
 
