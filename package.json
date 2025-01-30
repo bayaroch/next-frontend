@@ -5,7 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@greatsumini/react-facebook-login": "^3.4.0",
     "@hookform/resolvers": "^3.3.2",
     "@marko19907/string-to-color": "^1.0.0",
     "@mui/icons-material": "^6.1.4",
