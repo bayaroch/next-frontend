@@ -100,6 +100,8 @@ export type LoginOptions = {
   /** When true, errors catched for window.FB.login() will be ignored
    *  @default false */
   ignoreSdkError?: boolean
+  response_type?: string
+  override_default_response_type?: true
 }
 
 export type FacebookLoginProps = Pick<InitParams, 'appId'> & {
