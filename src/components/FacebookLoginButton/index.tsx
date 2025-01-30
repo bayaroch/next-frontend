@@ -24,7 +24,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
           cookie: true,
         }}
         loginOptions={{
-          auth_type: 'rerequest',
+          auth_type: 'reauthorize',
           config_id: '1179935390403786',
         }}
         onSuccess={onLogin}
