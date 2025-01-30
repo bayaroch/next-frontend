@@ -94,7 +94,7 @@ export const FacebookLoginClient = {
   logout(callback: (res?: unknown) => void) {
     this.getLoginStatus((res) => {
       if (res.status === 'connected') {
-        // this.getFB()?.logout(callback)
+        this.getFB()?.logout(callback)
       } else {
         callback()
       }
