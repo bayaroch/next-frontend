@@ -65,7 +65,7 @@ export const FacebookLoginClient = {
       ...loginOptions,
       ...dialogParams,
       scope: undefined,
-      response_type: 'token',
+      response_type: 'code',
     }
     // eslint-disable-next-line no-console
     console.log('Redirect params:', params) // Add this line
@@ -81,7 +81,7 @@ export const FacebookLoginClient = {
       this.getFB()?.login(callback, {
         config_id: loginOptions.config_id,
         ...loginOptions,
-        response_type: 'token',
+        response_type: 'code',
       })
     } catch (e) {
       if (ignoreSdkError) {
@@ -94,7 +94,7 @@ export const FacebookLoginClient = {
   logout(callback: (res?: unknown) => void) {
     this.getLoginStatus((res) => {
       if (res.status === 'connected') {
-        this.getFB()?.logout(callback)
+        // this.getFB()?.logout(callback)
       } else {
         callback()
       }
