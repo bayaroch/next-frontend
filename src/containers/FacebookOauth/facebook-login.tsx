@@ -14,7 +14,6 @@ export default function FacebookLogin(props: FacebookLoginProps) {
   const {
     appId,
     language = 'en_US',
-    scope = 'public_profile, email',
     fields = 'name,email,picture',
     onSuccess,
     onFail,
@@ -86,7 +85,7 @@ export default function FacebookLogin(props: FacebookLoginProps) {
           FacebookLoginClient.getProfile(onProfileSuccess as any, { fields })
         }
       },
-      { ...loginOptions, scope }
+      { ...loginOptions }
     )
   }
 
