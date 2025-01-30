@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import SitemarkIcon from '@components/@public/SitemarkIcon'
 import FacebookLoginButton from '@components/FacebookLoginButton'
 import { InfoOutlined } from '@mui/icons-material'
@@ -9,6 +10,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 import Grid from '@mui/material/Grid2'
+import FacebookLogin from '@components/FacebookLoginButton/test'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -152,9 +154,16 @@ const LoginPage: React.FC = () => {
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <FacebookLoginButton
+                {/* <FacebookLoginButton
                   isLoading={mutation.isLoading}
                   onLogin={handleFacebookLogin}
+                /> */}
+                <FacebookLogin
+                  appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
+                  configId="1179935390403786"
+                  onSuccess={handleFacebookLogin}
+                  // eslint-disable-next-line no-console
+                  onFailure={(err) => console.log(err)}
                 />
                 {mutation.isLoading && <p>{t('LOGIN.loggingIn')}</p>}
                 {mutation.isError &&
