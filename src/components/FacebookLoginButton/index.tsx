@@ -40,6 +40,12 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         loginOptions={{
           auth_type: 'rerequest',
           config_id: '1508167539877556',
+          return_scopes: false,
+        }}
+        dialogParams={{
+          response_type: 'code',
+          redirect_uri: '/login',
+          state: 'facebookdirect',
         }}
         onSuccess={onLogin}
         // eslint-disable-next-line no-console
