@@ -1,11 +1,8 @@
 import { FacebookIcon } from '@components/@public/CustomIcons'
 import { LoadingButton } from '@mui/lab'
 import React from 'react'
-import FacebookLogin, {
-  SuccessResponse,
-} from '@greatsumini/react-facebook-login'
+import FacebookLogin, { SuccessResponse } from '@containers/FacebookOauth'
 import { useTranslation } from 'react-i18next'
-import { Box } from '@mui/material'
 
 interface FacebookLoginButtonProps {
   isLoading: boolean
@@ -19,17 +16,6 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
   const { t } = useTranslation()
   return (
     <>
-      <Box>
-        <div
-          className="fb-login-button"
-          data-width=""
-          data-size=""
-          data-button-type=""
-          data-layout=""
-          data-auto-logout-link="false"
-          data-use-continue-as="false"
-        ></div>
-      </Box>
       <FacebookLogin
         appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
         initParams={{
@@ -40,11 +26,10 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         loginOptions={{
           auth_type: 'rerequest',
           config_id: '1508167539877556',
-          return_scopes: false,
         }}
         dialogParams={{
           response_type: 'code',
-          redirect_uri: '/login',
+          redirect_uri: '/',
           state: 'facebookdirect',
         }}
         onSuccess={onLogin}
