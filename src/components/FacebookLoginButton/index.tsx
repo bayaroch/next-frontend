@@ -35,6 +35,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         redirect_uri: '/',
         state: 'facebookdirect',
       }}
+      scope={undefined}
       // eslint-disable-next-line no-console
       onFail={(err) => console.log('fb-error', err)}
       render={(renderProps) => (
