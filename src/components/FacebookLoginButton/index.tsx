@@ -22,7 +22,6 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
           version: 'v22.0',
           xfbml: true,
           cookie: true,
-          status: true,
         }}
         loginOptions={{
           auth_type: 'rerequest',
