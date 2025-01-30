@@ -19,11 +19,19 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
   const { t } = useTranslation()
   return (
     <>
-      <Box>Check</Box>
+      <Box>
+        <div
+          className="fb-login-button"
+          data-width=""
+          data-size=""
+          data-button-type=""
+          data-layout=""
+          data-auto-logout-link="false"
+          data-use-continue-as="false"
+        ></div>
+      </Box>
       <FacebookLogin
         appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
-        fields="name,email,picture"
-        autoLoad={true}
         initParams={{
           version: 'v21.0',
           xfbml: true,
@@ -36,6 +44,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         onSuccess={onLogin}
         // eslint-disable-next-line no-console
         onFail={(err) => console.log('fb-error', err)}
+        scope="email,public_profile"
         render={(renderProps) => (
           <LoadingButton
             fullWidth
