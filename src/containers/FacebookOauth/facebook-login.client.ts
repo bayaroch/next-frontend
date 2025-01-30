@@ -74,6 +74,8 @@ export const FacebookLoginClient = {
     { ignoreSdkError, ...loginOptions }: LoginOptions
   ) {
     try {
+      // eslint-disable-next-line no-console
+      console.log('options', loginOptions)
       this.getFB()?.login(callback, loginOptions)
     } catch (e) {
       if (ignoreSdkError) {
