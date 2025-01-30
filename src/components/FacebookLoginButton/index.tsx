@@ -33,6 +33,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         render={(renderProps) => (
           <LoadingButton
             fullWidth
+            data-use-continue-as="true"
             loading={isLoading}
             sx={{
               boxShadow: 1,
