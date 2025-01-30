@@ -3,12 +3,16 @@ import { Box } from '@mui/material'
 import { useAuth } from 'global/AuthContext'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { FacebookLoginClient } from '@containers/FacebookOauth'
 const LogOut: React.FC = () => {
   const { isLoggedIn, logout } = useAuth()
   const navigate = useNavigate()
   useEffect(() => {
     logout()
+    FacebookLoginClient.logout((res) => {
+      // eslint-disable-next-line no-console
+      console.log(res)
+    })
   }, [])
 
   useEffect(() => {
