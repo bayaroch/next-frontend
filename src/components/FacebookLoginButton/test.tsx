@@ -42,7 +42,7 @@ const FacebookLogin = ({
           onFailure(response)
         }
       },
-      { config_id: configId }
+      { config_id: configId, auth_type: 'rerequest', return_scopes: true }
     )
   }
 
