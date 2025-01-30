@@ -24,7 +24,7 @@ export type InitParams = {
    * 🚧🚧🚧
    *
    * @default 'v16.0' */
-  version?: 'v16.0' | 'v17.0' | 'v18.0' | 'v19.0' | 'v20.0' | 'v21.0'
+  version?: 'v16.0' | 'v17.0' | 'v18.0' | 'v19.0' | 'v20.0' | 'v21.0' | 'v22.0'
 
   /** Determines whether a cookie is created for the session or not. If enabled, it can be accessed by server-side code.
    * @default false */

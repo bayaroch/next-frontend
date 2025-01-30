@@ -19,7 +19,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       <FacebookLogin
         appId={process.env.REACT_APP_FACEBOOK_CLIENT_ID || ''}
         initParams={{
-          version: 'v21.0',
+          version: 'v22.0',
           xfbml: true,
           cookie: true,
         }}
