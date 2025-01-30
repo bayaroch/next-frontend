@@ -25,7 +25,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         }}
         loginOptions={{
           auth_type: 'rerequest',
-          config_id: '1508167539877556',
+          config_id: '1179935390403786',
         }}
         dialogParams={{
           response_type: 'code',
