@@ -24,9 +24,10 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       initParams={{
         version: 'v21.0',
         xfbml: true,
+        cookie: true,
       }}
       loginOptions={{
-        auth_type: 'reauthenticate',
+        auth_type: 'rerequest',
         auth_nonce: password.randomPassword({
           length: 12,
           characters: [
