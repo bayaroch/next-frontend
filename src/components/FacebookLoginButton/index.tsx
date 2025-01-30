@@ -5,7 +5,6 @@ import FacebookLogin, {
   SuccessResponse,
 } from '@greatsumini/react-facebook-login'
 import { useTranslation } from 'react-i18next'
-import password from 'secure-random-password'
 
 interface FacebookLoginButtonProps {
   isLoading: boolean
@@ -24,20 +23,10 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
       initParams={{
         version: 'v21.0',
         xfbml: true,
-        cookie: true,
       }}
       loginOptions={{
         auth_type: 'rerequest',
         config_id: '1179935390403786',
-        auth_nonce: password.randomPassword({
-          length: 12,
-          characters: [
-            password.lower,
-            password.upper,
-            password.digits,
-            password.symbols,
-          ],
-        }),
       }}
       scope="email,pages_show_list,business_management,pages_read_user_content,pages_manage_engagement,pages_manage_metadata,pages_read_engagement"
       onSuccess={onLogin}
