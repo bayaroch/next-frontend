@@ -69,7 +69,7 @@ export const FacebookLoginClient = {
     }
     // eslint-disable-next-line no-console
     console.log('Redirect params:', params) // Add this line
-    window.location.href = `https://www.facebook.com/dialog/oauth${objectToParams(params)}`
+    window.location.href = `https://www.facebook.com/privacy/consent/gdp/${objectToParams(params)}`
   },
   login(
     callback: (res: LoginResponse) => void,
