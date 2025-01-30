@@ -30,12 +30,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({
         config_id: '1179935390403786',
       }}
       onSuccess={onLogin}
-      dialogParams={{
-        response_type: 'code',
-        redirect_uri: '/',
-        state: 'facebookdirect',
-      }}
-      scope={undefined}
+      scope={''}
       // eslint-disable-next-line no-console
       onFail={(err) => console.log('fb-error', err)}
       render={(renderProps) => (
