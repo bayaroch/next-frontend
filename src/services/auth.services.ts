@@ -3,7 +3,7 @@ import { api } from './api'
 import { Product } from './payment.services'
 
 export interface LoginPayload {
-  fb_access_token: string
+  code: string
 }
 
 export interface LoginResponse {

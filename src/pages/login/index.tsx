@@ -40,17 +40,14 @@ const LoginPage: React.FC = () => {
       setToken(data.access_token)
 
       // Set cookie (this should ideally be done on the server side)
-
       // Redirect to dashboard
       //   router.push('/')
     },
   })
 
   const handleFacebookLogin = async (response: any) => {
-    // eslint-disable-next-line no-console
-    console.log('fb-res', response)
-    if (response.accessToken) {
-      mutation.mutate({ fb_access_token: response.accessToken })
+    if (response.code) {
+      mutation.mutate({ code: response.code })
     }
   }
 
