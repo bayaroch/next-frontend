@@ -4,13 +4,13 @@ import { Box } from '@mui/material'
 import React from 'react'
 import { InstagramLogin } from '@amraneze/react-instagram-login'
 
-const Accounts: React.FC = () => {
+const AccountsPage: React.FC = () => {
   return (
     <Box>
       Instagram
       <Box>
         <InstagramLogin
-          clientId="CLIENT_ID"
+          clientId={process.env.REACT_APP_INSTAGRAM_CLIENT_ID as string}
           scope={
             'instagram_business_basic,instagram_business_content_publish,instagram_business_manage_messages,instagram_business_manage_comments'
           }
@@ -24,4 +24,4 @@ const Accounts: React.FC = () => {
   )
 }
 
-export default Accounts
+export default AccountsPage

@@ -39,6 +39,7 @@ import Checkout from '@containers/Checkout'
 import ProfilePage from '@pages/profile'
 import ProfileSubPage from '@pages/profile/ProfileSubPage'
 import AccountTransactions from '@pages/profile/AccountTransactions'
+import AccountsPage from '@pages/accounts'
 // turn those dynamic import import ProductsPage from '@pages/admin/products'
 const ProductsPage = lazy(() => import('@pages/admin/products'))
 const SellersPage = lazy(() => import('@pages/admin/sellers'))
@@ -232,6 +233,18 @@ function App() {
                     }
                   />
                 </Route>
+
+                <Route path="accounts">
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <AccountsPage />
+                      </Suspense>
+                    }
+                  />
+                </Route>
+
                 <Route
                   path="connect"
                   element={
