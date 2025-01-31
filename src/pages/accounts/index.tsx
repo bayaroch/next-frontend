@@ -18,8 +18,8 @@ const AccountsPage: React.FC = () => {
     },
   })
 
-  const handleInstagramLogin = async (response: any) => {
-    if (response.code) {
+  const handleInstagramLogin = async (response: string) => {
+    if (response) {
       // eslint-disable-next-line no-console
       console.log('instagram', response)
       mutation.mutate({ code: response })
