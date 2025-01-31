@@ -22,7 +22,7 @@ const AccountsPage: React.FC = () => {
     if (response.code) {
       // eslint-disable-next-line no-console
       console.log('instagram', response)
-      mutation.mutate({ code: response.code })
+      mutation.mutate({ code: response })
     }
   }
 
