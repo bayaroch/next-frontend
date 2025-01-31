@@ -47,6 +47,8 @@ const LoginPage: React.FC = () => {
 
   const handleFacebookLogin = async (response: any) => {
     if (response.code) {
+      // eslint-disable-next-line no-console
+      console.log(response)
       mutation.mutate({ code: response.code })
     }
   }
