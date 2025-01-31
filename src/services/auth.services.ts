@@ -3,7 +3,7 @@ import { api } from './api'
 import { Product } from './payment.services'
 
 export interface LoginPayload {
-  code: string
+  access_token: string
 }
 
 export interface LoginResponse {

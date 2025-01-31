@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
     if (response.code) {
       // eslint-disable-next-line no-console
       console.log(response)
-      mutation.mutate({ code: response.code })
+      mutation.mutate({ access_token: response.accessToken })
     }
   }
 
