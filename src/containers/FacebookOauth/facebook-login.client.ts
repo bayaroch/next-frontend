@@ -66,6 +66,7 @@ export const FacebookLoginClient = {
       ...dialogParams,
       scope: undefined,
       response_type: 'code',
+      redirect_uri: 'https://kommai.mn',
     }
     // eslint-disable-next-line no-console
     console.log('Redirect params:', params) // Add this line
@@ -80,6 +81,7 @@ export const FacebookLoginClient = {
         config_id: loginOptions.config_id,
         ...loginOptions,
         response_type: 'code',
+        redirect_uri: 'https://kommai.mn',
       })
     } catch (e) {
       if (ignoreSdkError) {

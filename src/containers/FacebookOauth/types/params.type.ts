@@ -100,6 +100,7 @@ export type LoginOptions = {
   ignoreSdkError?: boolean
   response_type?: string
   override_default_response_type?: true
+  redirect_uri?: string
 }
 
 export type FacebookLoginProps = Pick<InitParams, 'appId'> & {
