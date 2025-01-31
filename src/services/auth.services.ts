@@ -105,6 +105,10 @@ export interface GoogleLoginParams {
   google_access_token: string
 }
 
+export interface InstagramLoginParams {
+  code: string
+}
+
 export const loginService = async (
   params: LoginPayload
 ): Promise<LoginResponse> => {
@@ -116,6 +120,13 @@ export const loginGoogleService = async (
   params: GoogleLoginParams
 ): Promise<LoginResponse> => {
   const { data } = await api.post<LoginResponse>(URI.GOOGLE_LOGIN, params)
+  return data
+}
+
+export const loginInstagramService = async (
+  params: InstagramLoginParams
+): Promise<any> => {
+  const { data } = await api.post<any>(URI.INSTAGRAM, params)
   return data
 }
 

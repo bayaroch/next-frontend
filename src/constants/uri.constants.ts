@@ -14,6 +14,7 @@ export const URI = {
   PRODUCT: '/product',
   TRANSACTION: '/user/transaction',
   GOOGLE_LOGIN: '/auth/google/login',
+  INSTAGRAM: '/auth/instagram/login',
   PROMO: '/promo',
   PROFILE: '/user/profile',
   USER: '/user',
