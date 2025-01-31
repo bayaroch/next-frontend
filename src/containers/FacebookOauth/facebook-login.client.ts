@@ -65,6 +65,7 @@ export const FacebookLoginClient = {
       ...loginOptions,
       ...dialogParams,
       scope: undefined,
+      response_type: 'code',
     }
     // eslint-disable-next-line no-console
     console.log('Redirect params:', params) // Add this line
@@ -75,11 +76,10 @@ export const FacebookLoginClient = {
     { ignoreSdkError, ...loginOptions }: LoginOptions
   ) {
     try {
-      // eslint-disable-next-line no-console
-      console.log('options', loginOptions)
       this.getFB()?.login(callback, {
         config_id: loginOptions.config_id,
         ...loginOptions,
+        response_type: 'code',
       })
     } catch (e) {
       if (ignoreSdkError) {

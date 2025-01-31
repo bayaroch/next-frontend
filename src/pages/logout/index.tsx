@@ -8,10 +8,9 @@ const LogOut: React.FC = () => {
   const { isLoggedIn, logout } = useAuth()
   const navigate = useNavigate()
   useEffect(() => {
-    logout()
-    FacebookLoginClient.logout((res) => {
+    FacebookLoginClient.logout(() => {
       // eslint-disable-next-line no-console
-      console.log(res)
+      logout()
     })
   }, [])
 
