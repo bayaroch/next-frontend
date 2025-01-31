@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
+    "@amraneze/react-instagram-login": "^4.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.3.2",
